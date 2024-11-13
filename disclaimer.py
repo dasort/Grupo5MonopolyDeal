@@ -1,0 +1,1 @@
+##las imagenes deberian ir todas en una carpeta aparte que diga assets o src (?? 
