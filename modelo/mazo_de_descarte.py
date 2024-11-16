@@ -14,3 +14,5 @@ class MazoDeDescarte:
         '''Recibe una carta jugada y la añade a la pila de descarte.
         '''
         self.__descarte.insert(0, carta) # añade la carta al principio de la lista (índice 0 siempre tiene la última carta de acción jugada)
+
+# cuando se termina el mazo comun hay que volver a mezclar las cartas que ya se jugaron y esto sirve para eso
