@@ -1,14 +1,15 @@
-from PyQt6.QtWidgets import QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButton, QHBoxLayout, QScrollArea, QGridLayout
+from PyQt6.QtWidgets import QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButton, QHBoxLayout, QScrollArea, QGridLayout, QSizePolicy, QFrame, QSpacerItem, QMessageBox
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QPixmap, QIcon
-#from carta_boton import CartaBoton
+from datetime import datetime
+#from carta_boton import CartaBoton <-- (Yo no lo puse, tampoco se que haría)
 
 class Tablero(QMainWindow):
     def __init__(self, main_menu, dinero_inicial, jugadores, parent=None):
         super().__init__(parent)
         self.main_menu = main_menu
         self.setWindowTitle("Tablero de Juego")
-        self.setGeometry(80, 50, 1400, 750)
+        self.setGeometry(20, 30, 1500, 750)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
 
         self.dinero_inicial = dinero_inicial
@@ -16,11 +17,18 @@ class Tablero(QMainWindow):
         self.turno_actual = 0
         self.tiempo_restante = 60
         
+        # Registro del tiempo de inicio de la partida:
+        self.tiempo_inicio = datetime.now()
+        
         # Configuración del temporizador:
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.actualizar_tiempo)
-        self.tiempo_restante = 60
         self.timer.start(1000)
+        
+        # Configuración para el titileo del reloj:
+        self.titileo_timer = QTimer(self)
+        self.titileo_timer.timeout.connect(self.titilar_reloj)
+        self.reloj_titilando = False
         
         # Widget principal:
         self.main_widget = QWidget(self)
@@ -29,22 +37,17 @@ class Tablero(QMainWindow):
         
         # Imagen de fondo usando CSS:
         self.main_widget.setStyleSheet("""
-
+            QWidget#MainWidget {
+                background-image: url("imagenes/ui/fondo_tablero_1650x820.jpg");
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: contain;
+            }
+            QLabel, QPushButton {
+                background: none;
+                border: none;
+            }
         """)
-        
-        # Esto va arriba, es el diseño, no lo pongo para poder probar los layouts sin imágenes o sin formatos:
-        #self.main_widget.setStyleSheet("""
-        #    QWidget#MainWidget {
-        #        background-image: url("imagenes/ui/fondo_tablero.jpg");
-        #        background-repeat: no-repeat;
-        #        background-position: center;
-        #        background-size: cover;
-        #    }
-        #    QLabel, QPushButton {
-        #        background: none;
-        #        border: none;
-        #    }
-        #""")
 
         # Layout principal (zona superior e inferior):
         # Instanciación y seteo de su layout.
@@ -56,10 +59,6 @@ class Tablero(QMainWindow):
         # Zona superior:
         self.zona_superior_layout = QHBoxLayout()
         self.main_layout.addLayout(self.zona_superior_layout, 2)
-        
-        # Espacio en el medio de ambas zonas:
-        #self.espacio_vacio_layout = QHBoxLayout()
-        #self.main_layout.addLayout(self.espacio_vacio_layout, 1)
         
         # Zona inferior:
         self.zona_inferior_layout = QHBoxLayout()
@@ -87,31 +86,101 @@ class Tablero(QMainWindow):
         self.zona_inferior_central_layout = QVBoxLayout()
         self.zona_inferior_layout.addLayout(self.zona_inferior_central_layout)
         
-        
         # Zona inferior derecha:
         self.zona_inferior_derecha_layout = QVBoxLayout()
         self.zona_inferior_layout.addLayout(self.zona_inferior_derecha_layout)
 
-        # ---
+        # ----------------------------------------------------------------------
+        # (Zona inferior izquierda):
+        # (1) Empuje hacia abajo <-- Fijense, pruebenlo si les gusta empujado hacia abajo o sin eso, se ven distinto.
+        # (2) Turno
+        # (3) reloj
+        # (Opcional): Espacio en blanco
+        # (4) finalizar turno
+        # (5) finalizar partida
+
+        # (1):
+        spacer_superior = QSpacerItem(20, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.zona_inferior_izquierda_layout.addItem(spacer_superior)
         
-        # Turno, reloj, finalizar turno, finalizar partida (Zona inferior izquierda)
+        # (2):
+        turno_layout = QHBoxLayout()
+
+        turno_icon = QLabel(self)
+        turno_pixmap = QPixmap("imagenes/ui/turn.png").scaled(50, 50, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        turno_icon.setPixmap(turno_pixmap)
+        turno_icon.setFixedSize(50, 50) # <-- Hace que QLabel sea del mismo tamaño para que coincida con el del QPixmap.
+        turno_layout.addWidget(turno_icon)
+
         self.turno_label = QLabel(f"Turno de: {self.jugadores[self.turno_actual]['nombre']}", self)
-        self.zona_inferior_izquierda_layout.addWidget(self.turno_label)
+        turno_layout.addWidget(self.turno_label)
+
+        self.zona_inferior_izquierda_layout.addLayout(turno_layout)
+
+        # (3):
+        tiempo_layout = QHBoxLayout()
+
+        self.reloj_icon = QLabel(self)
+        self.reloj_pixmap = QPixmap("imagenes/ui/fixedClock.png").scaled(50, 50, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        self.reloj_rojo_pixmap = QPixmap("imagenes/ui/fixedClockRojo.png").scaled(50, 50, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        self.reloj_icon.setPixmap(self.reloj_pixmap)
+        self.reloj_icon.setFixedSize(50, 50) # <-- Hace que QLabel sea del mismo tamaño para que coincida con el del QPixmap.
+        tiempo_layout.addWidget(self.reloj_icon)
 
         self.timer_label = QLabel(f"Tiempo restante: {self.tiempo_restante}s", self)
-        self.zona_inferior_izquierda_layout.addWidget(self.timer_label)
+        tiempo_layout.addWidget(self.timer_label)
+
+        self.zona_inferior_izquierda_layout.addLayout(tiempo_layout)
         
+        # (Espacio vacío opcional entre medio):
         self.espacio_vacio_label = QLabel("") # <-- Un espacio vacío.
         self.zona_inferior_izquierda_layout.addWidget(self.espacio_vacio_label)
         
+        # (4):
         self.btn_finalizar_turno = QPushButton("Finalizar Turno", self)
         self.btn_finalizar_turno.clicked.connect(self.finalizar_turno)
         self.zona_inferior_izquierda_layout.addWidget(self.btn_finalizar_turno)
+        self.btn_finalizar_turno.setStyleSheet("""
+            QPushButton {
+                background-color: rgba(194, 78, 27, 0.2);
+                color: white;
+                border: 2px solid rgba(43, 22, 11, 1);
+                border-radius: 10px;
+                padding: 8px;
+                font-size: 20px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: rgba(194, 137, 48, 0.9);
+            }
+            QPushButton:pressed {
+                background-color: rgba(125, 72, 34, 1);
+            }
+        """)
         
+        # (5):
         self.btn_finalizar_partida = QPushButton("Finalizar Partida", self)
         self.btn_finalizar_partida.clicked.connect(self.finalizar_partida)
         self.zona_inferior_izquierda_layout.addWidget(self.btn_finalizar_partida)
+        self.btn_finalizar_partida.setStyleSheet("""
+            QPushButton {
+                background-color: rgba(194, 78, 27, 0.2);
+                color: white;
+                border: 2px solid rgba(43, 22, 11, 1);
+                border-radius: 10px;
+                padding: 8px;
+                font-size: 16px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: rgba(194, 137, 48, 0.9);
+            }
+            QPushButton:pressed {
+                background-color: rgba(125, 72, 34, 1);
+            }
+        """)
         
+        # ----------------------------------------------------------------------
         # Espacio en blanco, cartas (Zona inferior central)
         self.zona_inferior_central_layout.addWidget(self.espacio_vacio_label)
         
@@ -120,84 +189,149 @@ class Tablero(QMainWindow):
         
         self.ejemplo_de_mostrar_cartas_temporal()
         
+        # ----------------------------------------------------------------------
         # Descripción carta (Zona inferior derecha)
+        descripcion_carta_layout = QVBoxLayout()
+
+        # QLabel para la imagen de fondo:
+        imagen_fondo_label = QLabel(self)
+        pixmap_fondo = QPixmap("imagenes/ui/queHaceVacio.png")
+
+        # Tamaño de imagen:
+        pixmap_fondo = pixmap_fondo.scaled(400, 300, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        imagen_fondo_label.setPixmap(pixmap_fondo)
+
+        # Ajustar el QLabel al tamaño escalado de la imagen:
+        imagen_fondo_label.setFixedSize(pixmap_fondo.size())
+
+        # Agregar el QLabel al layout:
+        descripcion_carta_layout.addWidget(imagen_fondo_label)
+
+        # Agregar el layout al área de la zona inferior derecha:
+        self.zona_inferior_derecha_layout.addLayout(descripcion_carta_layout)
+
+        # --- Versión antigua con marco negro: ---
         # self.descripcion_carta_layout = QVBoxLayout()
         # Este label en realidad debería ser una imagen (cuadroQueHaceLaCarta.png), sin borde, ni texto ni nada,
         #  y por arriba un label que ocupe el mismo tamaño y que se actualice con la descripción que corresponde.
-        self.descripcion_carta_label = QLabel("Que hace la carta seleccionada:", self)
-        self.descripcion_carta_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.descripcion_carta_label.setStyleSheet("border: 1px solid black;")
-        self.zona_inferior_derecha_layout.addWidget(self.descripcion_carta_label)
+        #self.descripcion_carta_label = QLabel("Que hace la carta seleccionada:", self)
+        #self.descripcion_carta_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        #self.descripcion_carta_label.setStyleSheet("border: 1px solid black;")
+        #self.zona_inferior_derecha_layout.addWidget(self.descripcion_carta_label)
 
     def mostrar_jugadores(self, jugadores):
         """Muestra la información de los jugadores."""
         for jugador in jugadores:
-            jugador_layout = QHBoxLayout()                 # <-- Perfil | Propiedades | Banco | Acciones
-            jugador_perfil_layout = QHBoxLayout()          # <-- Perfil: Avatar (izquierda) e info (derecha)
-            jugador_nombre_y_dinero_layout = QVBoxLayout() # <-- Info: Nombre (arriba) y dinero (abajo)
+            jugador_layout = QHBoxLayout()                 # Perfil | Propiedades | Banco | Acciones
             propiedades_layout = QGridLayout()
             banco_layout = QGridLayout()
             acciones_layout = QGridLayout()
 
             # --- Perfil ---
-            
-            # Avatar
-            avatar = QPixmap(jugador["avatar"]).scaled(50, 50, Qt.AspectRatioMode.KeepAspectRatio)
+
+            # Crear un contenedor para todo el conjunto de avatar, nombre y dinero:
+            perfil_contenedor = QWidget(self)
+            perfil_contenedor.setStyleSheet("""
+                QWidget {
+                    background-color: rgba(207, 106, 39, 0.2);
+                    border: 2px solid rgba(43, 22, 11, 1);
+                    border-radius: 10px;
+                    padding: 10px;         /*<-- Padding es un espaciado interno, super útil. */
+                }
+            """)
+
+            # Layout del contenedor:
+            perfil_layout = QHBoxLayout(perfil_contenedor)
+            perfil_layout.setContentsMargins(10, 10, 10, 10) # <-- Márgenes internos del contenedor
+            perfil_layout.setSpacing(15)                     # <-- Espaciado entre el avatar y el texto
+
+            # Avatar:
+            avatar = QPixmap(jugador["avatar"]) # <-- (No escalar acá)
             if avatar.isNull():
                 print(f"Error! No se pudo cargar este avatar: {jugador['avatar']}")
             avatar_label = QLabel(self)
             avatar_label.setPixmap(avatar)
-            jugador_perfil_layout.addWidget(avatar_label)
-            
-            # Nombre y dinero
+
+            # Configuración para escalar el avatar adentro del espacio disponible:
+            avatar_label.setScaledContents(True)   # <-- (Muy opcional) Permite que la imagen se escale dentro del QLabel.
+            avatar_label.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+
+            # Definir un tamaño máximo y mínimo para evitar que ocupe toda la pantalla:
+            avatar_label.setMaximumSize(100, 100)
+            avatar_label.setMinimumSize(50, 50)    # <-- (Opcional)
+
+            # Agregar el avatar al layout del contenedor:
+            perfil_layout.addWidget(avatar_label) #, alignment=Qt.AlignmentFlag.AlignLeft)
+
+            # Contenedor para el texto (nombre y dinero):
+            texto_layout = QVBoxLayout()
+            texto_layout.setSpacing(5)   # <-- Espaciado entre el nombre y el dinero.
+
+            # Nombre:
             nombre_label = QLabel(f"{jugador['nombre']}")
             nombre_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
+            nombre_label.setStyleSheet("""
+                font-size: 14px; 
+                font-weight: bold;
+                color: white;
+                background-color: rgba(46, 21, 8, 0.7);
+                padding: 5px;
+                border-radius: 5px;
+            """)
+            texto_layout.addWidget(nombre_label)
+
+            # Dinero:
             dinero_label = QLabel(f"${jugador['dinero']}")
             dinero_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
-            jugador_nombre_y_dinero_layout.addWidget(nombre_label)
-            jugador_nombre_y_dinero_layout.addWidget(dinero_label)
-            jugador_perfil_layout.addLayout(jugador_nombre_y_dinero_layout)
-            
-            # Agregar perfil al layout completo del jugador:
-            jugador_layout.addLayout(jugador_perfil_layout, 1)
+            dinero_label.setStyleSheet("""
+                font-size: 14px;
+                font-weight: bold;
+                color: white;
+                background-color: rgba(46, 21, 8, 0.7);
+                padding: 5px;
+                border-radius: 5px;
+            """)
+            texto_layout.addWidget(dinero_label)
+
+            # Agregar el layout del texto al perfil:
+            perfil_layout.addLayout(texto_layout)
+
+            # Agregar el contenedor al layout del jugador:
+            jugador_layout.addWidget(perfil_contenedor)
             
             # --- Propiedades ---
             propiedades_widget = QWidget(self)
             propiedades_widget.setLayout(propiedades_layout)
-            propiedades_widget.setFixedSize(200, 150)  # Tamaño fijo para la cuadrícula
+            propiedades_widget.setFixedSize(200, 150) # <-- Tamaño fijo para la cuadrícula.
             self.mostrar_cartas_en_cuadricula(propiedades_layout, jugador["propiedades"], "propiedades")
             jugador_layout.addWidget(propiedades_widget, 1)
             
             # --- Banco ---
             banco_widget = QWidget(self)
             banco_widget.setLayout(banco_layout)
-            banco_widget.setFixedSize(200, 150)  # Tamaño fijo para la cuadrícula
+            banco_widget.setFixedSize(200, 150)       # <-- Tamaño fijo para la cuadrícula.
             self.mostrar_cartas_en_cuadricula(banco_layout, jugador["banco"], "banco")
             jugador_layout.addWidget(banco_widget, 1)
             
             # --- Acciones ---
             acciones_widget = QWidget(self)
             acciones_widget.setLayout(acciones_layout)
-            acciones_widget.setFixedSize(100, 150)  # Tamaño fijo para la cuadrícula
+            acciones_widget.setFixedSize(100, 150)    # <-- Tamaño fijo para la cuadrícula.
             self.mostrar_cartas_en_cuadricula(acciones_layout, jugador["acciones"], "acciones")
             jugador_layout.addWidget(acciones_widget, 1)
             
-            # Versión antigua:
-            #self.mostrar_cartas_en_cuadricula(acciones_layout, jugador["acciones"])
-            #jugador_layout.addLayout(acciones_layout, 1)
-            
-            # Agregar layout jugador al layout de la zona superior izquierda: <-- (Este es el paso final de cada uno)
+            # Agregar el layout jugador al layout de la zona superior izquierda:
             self.zona_superior_izquierda_layout.addLayout(jugador_layout)
     
     def mostrar_cartas_en_cuadricula(self, grid_layout, cartas, tipo=None):
         """
-        Rellena la cuadrícula con las imágenes de las cartas que tiene
-        y asegura que todas las celdas estén presentes, incluso si están vacías.
+        Rellena la cuadrícula indicada con las imágenes de las cartas que tiene
+        y se asegura de que todas las celdas estén presentes, incluso si están vacías.
         """
         
         if tipo != "acciones":
-            columnas = 6  # z-- Número fijo de columnas.
-            filas = 3     # <-- Número fijo de filas.
+            columnas = 6   # z-- Número fijo de columnas.
+            filas = 3      # <-- Número fijo de filas.
         else:
             columnas = 3
             filas = 2
@@ -210,16 +344,16 @@ class Tablero(QMainWindow):
             columna = index % columnas
 
             if index < len(cartas):
-                # Si hay una carta en esta posición, mostrar la carta
+                # Si hay una carta en esta posición, muestra la carta:
                 carta = cartas[index]
                 carta_label = QLabel(self)
                 pixmap = QPixmap(carta["imagen"]).scaled(25, 40, Qt.AspectRatioMode.KeepAspectRatio)
                 carta_label.setPixmap(pixmap)
                 grid_layout.addWidget(carta_label, fila, columna)
             else:
-                # Si no hay carta, agregar un QLabel vacío como placeholder
+                # Si no hay carta, agrega un QLabel vacío como placeholder:
                 placeholder = QLabel(self)
-                placeholder.setFixedSize(25, 40)  # Tamaño fijo para las celdas vacías
+                placeholder.setFixedSize(25, 40) # <-- Tamaño fijo para las celdas vacías.
                 placeholder.setStyleSheet("background-color: transparent; border: 1px solid gray;")
                 grid_layout.addWidget(placeholder, fila, columna)
 
@@ -243,29 +377,101 @@ class Tablero(QMainWindow):
         """Muestra los detalles de la carta seleccionada."""
         self.detalle_label.setText(f"Nombre: {nombre}\nEfecto: {efecto}")
 
+    def titilar_reloj(self):
+        """Alterna entre las dos imágenes del reloj para crear el efecto del titileo."""
+        if self.reloj_titilando:
+            self.reloj_icon.setPixmap(self.reloj_pixmap)
+        else:
+            self.reloj_icon.setPixmap(self.reloj_rojo_pixmap)
+        self.reloj_titilando = not self.reloj_titilando
+
     def actualizar_tiempo(self):
         """Actualiza el temporizador."""
         if self.tiempo_restante > 0:
             self.tiempo_restante -= 1
             self.timer_label.setText(f"Tiempo restante: {self.tiempo_restante}s")
+        # Iniciar el titileo cuando queden 5, o 10, o 15, segundos. <-- (A gusto como quieran, me parece que 15 está bien)
+            if self.tiempo_restante <= 55:
+                if not self.titileo_timer.isActive():
+                    self.titileo_timer.start(500)     # <-- Esto cambia la imagen cada 500 ms.
         else:
+            self.titileo_timer.stop() # <-- Detiene el titileo cuando el tiempo termine.
             self.finalizar_turno()
 
     def finalizar_turno(self):
-        """Finaliza el turno y pasa al siguiente jugador."""
+        """
+        Finaliza el turno y pasa al siguiente jugador.
+        Acá va la lógica que se maneja cuando finaliza el tiempo.
+        """
         # self.timer.stop() <-- Da delay
         self.turno_actual = (self.turno_actual + 1) % len(self.jugadores)
         self.turno_label.setText(f"Turno de: {self.jugadores[self.turno_actual]['nombre']}")
         self.tiempo_restante = 60
         self.timer_label.setText(f"Tiempo restante: {self.tiempo_restante}s")
 
+        self.reloj_icon.setPixmap(self.reloj_pixmap)
+        self.titileo_timer.stop()
+        
         self.mostrar_mano_jugador()
     
     def finalizar_partida(self):
-        self.close()
-        self.main_menu.show()
+        """Pregunta al usuario si está seguro de que la quiere finalizar."""
+        respuesta = QMessageBox.question(
+            self,
+            "Confirmar finalización",
+            "¿Estás seguro de que querés finalizar la partida?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        
+        if respuesta == QMessageBox.StandardButton.Yes:
+
+            # Cálculo del tiempo:
+            tiempo_fin = datetime.now()
+            tiempo_total = tiempo_fin - self.tiempo_inicio # <-- Diferencia entre el inicio y el final.
+            minutos, segundos = divmod(tiempo_total.total_seconds(), 60)
+            tiempo_formateado = f"{int(minutos)} minutos y {int(segundos)} segundos"
+            
+            # Cálculo del resumen de la partida:
+            resumen = "Resumen de la partida jugada:\n\n"
+            resumen += f"Tiempo total jugado: {tiempo_formateado}\n\n"
+            for jugador in self.jugadores:
+                resumen += (
+                    f"Jugador: {jugador['nombre']}\n"
+                    f"Dinero final: ${jugador['dinero']}\n"
+                    f"Propiedades adquiridas: {len(jugador.get('propiedades', []))}\n"
+                    f"Cartas de acción usadas: {len(jugador.get('acciones', []))}\n\n"
+                )
+            resumen += "Muchas gracias por jugar!"
+            
+            # Mostrar el cuadro con la información de la partida:
+            QMessageBox.information(
+                self,
+                "Resumen de la Partida",
+                resumen,
+                QMessageBox.StandardButton.Ok
+        )
+            
+            self.close()
+            self.main_menu.show()
+        else:
+            pass
     
+    # ----------------------------------------------------------------------------------------------------
     # Este es un ejemplo, esto es algo que debería estar en el método de arriba "mostrar_mano_jugador"
+    # 
+    # Cosas a implementar:
+    #
+    # 1. Se debería poder seleccionar la carta y que la imagen "queHace" cambie a su respectivo queHace.
+    #
+    # 2. Cuando hay menos de 7 cartas no modificar los widget o esas cosas porque rompe los layout,
+    #     sinó más bien reemplazar la imagen de la carta por una imagen transparente vacía (cartaVacia.png).
+    #
+    # 3. Cuando se seleccione la carta que salga un cuadro de diálogo con las opciones que correspondan a
+    #     esa carta, porque si se fijan literalmente cada carta hace cosas re distintas y algunas son muchísimo
+    #     más complejas que otras. (Ej: Alquiler doble, léanla, van a verlo)
+    #
+    # 4. Cuando se juegue la carta que se cambie el turno.
+    
     def ejemplo_de_mostrar_cartas_temporal(self):
         """Muestra las cartas activas."""
         for _ in range(7):
