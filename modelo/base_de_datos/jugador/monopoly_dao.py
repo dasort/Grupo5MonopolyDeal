@@ -21,8 +21,3 @@ class monopoly_dao(ABC):
     @abstractmethod
     def actulizar_jugador(self,jugador):
         pass
-    
-    
-    
-    
-    
