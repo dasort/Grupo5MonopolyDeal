@@ -97,16 +97,24 @@ class CrearPartida(QDialog):
             self.jugadores_layout.addWidget(avatar_label, jugador_row, 2)
 
             avatar_combo = QComboBox(self)
-            avatar_combo.addItem("Avatar 1", "avatar1.png")
-            avatar_combo.addItem("Avatar 2", "avatar2.png")
-            avatar_combo.addItem("Avatar 3", "avatar3.png")
+            avatar_combo.addItem("Avatar 1", "imagenes/ui/perfilRecortado1.png")
+            avatar_combo.addItem("Avatar 2", "imagenes/ui/perfilRecortado2.png")
+            avatar_combo.addItem("Avatar 3", "imagenes/ui/perfilRecortado3.png")
+            avatar_combo.addItem("Avatar 4", "imagenes/ui/perfilRecortado4.png")
+            avatar_combo.addItem("Avatar 5", "imagenes/ui/perfilRecortado5.png")
+            avatar_combo.addItem("Avatar 6", "imagenes/ui/perfilRecortado6.png")
+            avatar_combo.addItem("Avatar 7", "imagenes/ui/perfilRecortado7.png")
+            avatar_combo.addItem("Avatar 8", "imagenes/ui/perfilRecortado8.png")
             self.jugadores_layout.addWidget(avatar_combo, jugador_row, 3)
 
             # Guardar jugador
             self.jugadores.append({
                 'nombre': nombre_input,
                 'avatar': avatar_combo,
-                'dinero': int(self.dinero_inicial_input.text()) 
+                'dinero': int(self.dinero_inicial_input.text()) ,
+                'propiedades': [],
+                'banco': [],
+                'acciones': [],
             })
             
             if len(self.jugadores) == int(self.jugadores_iniciales_input.text()):
@@ -122,12 +130,15 @@ class CrearPartida(QDialog):
         for jugador in self.jugadores:
             nombre = jugador['nombre'].text()
             avatar = jugador['avatar'].currentData()
-            dinero = jugador['dinero']  
-            jugadores.append({'nombre': nombre, 'avatar': avatar, 'dinero': dinero})
+            dinero = jugador['dinero']
+            propiedades = jugador['propiedades']
+            banco = jugador['banco']
+            acciones = jugador['acciones']
+            jugadores.append({'nombre': nombre, 'avatar': avatar, 'dinero': dinero, 'propiedades': propiedades, 'banco': banco, 'acciones': acciones})
 
         self.close()
         self.start_game(dinero_inicial, jugadores)
 
     def start_game(self, dinero_inicial, jugadores):
-        self.t = Tablero(dinero_inicial, jugadores)
+        self.t = Tablero(self.main_menu, dinero_inicial, jugadores)
         self.t.show()
