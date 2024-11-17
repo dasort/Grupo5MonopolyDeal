@@ -9,6 +9,14 @@ class Controlador:
         self.__cartas_descarte = []  # Pila de descarte
         self.__turno_actual = 0  
         self.repartir_cartas()
+        
+    #carga el mazo del jugador con una lista de cartas
+    def cargar_mazo(self,cartas :Carta):
+        self.__mazo.extend(cartas)
+        
+    #retorna el mazo cargado con las cartas
+    def mostrar_mazo(self):
+        return self.__mazo
     
     # Reparte 5 cartas a cada jugador
     def repartir_cartas(self):
@@ -53,3 +61,17 @@ class Controlador:
         cartas = self.__mazo[:cantidad]
         self.__mazo = self.__mazo[cantidad:]
         return cartas
+    #devulve el jugador actual segun el turno actual
+    def jugador_actual(self):
+        return self.__jugadores[self.__turno_actual]
+    
+    #devuelve el turno actual segun la posicion de la lista de jugadores
+    def pasar_turno(self):
+        if self.turno_actual + 1 >= len(self.__jugadores): 
+            self.turno_actual = 0
+        else: self.turno_actual += 1
+    # devuelve el mazo de jugador en su turno
+    def cargar_mazo_del_jugador_actual(self, cartas):
+        jugador_actual = self.jugador_actual()
+        jugador_actual.cargar_mazo(cartas)
+        print(f"Mazo del jugador {jugador_actual.nombre()}: {jugador_actual.mostrar_mazo()}")
