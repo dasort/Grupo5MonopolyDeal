@@ -1,6 +1,7 @@
 import sys
 import psycopg2
 from PyQt6.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
+from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
 from crear_partida import CrearPartida
 
@@ -10,6 +11,7 @@ class IniciarSesion(QDialog):
         self.main_menu = main_menu  
         self.setWindowTitle("Iniciar Sesión")
         self.setGeometry(300, 200, 600, 400)
+        self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
         
         self.main_layout = QVBoxLayout(self)
         self.setLayout(self.main_layout)

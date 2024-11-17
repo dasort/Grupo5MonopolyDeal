@@ -1,10 +1,10 @@
-from PyQt6.QtWidgets import QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QSpacerItem, QSizePolicy, QHBoxLayout
+from PyQt6.QtWidgets import QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QSpacerItem, QSizePolicy, QHBoxLayout, QApplication
 from PyQt6.QtGui import QIcon, QPixmap
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QUrl
+from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
 from crear_partida import CrearPartida
 from opciones import Opciones
 from iniciar_sesion import IniciarSesion
-
 
 class MainMenu(QMainWindow):
     def __init__(self):
@@ -12,6 +12,14 @@ class MainMenu(QMainWindow):
         self.setWindowTitle("Monopoly Deal")
         self.setGeometry(480, 200, 600, 450)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
+
+        # Configuración del sonido: <-- Tutorial en Stack Overflow
+        self.filename = "imagenes/sonido/click.wav"
+        self.player = QMediaPlayer()
+        self.audio_output = QAudioOutput()
+        self.player.setAudioOutput(self.audio_output)
+        self.player.setSource(QUrl.fromLocalFile(self.filename))
+        self.audio_output.setVolume(50)
 
         # Widget principal y layout:
         self.main_widget = QWidget()
@@ -62,7 +70,7 @@ class MainMenu(QMainWindow):
         self.boton_iniciar_sesion = self.crear_boton("Iniciar Sesión o Crear Usuario", "imagenes/ui/menu_boton_3.png")
         self.boton_iniciar_sesion.clicked.connect(self.mostrar_iniciar_sesion)
         botones_layout.addWidget(self.boton_iniciar_sesion)
-        
+
         # Agregar los 3 botones al layout principal:
         self.layout.addLayout(botones_layout)
 
@@ -110,17 +118,21 @@ class MainMenu(QMainWindow):
 
         return boton
 
+    def sonido_click(self):
+        self.player.stop()
+        self.player.play()
+
     def mostrar_crear_partida(self):
+        self.sonido_click()
         self.hide()
-        self.crear_partida = CrearPartida(self)
-        self.crear_partida.exec()
+        self.crear_partida_window.exec()
 
     def mostrar_opciones(self):
+        self.sonido_click()
         self.hide()
-        self.opciones = Opciones(self)
-        self.opciones.exec()
+        self.opciones_window.exec()
 
     def mostrar_iniciar_sesion(self):
+        self.sonido_click()
         self.hide()
-        self.iniciar_sesion = IniciarSesion(self)
-        self.iniciar_sesion.exec()
+        self.iniciar_sesion_window.exec()

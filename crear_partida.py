@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QMainWindow, QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, QGridLayout,QWidget, QRadioButton, QMessageBox
-from PyQt6.QtGui import QPixmap, QIntValidator 
+from PyQt6.QtGui import QIcon, QPixmap, QIntValidator 
 from PyQt6.QtCore import Qt
 from tablero_pantalla import Tablero
 
@@ -9,6 +9,7 @@ class CrearPartida(QDialog):
         self.main_menu = main_menu  # Referencia MainMenu
         self.setWindowTitle("Crear Partida")
         self.setGeometry(300, 200, 600, 400)
+        self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
 
         self.main_layout = QVBoxLayout()
         self.setLayout(self.main_layout)
