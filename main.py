@@ -8,13 +8,10 @@ if __name__ == "__main__":
 
     # Fuente personalizada:
     font_id = QFontDatabase.addApplicationFont("imagenes/ui/OMDFMP+KabelMediumITC.ttf")
-    if font_id == -1:
-        print("Error: No se pudo cargar la fuente personalizada.")
-    else:
-        font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
-        app_font = QFont(font_family)
-        app_font.setPointSize(12) # <-- Tamaño de la fuente.
-        app.setFont(app_font)     # <-- Aplicar la fuente a toda la aplicación.
+    font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
+    app_font = QFont(font_family)
+    app_font.setPointSize(12) # <-- Tamaño de la fuente.
+    app.setFont(app_font)     # <-- Aplicar la fuente a toda la aplicación.
 
     # Inicializar la ventana principal
     main_window = MainMenu()
