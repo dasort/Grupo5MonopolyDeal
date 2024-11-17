@@ -1,38 +1,40 @@
+from propiedades import Propiedades
+from carta import Carta
 class Jugador:
-    def __init__(self,nombre):
-        self.__mano = []
-        self.__banco = []
+    ef __init__(self,nombre):
         self.__nombre = nombre
-        self.__propiedades = []
-    def tomar_carta(self, carta):
-        self.__mano.append(carta)
+        self.__listas = {"Mano":[],"Banco":[],"Propiedades":Propiedades()}
+    def agregar_a_mano(self, carta: Carta):
+        self.__listas["Mano"].append(carta)
 
-    def jugar_carta(self, id_carta):
-        for i, carta in enumerate(self.__mano):
-            if carta.setid() == id_carta:
-                carta_jugada = self.__mano.pop(i)
-                # Aqui se puede aplicar la accion de las cartas
-                return carta_jugada
-        raise ValueError(f"No se encontró una carta con el ID {id_carta}")
-    def agregar_a_propiedad(self, carta):
-        self.__propiedades.append(carta)
+    def agregar_a_banco(self, carta: Carta):
+        self.__listas["Banco"].append(carta)
 
-    def agregar_a_banco(self, carta):
-        self.__banco.append(carta)
+    def agregar_a_propiedades(self, carta: Carta):
+        # Usa el método de la clase Propiedades para agregar la carta
+        self.__listas["Propiedades"].agregar_a_propiedades(carta)
+    def tomar_carta(self, cartas):
+        if isinstance(cartas, (list)):
+            self.__listas["Mano"].extend(cartas)
+        else:
+            self.__listas["Mano"].extend([cartas])
+    
+    def elejir_carta(self, lista: str, carta: Carta):
+        # Obtener la lista de cartas
+        cartas_lista = self.__listas[lista]
+        # Intentar remover la carta de la lista especificada
+        try:
+            cartas_lista.remove(carta)
+            return carta
+        except ValueError:
+            raise ValueError("Carta no encontrada en la lista.")
         
+    # Métodos para obtener las cartas de las listas
+    def get_mano(self):
+        return self.__listas["Mano"]
 
-    def mostrar_estado(self):
-        print(" ")
-        print(f"Nombre  del Jugador: {self.__nombre}")
-        print(f"Mano")
-        for mano in self.__mano:
-                #print(" ")
-                mano.mostrar_carta()
-        print(f"Banco")
-        for banco in self.__banco:
-                #print(" ")
-                banco.mostrar_carta()
-        print(f"Propiedades")
-        for propiedad in self.__propiedades:
-                #print(" ")
-                propiedad.mostrar_carta()
+    def get_banco(self):
+        return self.__listas["Banco"]
+
+    def get_propiedades(self):
+        return self.__listas["Propiedades"]

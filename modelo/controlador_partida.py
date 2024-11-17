@@ -9,15 +9,19 @@ class Controlador:
         self.__cartas_descarte = []  # Pila de descarte
         self.__turno_actual = 0  
         self.repartir_cartas()
+    
+    # Reparte 5 cartas a cada jugador
     def repartir_cartas(self):
         for jugador in self.__jugadores:
             cartas_a_repartir = self.sacar_cartas(5)  # Obtiene una lista de 5 cartas
-            for carta in cartas_a_repartir:
-                jugador.tomar_carta(carta)  # Añade cada carta individualmente
-    def tomar_carta_mazo(self):
+            jugador.tomar_carta(cartas_a_repartir)
+    
+    # Toma una carta aleartoria del mazo eliminandola
+    def tomar_carta_mazo(self,jugador: Jugador):
         carta = random.choice(self.__mazo)
         self.__mazo.remove(carta)
-        return carta
+        jugador.tomar_carta(carta)
+    
     # Otra funcion que necesita cambios cuando se termine de hacer el mazo
     def jugar_carta(self, jugador: Jugador):
         carta = self.elijir_carta(jugador)
