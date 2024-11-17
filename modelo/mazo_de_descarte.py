@@ -10,9 +10,12 @@ class MazoDeDescarte:
     def get_descarte(self) -> list[Carta]: # se usa cuando no se pueden robar suficientes cartas del mazo de cartas
         return self.__descarte
 
+    def get_ultima_carta_jugada(self) -> Carta:
+        '''Devuelve la última carta de acción jugada.
+        '''
+        return self.__descarte[0]
+
     def aniade_carta(self, carta: Carta) -> None:
         '''Recibe una carta jugada y la añade a la pila de descarte.
         '''
-        self.__descarte.insert(0, carta) # añade la carta al principio de la lista (índice 0 siempre tiene la última carta de acción jugada)
-
-# cuando se termina el mazo comun hay que volver a mezclar las cartas que ya se jugaron y esto sirve para eso
+        self.__descarte.insert(0, carta)
