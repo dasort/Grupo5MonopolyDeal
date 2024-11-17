@@ -18,4 +18,4 @@ class MazoDeDescarte:
     def aniade_carta(self, carta: Carta) -> None:
         '''Recibe una carta jugada y la añade a la pila de descarte.
         '''
-        self.__descarte.insert(0, carta)
+        self.__descarte.insert(0, carta) # añade la carta al principio de la lista (índice 0 siempre tiene la última carta de acción jugada)
