@@ -17,6 +17,8 @@ class Tablero(QMainWindow):
         self.turno_actual = 0
         self.tiempo_restante = 60
         
+        self.carta_seleccionada = None
+        
         # Registro del tiempo de inicio de la partida:
         self.tiempo_inicio = datetime.now()
         
@@ -41,13 +43,14 @@ class Tablero(QMainWindow):
                 background-image: url("imagenes/ui/fondo_tablero_1650x820.jpg");
                 background-repeat: no-repeat;
                 background-position: center;
-                background-size: contain;
             }
             QLabel, QPushButton {
                 background: none;
                 border: none;
             }
         """)
+        
+        # background-size: contain; <-- No funciona (funcionaba)
 
         # Layout principal (zona superior e inferior):
         # Instanciación y seteo de su layout.
@@ -187,25 +190,20 @@ class Tablero(QMainWindow):
         self.cartas_layout = QHBoxLayout()
         self.zona_inferior_central_layout.addLayout(self.cartas_layout)
         
-        self.ejemplo_de_mostrar_cartas_temporal()
+        self.mostrar_mano_jugador()
         
         # ----------------------------------------------------------------------
         # Descripción carta (Zona inferior derecha)
         descripcion_carta_layout = QVBoxLayout()
 
-        # QLabel para la imagen de fondo:
-        imagen_fondo_label = QLabel(self)
-        pixmap_fondo = QPixmap("imagenes/ui/queHaceVacio.png")
-
-        # Tamaño de imagen:
-        pixmap_fondo = pixmap_fondo.scaled(400, 300, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
-        imagen_fondo_label.setPixmap(pixmap_fondo)
-
-        # Ajustar el QLabel al tamaño escalado de la imagen:
-        imagen_fondo_label.setFixedSize(pixmap_fondo.size())
+        # Descripción de carta
+        self.descripcion_carta_label = QLabel(self)
+        pixmap_fondo = QPixmap("imagenes/ui/queHaceVacio.png").scaled(400, 300, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        self.descripcion_carta_label.setPixmap(pixmap_fondo) #                  |                                   | Estos dos dos Qt solucionan la vida.
+        self.descripcion_carta_label.setFixedSize(400, 300)
 
         # Agregar el QLabel al layout:
-        descripcion_carta_layout.addWidget(imagen_fondo_label)
+        descripcion_carta_layout.addWidget(self.descripcion_carta_label)
 
         # Agregar el layout al área de la zona inferior derecha:
         self.zona_inferior_derecha_layout.addLayout(descripcion_carta_layout)
@@ -314,13 +312,6 @@ class Tablero(QMainWindow):
             self.mostrar_cartas_en_cuadricula(banco_layout, jugador["banco"], "banco")
             jugador_layout.addWidget(banco_widget, 2)
             
-            # --- Acciones ---
-            #acciones_widget = QWidget(self)
-            #acciones_widget.setLayout(acciones_layout)
-            #acciones_widget.setFixedSize(100, 100)    # <-- Tamaño fijo para la cuadrícula.
-            #self.mostrar_cartas_en_cuadricula(acciones_layout, jugador["acciones"], "acciones")
-            #jugador_layout.addWidget(acciones_widget, 1)
-            
             # Agregar el layout jugador al layout de la zona superior izquierda:
             self.zona_superior_izquierda_layout.addLayout(jugador_layout)
     
@@ -329,13 +320,6 @@ class Tablero(QMainWindow):
         Rellena la cuadrícula indicada con las imágenes de las cartas que tiene
         y se asegura de que todas las celdas estén presentes, incluso si están vacías.
         """
-        
-        #if tipo != "acciones":
-        #    columnas = 6   # z-- Número fijo de columnas.
-        #    filas = 2      # <-- Número fijo de filas.
-        #else:
-        #    columnas = 3
-        #    filas = 2
         columnas = 9
         filas = 2
         total_celdas = filas * columnas
@@ -360,25 +344,59 @@ class Tablero(QMainWindow):
                 placeholder.setStyleSheet("background-color: transparent; border: 1px solid gray;")
                 grid_layout.addWidget(placeholder, fila, columna)
 
-    # (!!!) Este método está causando problemas, mueve el mazo hacia arriba cuando se resetea el timer.
-    # Cuando modifica algo que no se que cosa es, causa problemas.
-    # Para mi que no hay que borrar las cartas, sinó mantener los widgets, y en donde no haya una carta
-    #  poner un rectángulo vacío o una imágen o algo que muestre que no hay una carta ahí.
     def mostrar_mano_jugador(self):
-        """Muestra las cartas del jugador actual."""
-        for i in reversed(range(self.zona_inferior_central_layout.count())):
-            widget = self.zona_inferior_central_layout.itemAt(i).widget()
-            if widget is not None:
+        """Muestra las cartas en la mano del jugador actual y actualiza la descripción."""
+        
+        # Limpiar el área de las cartas antes de agregar otras nuevas:
+        while self.cartas_layout.count():
+            widget = self.cartas_layout.takeAt(0).widget()
+            if widget:
                 widget.deleteLater()
 
-        jugador = self.jugadores[self.turno_actual]
-        #for carta in jugador["mano"]:
-            #carta_boton = CartaBoton(carta, f"Efecto de {carta}", self)
-            #self.mano_layout.addWidget(carta_boton)
+        jugador_actual = self.jugadores[self.turno_actual]
+        cartas = jugador_actual.get("mano", [])
+        
+        imagen_vacia = "imagenes/cartas/cartaVacia.png"
 
-    def mostrar_detalles_carta(self, nombre, efecto):
-        """Muestra los detalles de la carta seleccionada."""
-        self.detalle_label.setText(f"Nombre: {nombre}\nEfecto: {efecto}")
+        # Lógica para mostrar hasta 7 cartas:
+        for i in range(7):      # <-- (No se va a exceder, pero igual tengo que usarlo).
+            # Creación del widget de cada carta:
+            carta_label = QLabel(self)
+            
+            # Esta disposición del código es perfecta, hace que al seleccionar una carta vacía no se actualice la imagen de descripció:
+            if i < len(cartas):
+                carta = cartas[i]
+                carta_imagen = carta["imagen"]
+                # Actualizar al clickear:
+                carta_label.mousePressEvent = self.evento_click_carta(carta)
+            else:
+                carta_imagen = imagen_vacia
+                descripcion_imagen = None # <-- Ya no es necesario.
+            pixmap = QPixmap(carta_imagen).scaled(100, 150, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+            carta_label.setPixmap(pixmap)
+            carta_label.setFixedSize(100, 150)
+            #carta_label.setStyleSheet("border: 1px solid black;") <-- Opcional
+
+            # Agregar carta al layout:
+            self.cartas_layout.addWidget(carta_label)
+
+    def evento_click_carta(self, carta):
+        """Actualizar la imagen de descripción al haber hecho click, por la imagen que se indica."""
+        def evento(_):
+            descripcion_imagen = carta["descripcion_imagen"]
+            if carta == self.carta_seleccionada:
+                #print("Doble click detectado.")
+                print("Estás tratando de usar la carta.")
+            else:
+                #print("Un solo click.")
+                self.carta_seleccionada = carta # <-- Almacena primer click.
+                if descripcion_imagen: # <-- En caso de que si tenga contenido descripcion_imagen.
+                    pixmap_descripcion = QPixmap(descripcion_imagen).scaled(400, 300, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+                    self.descripcion_carta_label.setPixmap(pixmap_descripcion)
+                else:                  # <-- En caso de que sea Null porque no hay carta, usa la imagen vacía. (Igual ya no va a pasar)
+                    pixmap_descripcion = QPixmap("imagenes/ui/queHaceVacio.png").scaled(400, 300, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+                    self.descripcion_carta_label.setPixmap(pixmap_descripcion)
+        return evento
 
     def titilar_reloj(self):
         """Alterna entre las dos imágenes del reloj para crear el efecto del titileo."""
@@ -394,7 +412,7 @@ class Tablero(QMainWindow):
             self.tiempo_restante -= 1
             self.timer_label.setText(f"Tiempo restante: {self.tiempo_restante}s")
         # Iniciar el titileo cuando queden 5, o 10, o 15, segundos. <-- (A gusto como quieran, me parece que 15 está bien)
-            if self.tiempo_restante <= 55:
+            if self.tiempo_restante <= 15:
                 if not self.titileo_timer.isActive():
                     self.titileo_timer.start(500)     # <-- Esto cambia la imagen cada 500 ms.
         else:
@@ -406,7 +424,6 @@ class Tablero(QMainWindow):
         Finaliza el turno y pasa al siguiente jugador.
         Acá va la lógica que se maneja cuando finaliza el tiempo.
         """
-        # self.timer.stop() <-- Da delay
         self.turno_actual = (self.turno_actual + 1) % len(self.jugadores)
         self.turno_label.setText(f"Turno de: {self.jugadores[self.turno_actual]['nombre']}")
         self.tiempo_restante = 60
@@ -414,6 +431,8 @@ class Tablero(QMainWindow):
 
         self.reloj_icon.setPixmap(self.reloj_pixmap)
         self.titileo_timer.stop()
+        
+        self.carta_seleccionada = None
         
         self.mostrar_mano_jugador()
     
@@ -460,13 +479,11 @@ class Tablero(QMainWindow):
             pass
     
     # ----------------------------------------------------------------------------------------------------
-    # Este es un ejemplo, esto es algo que debería estar en el método de arriba "mostrar_mano_jugador"
-    # 
     # Cosas a implementar:
     #
-    # 1. Se debería poder seleccionar la carta y que la imagen "queHace" cambie a su respectivo queHace.
+    # 1. (listo) Se debería poder seleccionar la carta y que la imagen "queHace" cambie a su respectivo queHace.
     #
-    # 2. Cuando hay menos de 7 cartas no modificar los widget o esas cosas porque rompe los layout,
+    # 2. (listo) Cuando hay menos de 7 cartas no modificar los widget o esas cosas porque rompe los layout,
     #     sinó más bien reemplazar la imagen de la carta por una imagen transparente vacía (cartaVacia.png).
     #
     # 3. Cuando se seleccione la carta que salga un cuadro de diálogo con las opciones que correspondan a
@@ -474,11 +491,3 @@ class Tablero(QMainWindow):
     #     más complejas que otras. (Ej: Alquiler doble, léanla, van a verlo)
     #
     # 4. Cuando se juegue la carta que se cambie el turno.
-    
-    def ejemplo_de_mostrar_cartas_temporal(self):
-        """Muestra las cartas activas."""
-        for _ in range(7):
-            carta_label = QLabel("Carta")
-            carta_label.setFixedSize(100, 150)
-            carta_label.setStyleSheet("border: 1px solid black;")
-            self.cartas_layout.addWidget(carta_label)
