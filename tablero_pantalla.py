@@ -295,6 +295,7 @@ class Tablero(QMainWindow):
 
             # Agregar el layout del texto al perfil:
             perfil_layout.addLayout(texto_layout)
+            dinero_label.setFixedSize(100, 50)
 
             # Agregar el contenedor al layout del jugador:
             jugador_layout.addWidget(perfil_contenedor)
@@ -302,23 +303,23 @@ class Tablero(QMainWindow):
             # --- Propiedades ---
             propiedades_widget = QWidget(self)
             propiedades_widget.setLayout(propiedades_layout)
-            propiedades_widget.setFixedSize(200, 150) # <-- Tamaño fijo para la cuadrícula.
+            propiedades_widget.setFixedSize(250, 100) # <-- Tamaño fijo para la cuadrícula.
             self.mostrar_cartas_en_cuadricula(propiedades_layout, jugador["propiedades"], "propiedades")
-            jugador_layout.addWidget(propiedades_widget, 1)
+            jugador_layout.addWidget(propiedades_widget, 2)
             
             # --- Banco ---
             banco_widget = QWidget(self)
             banco_widget.setLayout(banco_layout)
-            banco_widget.setFixedSize(200, 150)       # <-- Tamaño fijo para la cuadrícula.
+            banco_widget.setFixedSize(250, 100)       # <-- Tamaño fijo para la cuadrícula.
             self.mostrar_cartas_en_cuadricula(banco_layout, jugador["banco"], "banco")
-            jugador_layout.addWidget(banco_widget, 1)
+            jugador_layout.addWidget(banco_widget, 2)
             
             # --- Acciones ---
-            acciones_widget = QWidget(self)
-            acciones_widget.setLayout(acciones_layout)
-            acciones_widget.setFixedSize(100, 150)    # <-- Tamaño fijo para la cuadrícula.
-            self.mostrar_cartas_en_cuadricula(acciones_layout, jugador["acciones"], "acciones")
-            jugador_layout.addWidget(acciones_widget, 1)
+            #acciones_widget = QWidget(self)
+            #acciones_widget.setLayout(acciones_layout)
+            #acciones_widget.setFixedSize(100, 100)    # <-- Tamaño fijo para la cuadrícula.
+            #self.mostrar_cartas_en_cuadricula(acciones_layout, jugador["acciones"], "acciones")
+            #jugador_layout.addWidget(acciones_widget, 1)
             
             # Agregar el layout jugador al layout de la zona superior izquierda:
             self.zona_superior_izquierda_layout.addLayout(jugador_layout)
@@ -329,12 +330,14 @@ class Tablero(QMainWindow):
         y se asegura de que todas las celdas estén presentes, incluso si están vacías.
         """
         
-        if tipo != "acciones":
-            columnas = 6   # z-- Número fijo de columnas.
-            filas = 3      # <-- Número fijo de filas.
-        else:
-            columnas = 3
-            filas = 2
+        #if tipo != "acciones":
+        #    columnas = 6   # z-- Número fijo de columnas.
+        #    filas = 2      # <-- Número fijo de filas.
+        #else:
+        #    columnas = 3
+        #    filas = 2
+        columnas = 9
+        filas = 2
         total_celdas = filas * columnas
 
         cartas = cartas if cartas else []
@@ -347,7 +350,7 @@ class Tablero(QMainWindow):
                 # Si hay una carta en esta posición, muestra la carta:
                 carta = cartas[index]
                 carta_label = QLabel(self)
-                pixmap = QPixmap(carta["imagen"]).scaled(25, 40, Qt.AspectRatioMode.KeepAspectRatio)
+                pixmap = QPixmap(carta["imagen"]).scaled(23, 40, Qt.AspectRatioMode.KeepAspectRatio)
                 carta_label.setPixmap(pixmap)
                 grid_layout.addWidget(carta_label, fila, columna)
             else:
