@@ -1,3 +1,5 @@
+from propiedades import Propiedades
+from carta import Carta
 class Jugador:
     ef __init__(self,nombre):
         self.__nombre = nombre
