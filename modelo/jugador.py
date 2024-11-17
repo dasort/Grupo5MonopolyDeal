@@ -1,7 +1,7 @@
 from propiedades import Propiedades
 from carta import Carta
 class Jugador:
-    ef __init__(self,nombre):
+    def __init__(self,nombre):
         self.__nombre = nombre
         self.__listas = {"Mano":[],"Banco":[],"Propiedades":Propiedades()}
     def agregar_a_mano(self, carta: Carta):
@@ -38,3 +38,7 @@ class Jugador:
 
     def get_propiedades(self):
         return self.__listas["Propiedades"]
+    
+    @property
+    def nombre (self):
+        return self.__nombre
