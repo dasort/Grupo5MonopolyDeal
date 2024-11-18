@@ -1,3 +1,10 @@
+
+# ----------------------------------------------------------------------------------------
+
+# Ejecuten directamente esto para tener ya 3 jugadores cargados con algunas cartas.
+
+# ----------------------------------------------------------------------------------------
+
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtGui import QFont, QFontDatabase
 from tablero_pantalla import Tablero
