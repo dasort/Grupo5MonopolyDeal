@@ -1,6 +1,11 @@
-from carta import Carta
 from abc import ABC, abstractmethod
-import random
+from typing import Callable
+if __name__ == '__main__':
+    from carta import Carta
+else:
+    from modelo.carta import Carta
+
+
 class BuilderCarta(ABC):
     
     @property
@@ -8,20 +13,31 @@ class BuilderCarta(ABC):
     def carta(self) -> None:
         pass
     @abstractmethod
-    def produce_id(self) -> None:
+    def produce_id(self, id: int) -> None:
         pass
     @abstractmethod
-    def produce_tipo(self,tipo) -> None:
+    def produce_tipo(self, tipo: str) -> None:
         pass
     @abstractmethod
-    def produce_descripcion(self,descripcion) -> None:
+    def produce_nombre(self, nombre: str) -> None:
         pass
     @abstractmethod
-    def produce_valor(self,valor) -> None:
+    def produce_valor(self, valor: int) -> None:
         pass
     @abstractmethod
-    def produce_accion(self,accion) -> None:
+    def produce_accion(self, accion: Callable) -> None:
         pass
+    @abstractmethod
+    def produce_color(self, color: str | list[str]) -> None:
+        pass
+    @abstractmethod
+    def produce_path_a_imagen(self, path_a_imagen: str) -> None:
+        pass
+    @abstractmethod
+    def produce_path_a_queHace(self, path_a_queHace: str) -> None:
+        pass
+
+
 class CrearBuilderCarta(BuilderCarta):
     def __init__(self) -> None:
         self.reset()
@@ -34,54 +50,67 @@ class CrearBuilderCarta(BuilderCarta):
         carta = self._carta
         self.reset()
         return carta
-    def produce_id(self,id) -> None:
-        self._carta.id_carta = id
+    
+    def produce_id(self, id: int) -> None:
+        self._carta.id = id
         
-    def produce_tipo(self,tipo) -> None:
+    def produce_tipo(self, tipo: str) -> None:
         self._carta.tipo = tipo
     
-    def produce_descripcion(self,descripcion) -> None:
-        self._carta.descripcion = descripcion
-        self._carta.nombre = "Nombre de Carta"
+    def produce_nombre(self, nombre: str) -> None:
+        self._carta.nombre = nombre
     
-    def produce_valor(self,valor) -> None:
+    def produce_valor(self, valor: int) -> None:
         self._carta.valor = valor
     
-    def produce_accion(self, accion) -> None:
-        if callable(accion):
+    def produce_accion(self, accion: Callable) -> None:
+        if callable(accion) or accion is None:
             self._carta.accion = accion
         else:
             raise ValueError("La acción debe ser una función.")
+    
+    def produce_color(self, color: str | list[str]) -> None:
+        self._carta.color = color
+    
+    def produce_path_a_imagen(self, path_a_imagen: str) -> None:
+        self._carta.path_a_imagen = path_a_imagen
+    
+    def produce_path_a_queHace(self, path_a_queHace: str) -> None:
+        self._carta.path_a_queHace = path_a_queHace
+
 
 class Director:
     def __init__(self):
-        self._builder = None
+        self.__builder = None
     
     # Get y Set 
     @property
     def builder(self) -> BuilderCarta:
-        return self._builder
+        return self.__builder
     @builder.setter
     def builder(self, builder: BuilderCarta) -> None:
-        self._builder = builder
+        self.__builder = builder
     
     # Creador de los tipos de Cartas
     
     # Accion, Descripcion, Tipo, ID  
-    def carta_accion(self,accion,descripcion,tipo,id)-> None:
-        self._builder.produce_id(id)
-        self.builder.produce_accion(accion)
-        self.builder.produce_descripcion(descripcion)
-        self._builder.produce_tipo(tipo)
-        self._builder.produce_valor(random.randint(1,3))
+    def carta_accion(self, id: int, nombre: str, tipo: str, accion: Callable, valor: int, path_a_imagen: str, path_a_queHace: str) ->None:
+        self.__carta_basica(id, nombre, tipo, valor, path_a_imagen, path_a_queHace)
+        self.__builder.produce_accion(accion)
+        
     # Descripcion, Tipo, ID  
-    def carta_propiedad(self,descripcion,tipo,id)->None:
-        self._builder.produce_id(id)
-        self.builder.produce_descripcion(descripcion)
-        self._builder.produce_tipo(tipo)
-        self._builder.produce_valor(random.randint(1,5))
+    def carta_propiedad(self, id: int, nombre: str, tipo: str, valor: int, color: str | list[str], path_a_imagen: str, path_a_queHace: str) ->None:
+        self.__carta_basica(id, nombre, tipo, valor, path_a_imagen, path_a_queHace)
+        self.__builder.produce_color(color)
+
     # Tipo, ID  
-    def carta_dinero(self,tipo,id)->None:
-        self._builder.produce_id(id)
-        self._builder.produce_tipo(tipo) 
-        self._builder.produce_valor(random.randint(1,7))
+    def carta_dinero(self, id: int, nombre: str, tipo: str, valor: int, path_a_imagen: str, path_a_queHace: str) ->None:
+        self.__carta_basica(id, nombre, tipo, valor, path_a_imagen, path_a_queHace)
+
+    def __carta_basica(self, id: int, nombre: str, tipo: str, valor: int, path_a_imagen: str, path_a_queHace: str) -> None:
+        self.__builder.produce_id(id)
+        self.__builder.produce_nombre(nombre)
+        self.__builder.produce_tipo(tipo)
+        self.__builder.produce_valor(valor)
+        self.__builder.produce_path_a_imagen(path_a_imagen)
+        self.__builder.produce_path_a_queHace(path_a_queHace)
