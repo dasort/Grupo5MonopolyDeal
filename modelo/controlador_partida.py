@@ -1,5 +1,6 @@
 from jugador import Jugador
 import random
+from modelo.mazo_de_cartas import MazodeCartas
 from carta import Carta
 class Controlador:
     def __init__(self, jugadores: Jugador):
