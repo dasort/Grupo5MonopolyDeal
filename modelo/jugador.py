@@ -1,7 +1,8 @@
 from propiedades import Propiedades
 from carta import Carta
 class Jugador:
-    def __init__(self,nombre):
+    def __init__(self,nombre,avatar: str):
+        self.__avatar = avatar
         self.__nombre = nombre
         self.__listas = {"Mano":[],"Banco":[],"Propiedades":Propiedades()}
     def agregar_a_mano(self, carta: Carta):
@@ -21,23 +22,30 @@ class Jugador:
     
     def elejir_carta(self, lista: str, carta: Carta):
         # Obtener la lista de cartas
-        cartas_lista = self.__listas[lista]
-        # Intentar remover la carta de la lista especificada
         try:
-            cartas_lista.remove(carta)
-            return carta
-        except ValueError:
-            raise ValueError("Carta no encontrada en la lista.")
+            if lista != "Propieadades":
+                cartas_lista = self.__listas[lista]
+                # Intentar remover la carta de la lista especificada
+                cartas_lista.remove(carta)
+                return carta
+            else:
+                # Si la lista es "Propiedades", usar el método de la clase Propiedades
+                self.__listas["Propiedades"].eliminar_carta(carta)
+                return carta
+        
+        except ValueError as e:
+            print(f"Error: {e}")
+            raise  # Re-lanza el error para ser manejado a un nivel superior si es necesario
         
     # Métodos para obtener las cartas de las listas
     def get_mano(self):
-        return self.__listas["Mano"]
-
+        return "Mano", self.__listas["Mano"]
     def get_banco(self):
-        return self.__listas["Banco"]
-
+        return "Banco",self.__listas["Banco"]
     def get_propiedades(self):
-        return self.__listas["Propiedades"]
+        return "Propiedades",self.__listas["Propiedades"].get_todas_las_cartas()
+    def get_avatar(self):
+        return self.__avatar
     
     @property
     def nombre (self):

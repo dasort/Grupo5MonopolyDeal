@@ -1,6 +1,6 @@
 import sys
 import psycopg2
-from PyQt6.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
+from PyQt6.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QFrame
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
 from crear_partida import CrearPartida
@@ -10,40 +10,91 @@ class IniciarSesion(QDialog):
         super().__init__(parent)
         self.main_menu = main_menu  
         self.setWindowTitle("Iniciar Sesión")
-        self.setGeometry(300, 200, 600, 400)
+        self.setGeometry(480, 200, 600, 450)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
         
         self.main_layout = QVBoxLayout(self)
         self.setLayout(self.main_layout)
-        self.adjustSize()
-        self.setMinimumSize(600, 300)
+        #self.adjustSize()
+        #self.setMinimumSize(600, 300)
+        
+        # ---
 
         self.username_label = QLabel("Nombre de Usuario:")
         self.username_input = QLineEdit(self)
-        self.username_input.setPlaceholderText("Ingrese su nombre de usuario")
+        self.username_input.setPlaceholderText("Ingrese su nombre de usuario.")
+        
+        # ---
         
         self.password_label = QLabel("Contraseña:")
         self.password_input = QLineEdit(self)
-        self.password_input.setPlaceholderText("Ingrese su contraseña")
-        self.password_input.setEchoMode(QLineEdit.EchoMode.Password) 
+        self.password_input.setPlaceholderText("Ingrese su contraseña.")
+        self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
+        
+        # ---
         
         # Botones
         self.login_button = QPushButton("Iniciar Sesión", self)
+        self.login_button.setStyleSheet("""
+            QPushButton {
+                padding: 6px;
+                font-size: 20px;
+            }
+            QPushButton:hover {
+                background-color: #4D4D4D;
+            }
+        """)
         self.login_button.clicked.connect(self.iniciar_sesion)
+        
+        # ---
 
         self.register_button = QPushButton("Crear Cuenta", self)
+        self.register_button.setStyleSheet("""
+            QPushButton {
+                padding: 6px;
+                font-size: 20px;
+            }
+            QPushButton:hover {
+                background-color: #4D4D4D;
+            }
+        """)
         self.register_button.clicked.connect(self.registrar_usuario)
+        
+        # ---
 
-        self.volver_button = QPushButton("Volver a Menu Principal", self)
-        self.volver_button.clicked.connect(self.volver)
+        self.boton_volver = QPushButton("Volver al Menú Principal", self)
+        self.boton_volver.setStyleSheet("""
+            QPushButton {
+                padding: 6px;
+                font-size: 20px;
+            }
+            QPushButton:hover {
+                background-color: #4D4D4D;
+            }
+        """)
+        self.boton_volver.clicked.connect(self.volver)
+        
+        linea1 = QFrame(self)
+        linea2 = QFrame(self)
+        linea1.setFrameShape(QFrame.Shape.HLine)
+        linea2.setFrameShape(QFrame.Shape.HLine)
+        linea1.setFrameShadow(QFrame.Shadow.Sunken)
+        linea2.setFrameShadow(QFrame.Shadow.Sunken)
+        
+        # ---
 
         self.main_layout.addWidget(self.username_label)
         self.main_layout.addWidget(self.username_input)
+        self.main_layout.addSpacing(20)
+        self.main_layout.addWidget(linea1)
         self.main_layout.addWidget(self.password_label)
         self.main_layout.addWidget(self.password_input)
+        self.main_layout.addSpacing(20)
+        self.main_layout.addWidget(linea2)
+        self.main_layout.addSpacing(20)
         self.main_layout.addWidget(self.login_button)
         self.main_layout.addWidget(self.register_button)
-        self.main_layout.addWidget(self.volver_button)
+        self.main_layout.addWidget(self.boton_volver)
 
     def iniciar_sesion(self):
         username = self.username_input.text()

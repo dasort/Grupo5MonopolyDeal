@@ -1,5 +1,6 @@
 from jugador import Jugador
 import random
+from modelo.mazo_de_cartas import MazodeCartas
 from carta import Carta
 class Controlador:
     def __init__(self, jugadores: Jugador):
@@ -31,14 +32,14 @@ class Controlador:
         jugador.tomar_carta(carta)
     
     # Otra funcion que necesita cambios cuando se termine de hacer el mazo
-    def jugar_carta(self, jugador: Jugador):
-        carta = self.elijir_carta(jugador)
+    def jugar_carta(self, jugador: Jugador, carta : Carta):
         # Verificar si la carta puede ser jugada
+        print("Entro a jugar_carta")
         if carta.tipo == "Accion":
                 self.ejecutar_accion(carta)
                 self.__mesa = carta
         elif carta.tipo == "Propiedad":
-            jugador.agregar_a_propiedad(carta)
+            jugador.agregar_a_propiedades(carta)
             print("Se agrego una propiedad")
         elif carta.tipo == "Dinero":
             jugador.agregar_a_banco(carta)

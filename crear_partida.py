@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMainWindow, QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, QGridLayout,QWidget, QRadioButton, QMessageBox
+from PyQt6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, QGridLayout, QMessageBox
 from PyQt6.QtGui import QIcon, QPixmap, QIntValidator 
 from PyQt6.QtCore import Qt
 from tablero_pantalla import Tablero
@@ -6,7 +6,7 @@ from tablero_pantalla import Tablero
 class CrearPartida(QDialog):
     def __init__(self, main_menu, parent=None):
         super().__init__(parent)
-        self.main_menu = main_menu  # Referencia MainMenu
+        self.main_menu = main_menu # <-- Una referencia a MainMenu.
         self.setWindowTitle("Crear Partida")
         self.setGeometry(480, 200, 600, 450)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
@@ -17,10 +17,12 @@ class CrearPartida(QDialog):
         self.setMinimumSize(600, 450)
         
         # Cantidad Jugadores
-        self.jugadores_label = QLabel("¿Cuantos Jugaran? (Debe ser entre 2 y 5)", self)
+        self.jugadores_label = QLabel("¿Cuantos Jugaran? (Deben ser entre 2 y 5)", self)
+        self.jugadores_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.jugadores_iniciales_input = QLineEdit(self)
-        self.jugadores_iniciales_input.setText("2")  # Valor inicial
-        self.jugadores_iniciales_input.setValidator(QIntValidator(2, 5))  # Validación 
+        self.jugadores_iniciales_input.setText("2")
+        self.jugadores_iniciales_input.setValidator(QIntValidator(2, 5))
+        self.jugadores_iniciales_input.setPlaceholderText("Si o si debes mencionar un valor.")
         self.jugadores_iniciales_input.textChanged.connect(self.cambio_cant_jugadores)
         #self.jugadores_iniciales_input.textChanged.connect(self.validar_jugadores)
         
@@ -31,33 +33,80 @@ class CrearPartida(QDialog):
         
         # Dinero Inicial
         self.dinero_label = QLabel("¿Con cuánto dinero comienzan los jugadores?", self)
+        self.dinero_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.dinero_inicial_input = QLineEdit(self)
-        self.dinero_inicial_input.setText("1000")  # Valor inicial
-        self.dinero_inicial_input.setValidator(QIntValidator(1, 10000))  # Validación 
+        self.dinero_inicial_input.setText("1000")
+        self.dinero_inicial_input.setValidator(QIntValidator(1, 10000))
+        self.dinero_inicial_input.setPlaceholderText("Si o si debes mencionar un valor.")
         self.dinero_inicial_input.textChanged.connect(self.validar_dinero)
         self.main_layout.addWidget(self.dinero_label)
         self.main_layout.addWidget(self.dinero_inicial_input)
 
         # Botones
+        # 1. add_jugador
+        # 2. subtract_jugador
+        # 3. crear_partida_button
+        # 4. boton_volver
+
         self.jugadores_layout = QGridLayout()
         self.main_layout.addLayout(self.jugadores_layout)
 
         self.add_jugador_button = QPushButton("Agregar Jugador", self)
+        self.add_jugador_button.setStyleSheet("""
+            QPushButton {
+                background-color: #479C36;
+                color: white;
+                padding: 6px;
+                font-size: 20px;
+            }
+            QPushButton:hover {
+                background-color: #7FD46E;
+            }
+        """)
         self.add_jugador_button.clicked.connect(self.agregar_jugador)
         self.main_layout.addWidget(self.add_jugador_button)
         
         self.subtract_jugador_button = QPushButton("Quitar Jugador", self)
+        self.subtract_jugador_button.setStyleSheet("""
+            QPushButton {
+                background-color: #D96372;
+                color: white;
+                padding: 6px;
+                font-size: 20px;
+            }
+            QPushButton:hover {
+                background-color: #FFAAAA;
+            }
+        """)
         self.subtract_jugador_button.clicked.connect(self.quitar_jugador)
         self.main_layout.addWidget(self.subtract_jugador_button)
 
         self.crear_partida_button = QPushButton("Crear Partida", self)
+        self.crear_partida_button.setStyleSheet("""
+            QPushButton {
+                padding: 6px;
+                font-size: 20px;
+            }
+            QPushButton:hover {
+                background-color: #4D4D4D;
+            }
+        """)
         self.crear_partida_button.setEnabled(False) 
         self.crear_partida_button.clicked.connect(self.crear_partida)
         self.main_layout.addWidget(self.crear_partida_button)
         
-        self.btn_volver = QPushButton("Volver al Menú Principal", self)
-        self.btn_volver.clicked.connect(self.volver)
-        self.main_layout.addWidget(self.btn_volver)
+        self.boton_volver = QPushButton("Volver al Menú Principal", self)
+        self.boton_volver.setStyleSheet("""
+            QPushButton {
+                padding: 6px;
+                font-size: 20px;
+            }
+            QPushButton:hover {
+                background-color: #4D4D4D;
+            }
+        """)
+        self.boton_volver.clicked.connect(self.volver)
+        self.main_layout.addWidget(self.boton_volver)
 
     def validar_jugadores(self):
         try:
@@ -104,7 +153,7 @@ class CrearPartida(QDialog):
                 QMessageBox.warning(self, "Número inválido", "El número de jugadores debe ser entre 2 y 5.")
                 self.jugadores_iniciales_input.setText("2")
         except Exception:
-            print("Algo.")
+            print("Lista de jugadores vacía!")
 
     def agregar_jugador(self):
         # Limita el número de jugadores según el valor ingresado
