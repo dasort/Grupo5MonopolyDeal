@@ -21,13 +21,20 @@ class Jugador:
     
     def elejir_carta(self, lista: str, carta: Carta):
         # Obtener la lista de cartas
-        cartas_lista = self.__listas[lista]
-        # Intentar remover la carta de la lista especificada
         try:
-            cartas_lista.remove(carta)
-            return carta
-        except ValueError:
-            raise ValueError("Carta no encontrada en la lista.")
+            if lista != "Propieadades":
+                cartas_lista = self.__listas[lista]
+                # Intentar remover la carta de la lista especificada
+                cartas_lista.remove(carta)
+                return carta
+            else:
+                # Si la lista es "Propiedades", usar el método de la clase Propiedades
+                self.__listas["Propiedades"].eliminar_carta(carta)
+                return carta
+        
+        except ValueError as e:
+            print(f"Error: {e}")
+            raise  # Re-lanza el error para ser manejado a un nivel superior si es necesario
         
     # Métodos para obtener las cartas de las listas
     def get_mano(self):
