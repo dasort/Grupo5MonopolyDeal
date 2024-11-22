@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+modelo/base_de_datos/conexion/__pycache__/
 
 # C extensions
 *.so
