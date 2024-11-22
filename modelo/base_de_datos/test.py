@@ -1,11 +1,25 @@
-from jugador.jugador import Jugador
+from jugador_dao.jugador_dao import JugadorBDD
 from conexion.monopoly_db import Database
-from jugador.monopoly_dao_impl import Monopoly_dao_imp
-from jugador.hash_contrasenia import hash_contrasenia
+from jugador_dao.jugador_dao_impl import JugadorDAOImpl
+from jugador_dao.hash_contrasenia import compara_contrasenia
 
 db = Database()
-conn = Monopoly_dao_imp(db.conexion())
+conn = JugadorDAOImpl(db.conexion())
 
-lucas = conn.obtener_jugador('lv')
-print(lucas.get_contrasenia())
-print(hash_contrasenia('123456')[0])
+cristian_en_bdd = conn.obtener_jugador('c_torres')
+# conn.eliminar_jugador(cristian_en_bdd)
+    
+if cristian_en_bdd is None:
+    cristian = JugadorBDD.constructor_reducido(
+        'Cristian',
+        'Torres',
+        'c_torres',
+        'contrasenia_segura'
+    )
+    conn.crear_jugador(cristian)
+    print('Jugador Registrado')
+else:
+    if compara_contrasenia('contrasenia_segura', cristian_en_bdd.get_contrasenia(), cristian_en_bdd.get_salt()):
+        print('Son iguales')
+    else:
+        print('No son iguales')
