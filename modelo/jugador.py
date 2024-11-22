@@ -20,7 +20,7 @@ class Jugador:
         else:
             self.__listas["Mano"].extend([cartas])
     
-    def elejir_carta(self, lista: str, carta: Carta):
+    def elegir_carta(self, lista: str, carta: Carta):
         # Obtener la lista de cartas
         try:
             if lista != "Propieadades":
