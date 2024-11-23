@@ -1,0 +1,84 @@
+from abc import ABC
+
+
+class Carta(ABC):
+    '''Clase abstracta que sirve de base para las cartas de acción, propiedad y dinero.'''
+    def __init__(self, id_carta: int, nombre: str, tipo: str, valor: int, path_a_imagen: str, path_a_queHace: str) -> None:
+        self._id_carta = id_carta
+        self._nombre = nombre
+        self._tipo = tipo
+        self._valor = valor
+        self._path_a_imagen = path_a_imagen
+        self._path_a_queHace = path_a_queHace
+
+    @property
+    def id(self) -> int:
+        '''El id de la carta diferencia las instancias de las cartas aunque tengan la misma implementación.'''
+        return self.__id_carta
+    
+    @id.setter
+    def id(self, id: int) -> None:
+        self.__id_carta = id
+    
+    @property
+    def nombre(self) -> str:
+        '''Nombre de la carta.'''
+        return self.__nombre
+    
+    @nombre.setter
+    def nombre(self, nombre: str) -> None:
+        self.__nombre = nombre
+    
+    @property
+    def tipo(self) -> str:
+        '''El tipo de la carta puede ser de propiedad, dinero o acción. Representa la categoría de la carta.'''
+        return self.__tipo
+    
+    @tipo.setter
+    def tipo(self, tipo: str) -> None:
+        self.__tipo = tipo
+    
+    @property
+    def valor(self) -> int:
+        '''El valor determina la cantidad de dinero que vale la carta al ser usada en el banco o para transacciones.'''
+        return self.__valor
+    
+    @valor.setter
+    def valor(self, valor: int) -> None:
+        self.__valor = valor
+
+    @property
+    def path_a_imagen(self) -> str:
+        '''Es el path de la imagen que ilustra la carta.'''
+        return self.__path_a_imagen
+    
+    @path_a_imagen.setter
+    def path_a_imagen(self, path_a_imagen: str) -> None:
+        self.__path_a_imagen = path_a_imagen
+    
+    @property
+    def path_a_queHace(self) -> str:
+        '''Es el path de la imagen que explica el funcionamiento de este tipo de cartas.'''
+        return self.__path_a_queHace
+    
+    @path_a_queHace.setter
+    def path_a_queHace(self, path_a_queHace: str) -> None:
+        self.__path_a_queHace = path_a_queHace
+    
+    # sobrecargar en clases hijas que lo requieran (accion, propiedad de más de un color)
+    def informacion_para_accion(self) -> str | None:
+        '''Devuelve una cadena que especifica la información que necesita la carta para realizar su acción.\n
+        En caso de que la carta no tenga una acción asociada (ej. cartas de propiedad comunes o cartas de dinero) devuelve None.'''
+        return None
+
+    def accion(self): # sobrecargar en cartas de accion
+        '''Ejecuta la acción que le corresponde a la carta.'''
+        pass
+    
+    def mostrar_carta(self) -> None:
+        '''Representación de la carta como cadena.'''
+        print("Carta")
+        print(f"ID: {self.id}") 
+        print(f"Nombre: {self.nombre}")
+        print(f"Tipo: {self.tipo}")
+        print(f"Valor: {self.valor}")

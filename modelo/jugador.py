@@ -1,5 +1,5 @@
 from propiedades import Propiedades
-from carta import Carta
+from modelo.carta.carta import Carta
 class Jugador:
     def __init__(self,nombre,avatar: str):
         self.__avatar = avatar

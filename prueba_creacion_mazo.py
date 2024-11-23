@@ -1,4 +1,4 @@
-from modelo.carta import Carta
+from modelo.carta.carta import Carta
 from modelo.builder_cartas import *
 from modelo.mazo_de_cartas import MazoDeCartas
 import modelo.lista_cartas as sett
