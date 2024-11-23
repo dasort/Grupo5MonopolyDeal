@@ -1,8 +1,17 @@
+from __future__ import annotations
+
+
 class PartidaBDD: 
     def __init__(self, id_partida: int, id_ganador: int) -> None:
         self.__id_partida = id_partida
         self.__id_ganador = id_ganador
-        
+    
+    @classmethod
+    def constructor(cls, id_ganador: int) -> PartidaBDD:
+        partida = cls.__new__(cls)
+        partida.__id_ganador = id_ganador
+        return partida
+    
     @property 
     def id_partida(self) -> int:
         return self.__id_partida

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class PartidaDao(ABC):
+class PartidaDAO(ABC):
 
     @abstractmethod
     def agregar_partida(self):
@@ -16,6 +16,6 @@ class PartidaDao(ABC):
         pass
 
     @abstractmethod
-    def actulizar_ganador_partida(Self):
+    def actualizar_ganador_partida(Self):
         pass
     
