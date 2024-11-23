@@ -4,7 +4,7 @@ from PyQt6.QtCore import Qt, QUrl
 from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
 from crear_partida import CrearPartida
 from opciones import Opciones
-from iniciar_sesion import IniciarSesion
+from como_juego import ComoJuego
 
 class MainMenu(QMainWindow):
     def __init__(self):
@@ -67,8 +67,8 @@ class MainMenu(QMainWindow):
 
         # (4.3):
         # Botón "Iniciar Sesión o Crear Usuario":
-        self.boton_iniciar_sesion = self.crear_boton("Iniciar Sesión o Crear Usuario", "imagenes/ui/menu_boton_3.png")
-        self.boton_iniciar_sesion.clicked.connect(self.mostrar_iniciar_sesion)
+        self.boton_iniciar_sesion = self.crear_boton("¿Cómo Juego?", "imagenes/ui/smiley.png")
+        self.boton_iniciar_sesion.clicked.connect(self.mostrar_como_juego)
         botones_layout.addWidget(self.boton_iniciar_sesion)
 
         # Agregar los 3 botones al layout principal:
@@ -79,7 +79,7 @@ class MainMenu(QMainWindow):
         # Las instancias de las ventanas secundarias:
         self.crear_partida_window = CrearPartida(self)
         self.opciones_window = Opciones(self)
-        self.iniciar_sesion_window = IniciarSesion(self)
+        self.como_juego_window = ComoJuego(self)
 
     def crear_boton(self, texto, icono_ruta):
         """Crea un botón que tiene un ícono (a la izquierda) y texto."""
@@ -132,7 +132,7 @@ class MainMenu(QMainWindow):
         self.hide()
         self.opciones_window.exec()
 
-    def mostrar_iniciar_sesion(self):
+    def mostrar_como_juego(self):
         self.sonido_click()
         self.hide()
-        self.iniciar_sesion_window.exec()
+        self.como_juego_window.exec()
