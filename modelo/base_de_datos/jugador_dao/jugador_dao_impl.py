@@ -35,9 +35,17 @@ class JugadorDAOImpl(JugadorDAO):
                     jugador.get_salt()
                 )
             )     
+            try: 
+                buscando: None
+                if buscando.obtener_jugador() == jugador.get_nombre():
+                    print("")
+            except (Exception)as es: 
+                    print(f"el jugador ya existe")
             self.__conexion.commit()
         except (Exception, psy.DatabaseError)as e:
             print(f"Error al insertar usuario: {e}")
+        
+            
     
     def eliminar_jugador(self, jugador: JugadorBDD) -> None:
         query = "DELETE FROM jugador WHERE id_jugador = %s"
