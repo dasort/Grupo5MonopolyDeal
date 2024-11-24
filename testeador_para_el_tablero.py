@@ -135,7 +135,7 @@ if __name__ == "__main__":
 
     # Inicializar la ventana principal
     main_menu = MainMenu()
-    ventana = Tablero(main_menu, 1000, jugadores)
+    ventana = Tablero(main_menu, jugadores)
     ventana.show()
 
     # Ejecutar la aplicación

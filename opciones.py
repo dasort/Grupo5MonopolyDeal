@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QDialog, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QSpacerItem, QSizePolicy, QFrame, QMessageBox
-from PyQt6.QtGui import QIcon
+from PyQt6.QtGui import QIcon, QGuiApplication
 from PyQt6.QtCore import Qt
 
 class Opciones(QDialog):
@@ -9,6 +9,7 @@ class Opciones(QDialog):
         self.setWindowTitle("Opciones")
         self.setGeometry(570, 240, 400, 300)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
+        self.centrar_ventana()
 
         # ---
 
@@ -114,3 +115,11 @@ class Opciones(QDialog):
     def volver(self):
         self.hide()
         self.main_menu.show()
+    
+    def centrar_ventana(self):
+        """Método para centrar la ventana en el centro de la pantalla."""
+        forma_pantalla = QGuiApplication.primaryScreen().availableGeometry()
+        forma_ventana = self.frameGeometry()
+        centro_pantalla = forma_pantalla.center()
+        forma_ventana.moveCenter(centro_pantalla)
+        self.move(forma_ventana.topLeft())
