@@ -265,37 +265,31 @@ class CrearPartida(QDialog):
             self.layout_derecha_arriba.addWidget(avatar_label)
         
     def cambio_cant_jugadores(self):
-        print(len(self.jugadores))
-        try:
+        # Manejo lo que pasa si tiene lo necesario:
+        if len(self.jugadores) >= self.minimo_jugadores:
             
-            # Manejo lo que pasa si tiene lo necesario:
-            if len(self.jugadores) >= self.minimo_jugadores:
-                
-                # Se llegó al máximo:
-                if len(self.jugadores) == self.maximo_jugadores:
-                    self.agregar_jugador_boton.setEnabled(False)
-                
-                # Menos que el máximo:
-                else:
-                    self.agregar_jugador_boton.setEnabled(True) # <-- Si o si.
-                    self.crear_partida_boton.setEnabled(True)   # <-- Si o si.
-                    self.aviso_label.hide()
+            # Se llegó al máximo:
+            if len(self.jugadores) == self.maximo_jugadores:
+                self.agregar_jugador_boton.setEnabled(False)
             
-            # Manejo lo que pasa si no tiene lo necesario:
+            # Menos que el máximo:
             else:
-                
-                # Igual a 1 jugador:
-                if len(self.jugadores) == 1:
-                    self.quitar_jugador_boton.setEnabled(True)
-                    self.crear_partida_boton.setEnabled(False)
-                    self.aviso_label.show()
-                
-                # 0 jugadores:
-                else:
-                    self.quitar_jugador_boton.setEnabled(False)
+                self.agregar_jugador_boton.setEnabled(True) # <-- Si o si.
+                self.crear_partida_boton.setEnabled(True)   # <-- Si o si.
+                self.aviso_label.hide()
         
-        except Exception:
-            print("Lista de jugadores vacía!")
+        # Manejo lo que pasa si no tiene lo necesario:
+        else:
+            
+            # Igual a 1 jugador:
+            if len(self.jugadores) == 1:
+                self.quitar_jugador_boton.setEnabled(True)
+                self.crear_partida_boton.setEnabled(False)
+                self.aviso_label.show()
+            
+            # 0 jugadores:
+            else:
+                self.quitar_jugador_boton.setEnabled(False)
 
     def agregar_jugador(self):
         jugador_row = len(self.jugadores)
