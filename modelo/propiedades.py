@@ -1,5 +1,4 @@
-from carta.carta import Carta
-
+from carta import Carta
 class Propiedades(Carta):
     # colores = ["Azul","Verde","Rojo","Amarillo","Rosa"] 
     def __init__(self):
