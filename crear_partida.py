@@ -24,7 +24,7 @@ class CrearPartida(QDialog):
         # Main layout:
         self.main_layout = QHBoxLayout()
         self.main_layout.setContentsMargins(0, 0, 0, 0)
-        self.main_layout.setSpacing(0)  # Sin espacios
+        self.main_layout.setSpacing(0)
         self.setLayout(self.main_layout)
 
         # Layout derecha:
@@ -37,7 +37,7 @@ class CrearPartida(QDialog):
         self.widget_derecha_arriba = QWidget()
         self.widget_derecha_abajo = QWidget()
 
-        # Colores de Widgets y bordes ajustados:
+        # Estilos de los widgets:
         self.widget_izquierda.setStyleSheet("""
             /* background-color: rgba(127, 127, 127, 1); */
             background-color: rgba(89, 45, 22, 1);
@@ -54,7 +54,7 @@ class CrearPartida(QDialog):
             border-top: 0; /* <-- No debe tener borde arriba (con no poner esto es lo mismo). */
         """)
         
-        # Configurar políticas de tamaño:
+        # Otras configs:
         self.widget_derecha_arriba.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
         self.widget_derecha_abajo.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         
@@ -226,31 +226,18 @@ class CrearPartida(QDialog):
         self.boton_volver.clicked.connect(self.volver)
         self.layout_izquierda.addWidget(self.boton_volver)
 
-        # Agregar widgets al layout principal:
+        # Agrego los widgets al layout principal:
         self.main_layout.addWidget(self.widget_izquierda)
         self.layout_derecha.addWidget(self.widget_derecha_arriba)
         self.layout_derecha.addWidget(self.widget_derecha_abajo)
         self.main_layout.addLayout(self.layout_derecha)
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     def volver(self):
         self.hide()
         self.main_menu.show()
         
     def cargar_iconos(self):
-        # Limpiar el área de los iconos antes de agregar otros nuevos:
+        # Limpio el área de los iconos antes de agregar otros nuevos:
         while self.layout_derecha_arriba.count():
             widget = self.layout_derecha_arriba.takeAt(0).widget()
             if widget:
@@ -258,7 +245,7 @@ class CrearPartida(QDialog):
 
         avatar_vacio = "imagenes/ui/perfilRecortadoVacio.png"
 
-        # Lógica para mostrar hasta 5 iconos:
+        # Solo muestro 5:
         for i in range(5):
             # Creación del widget de cada icono:
             avatar_label = QLabel(self)
@@ -273,9 +260,8 @@ class CrearPartida(QDialog):
             pixmap = QPixmap(avatar).scaled(100, 100, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
             avatar_label.setPixmap(pixmap)
             avatar_label.setFixedSize(100, 100)
-            #avatar_label.setStyleSheet("border: 1px solid black;") <-- Opcional
 
-            # Agregar carta al layout:
+            # Agrego el icono al layout:
             self.layout_derecha_arriba.addWidget(avatar_label)
         
     def cambio_cant_jugadores(self):
@@ -291,15 +277,12 @@ class CrearPartida(QDialog):
                 
                 # Menos que el máximo:
                 else:
-                    self.agregar_jugador_boton.setEnabled(True)   # <-- Si o si.
-                    self.crear_partida_boton.setEnabled(True) # <-- Si o si.
+                    self.agregar_jugador_boton.setEnabled(True) # <-- Si o si.
+                    self.crear_partida_boton.setEnabled(True)   # <-- Si o si.
                     self.aviso_label.hide()
             
             # Manejo lo que pasa si no tiene lo necesario:
             else:
-                
-                if len(self.jugadores) == 2:
-                    self.crear_partida_boton.setEnabled(True)
                 
                 # Igual a 1 jugador:
                 if len(self.jugadores) == 1:
@@ -424,7 +407,7 @@ class CrearPartida(QDialog):
         avatar_combo.currentIndexChanged.connect(self.cargar_iconos)
 
         # Almacenar referencias de los widgets:
-        # (Almaceno una referencia de los widgets de cada uno para que se puedan borrar).
+        # (Almaceno una referencia de los widgets de cada uno para que se puedan borrar después).
         self.jugadores.append({
             "widget_jugador": widget_jugador,
             "layout_jugador": layout_jugador,
