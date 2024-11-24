@@ -1,13 +1,12 @@
-from carta.carta import Carta
+from carta import Carta
 
 
-class EsMiCumpleanios(Carta):
+class CobradorDeDeuda(Carta):
     
     def informacion_para_accion(self) -> str | None:
-        return 'EsMiCumpleaños'
+        return 'CobradordDeDeuda'
     
-    def accion(self, info) -> None:
-        cartas = info[0]
+    def accion(self, cartas) -> None:
         for carta in cartas:
             carta.duenio = self.duenio
             self.duenio.agregar_a_banco(carta)

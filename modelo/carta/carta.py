@@ -10,6 +10,7 @@ class Carta(ABC):
         self._valor = valor
         self._path_a_imagen = path_a_imagen
         self._path_a_queHace = path_a_queHace
+        self._duenio = None
 
     @property
     def id(self) -> int:
@@ -65,6 +66,14 @@ class Carta(ABC):
     def path_a_queHace(self, path_a_queHace: str) -> None:
         self.__path_a_queHace = path_a_queHace
     
+    @property
+    def duenio(self):
+        return self._duenio
+    
+    @duenio.setter
+    def duenio(self, duenio):
+        self._duenio = duenio
+
     # sobrecargar en clases hijas que lo requieran (accion, propiedad de más de un color)
     def informacion_para_accion(self) -> str | None:
         '''Devuelve una cadena que especifica la información que necesita la carta para realizar su acción.\n

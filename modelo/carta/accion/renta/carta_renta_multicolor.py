@@ -1,17 +1,7 @@
-from carta.carta import Carta
-from jugador import Jugador
+from carta_renta_doble import CartaRentaDoble
 
 
-class CartaRentaMulticolor(Carta):
-    
-    @property
-    def color(self) -> str:
-        if self.color is not str:
-            raise ValueError
-        return self._color_elegido
+class CartaRentaMulticolor(CartaRentaDoble):
     
     def informacion_para_accion(self) -> str | None:
-        return 'jugador'
-    
-    def accion(self, jugador: Jugador, color: str) -> None:
-        self.__color_elegido = color
+        return 'RentaMulticolor'

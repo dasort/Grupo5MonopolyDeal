@@ -1,5 +1,4 @@
 from carta.carta import Carta
-from jugador import Jugador
 
 
 class CartaRentaDoble(Carta):
@@ -10,10 +9,16 @@ class CartaRentaDoble(Carta):
             raise ValueError
         return self.__color_elegido
     
-    def informacion_para_accion(self) -> str | None:
-        return 'jugadores', 'color'
-    
-    def accion(self, jugadores: list[Jugador], color: str) -> None:
+    @color.setter
+    def color(self, color: str) -> str:
         self.__color_elegido = color
-        for jugador in jugadores:
-            jugador.
+        
+    def informacion_para_accion(self) -> str | None:
+        return 'RentaDoble'
+    
+    def accion(self, info) -> None:
+        cartas = info[1]
+        for carta in cartas:
+            carta.duenio = self.duenio
+            self.duenio.agregar_a_banco(carta)
+        self.duenio = None
