@@ -16,7 +16,6 @@ class CrearPartida(QDialog):
 
         self.minimo_jugadores = 2
         self.maximo_jugadores = 5
-        self.dinero_inicial = 0 # <-- Temporal, debería ser random.
         self.jugadores = []
 
         # ---
@@ -64,8 +63,8 @@ class CrearPartida(QDialog):
         self.layout_izquierda.setSpacing(8)                   # <-- Entre botones.
 
         self.layout_derecha_arriba = QHBoxLayout(self.widget_derecha_arriba)
-        self.layout_derecha_arriba.setContentsMargins(20, 10, 20, 12) # <-- Márgenes internos del contenedor
-        self.layout_derecha_arriba.setSpacing(12)                     # <-- Espaciado entre el avatar y el texto
+        self.layout_derecha_arriba.setContentsMargins(20, 10, 20, 12)
+        self.layout_derecha_arriba.setSpacing(12)
 
         self.layout_derecha_abajo = QVBoxLayout(self.widget_derecha_abajo)
         self.layout_derecha_abajo.setContentsMargins(5, 5, 5, 5)
@@ -186,7 +185,7 @@ class CrearPartida(QDialog):
             QPushButton {
                 background-color: #80452B;
                 padding: 6px;
-                font-size: 20px;
+                font-size: 25px;
                 outline: none;
                 border: 3px solid #C77750;
                 border-radius: 5px;
@@ -446,7 +445,6 @@ class CrearPartida(QDialog):
             self.cargar_iconos()
 
     def crear_partida(self):
-        dinero_inicial = self.dinero_inicial
         jugadores = []
 
         # Datos Jugadores: (y así también se evita llevarse las 4 referencias de los widgets)
