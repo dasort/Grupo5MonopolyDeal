@@ -19,3 +19,5 @@ class JugadorDAO(ABC):
     @abstractmethod
     def actulizar_jugador(self, jugador: JugadorBDD) -> None:
         pass
+    
+
