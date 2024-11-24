@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, QGridLayout, QMessageBox
+from PyQt6.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, QGridLayout, QMessageBox, QSizePolicy, QSpacerItem
 from PyQt6.QtGui import QIcon, QPixmap, QIntValidator 
 from PyQt6.QtCore import Qt
 from tablero_pantalla import Tablero
@@ -16,31 +16,10 @@ class CrearPartida(QDialog):
         self.adjustSize()
         self.setMinimumSize(600, 450)
         
-        # Cantidad Jugadores
-        self.jugadores_label = QLabel("¿Cuantos Jugaran? (Deben ser entre 2 y 5)", self)
-        self.jugadores_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.jugadores_iniciales_input = QLineEdit(self)
-        self.jugadores_iniciales_input.setText("2")
-        self.jugadores_iniciales_input.setValidator(QIntValidator(2, 5))
-        self.jugadores_iniciales_input.setPlaceholderText("Si o si debes mencionar un valor.")
-        self.jugadores_iniciales_input.textChanged.connect(self.cambio_cant_jugadores)
-        #self.jugadores_iniciales_input.textChanged.connect(self.validar_jugadores)
-        
-        self.main_layout.addWidget(self.jugadores_label)
-        self.main_layout.addWidget(self.jugadores_iniciales_input)
-        
+        self.minimo_jugadores = 2
+        self.maximo_jugadores = 5
+        self.dinero_inicial = 0 # <-- Temporal, debería ser random.
         self.jugadores = []
-        
-        # Dinero Inicial
-        self.dinero_label = QLabel("¿Con cuánto dinero comienzan los jugadores?", self)
-        self.dinero_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.dinero_inicial_input = QLineEdit(self)
-        self.dinero_inicial_input.setText("1000")
-        self.dinero_inicial_input.setValidator(QIntValidator(1, 10000))
-        self.dinero_inicial_input.setPlaceholderText("Si o si debes mencionar un valor.")
-        self.dinero_inicial_input.textChanged.connect(self.validar_dinero)
-        self.main_layout.addWidget(self.dinero_label)
-        self.main_layout.addWidget(self.dinero_inicial_input)
 
         # Botones
         # 1. add_jugador
@@ -48,11 +27,24 @@ class CrearPartida(QDialog):
         # 3. crear_partida_button
         # 4. boton_volver
 
+        # ---
+        
+        # Cuadrícula "Agregar Jugador":
         self.jugadores_layout = QGridLayout()
         self.main_layout.addLayout(self.jugadores_layout)
 
-        self.add_jugador_button = QPushButton("Agregar Jugador", self)
-        self.add_jugador_button.setStyleSheet("""
+        # ---
+
+        self.main_layout.addSpacerItem(QSpacerItem(20, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding))
+        
+        self.aclaracion_label = QLabel("(Opcional): Iniciar sesión para guardar tus estadísticas.")
+        self.main_layout.addWidget(self.aclaracion_label)
+        
+        # ---
+        
+        # Botón "Agregar Jugador":
+        self.agregar_jugador_boton = QPushButton("Agregar Jugador", self)
+        self.agregar_jugador_boton.setStyleSheet("""
             QPushButton {
                 background-color: #479C36;
                 color: white;
@@ -63,11 +55,14 @@ class CrearPartida(QDialog):
                 background-color: #7FD46E;
             }
         """)
-        self.add_jugador_button.clicked.connect(self.agregar_jugador)
-        self.main_layout.addWidget(self.add_jugador_button)
+        self.agregar_jugador_boton.clicked.connect(self.agregar_jugador)
+        self.main_layout.addWidget(self.agregar_jugador_boton)
         
-        self.subtract_jugador_button = QPushButton("Quitar Jugador", self)
-        self.subtract_jugador_button.setStyleSheet("""
+        # ---
+
+        # Botón "Quitar Jugador":
+        self.quitar_jugador_boton = QPushButton("Quitar Jugador", self)
+        self.quitar_jugador_boton.setStyleSheet("""
             QPushButton {
                 background-color: #D96372;
                 color: white;
@@ -78,9 +73,13 @@ class CrearPartida(QDialog):
                 background-color: #FFAAAA;
             }
         """)
-        self.subtract_jugador_button.clicked.connect(self.quitar_jugador)
-        self.main_layout.addWidget(self.subtract_jugador_button)
+        self.quitar_jugador_boton.setEnabled(False)
+        self.quitar_jugador_boton.clicked.connect(self.quitar_jugador)
+        self.main_layout.addWidget(self.quitar_jugador_boton)
 
+        # ---
+
+        # Botón "Crear Partida":
         self.crear_partida_button = QPushButton("Crear Partida", self)
         self.crear_partida_button.setStyleSheet("""
             QPushButton {
@@ -91,10 +90,13 @@ class CrearPartida(QDialog):
                 background-color: #4D4D4D;
             }
         """)
-        self.crear_partida_button.setEnabled(False) 
+        self.crear_partida_button.setEnabled(False) # <-- Para evitar que se pueda crear una partida sin jugadores.
         self.crear_partida_button.clicked.connect(self.crear_partida)
         self.main_layout.addWidget(self.crear_partida_button)
-        
+
+        # ---
+
+        # Botón "Volver al Menú Principal":
         self.boton_volver = QPushButton("Volver al Menú Principal", self)
         self.boton_volver.setStyleSheet("""
             QPushButton {
@@ -108,106 +110,115 @@ class CrearPartida(QDialog):
         self.boton_volver.clicked.connect(self.volver)
         self.main_layout.addWidget(self.boton_volver)
 
-    def validar_jugadores(self):
-        try:
-            num_jugadores = int(self.jugadores_iniciales_input.text())
-            if 2 <= num_jugadores <= 5:
-                self.crear_partida_button.setEnabled(True)
-            else:
-                self.crear_partida_button.setEnabled(False)
-                QMessageBox.warning(self, "Número inválido", "El número de jugadores debe ser entre 2 y 5.")
-                self.jugadores_iniciales_input.clear()
-        except ValueError:
-            self.crear_partida_button.setEnabled(False)
-            
-    def validar_dinero(self):
-        try:
-            num_dinero = int(self.dinero_inicial_input.text())
-            if num_dinero > 0:
-                self.crear_partida_button.setEnabled(True)
-            else:
-                self.crear_partida_button.setEnabled(False)
-                QMessageBox.warning(self, "Número inválido", "Debe ser mayor a 0")
-                self.dinero_inicial_input.clear()
-        except ValueError:
-            self.crear_partida_button.setEnabled(False)
-
     def volver(self):
         self.hide()
         self.main_menu.show()
         
     def cambio_cant_jugadores(self):
+        print(len(self.jugadores))
         try:
-            if 2 <= int(self.jugadores_iniciales_input.text()) <= 5:
-                if int(self.jugadores_iniciales_input.text()) < len(self.jugadores):
-                    self.add_jugador_button.setEnabled(False)
-                    self.crear_partida_button.setEnabled(False)
-                elif int(self.jugadores_iniciales_input.text()) > len(self.jugadores):
-                    self.add_jugador_button.setEnabled(True)
-                    self.crear_partida_button.setEnabled(False)
+            
+            # Manejo lo que pasa si tiene lo necesario:
+            if len(self.jugadores) >= self.minimo_jugadores:
+                
+                # Se llegó al máximo:
+                if len(self.jugadores) == self.maximo_jugadores:
+                    self.agregar_jugador_boton.setEnabled(False)
+                
+                # Menos que el máximo:
                 else:
-                    self.add_jugador_button.setEnabled(False)
-                    self.crear_partida_button.setEnabled(True) 
+                    self.agregar_jugador_boton.setEnabled(True)   # <-- Si o si.
+                    self.crear_partida_button.setEnabled(True) # <-- Si o si.
+            
+            # Manejo lo que pasa si no tiene lo necesario:
             else:
-                self.crear_partida_button.setEnabled(False)
-                QMessageBox.warning(self, "Número inválido", "El número de jugadores debe ser entre 2 y 5.")
-                self.jugadores_iniciales_input.setText("2")
+                
+                if len(self.jugadores) == 2:
+                    self.crear_partida_button.setEnabled(True)
+                
+                # Igual a 1 jugador:
+                if len(self.jugadores) == 1:
+                    self.quitar_jugador_boton.setEnabled(True)
+                    self.crear_partida_button.setEnabled(False)
+                
+                # 0 jugadores:
+                else:
+                    self.quitar_jugador_boton.setEnabled(False)
+        
         except Exception:
             print("Lista de jugadores vacía!")
 
     def agregar_jugador(self):
-        # Limita el número de jugadores según el valor ingresado
         try:
-            if len(self.jugadores) < int(self.jugadores_iniciales_input.text()):
-                jugador_row = len(self.jugadores)
+            jugador_row = len(self.jugadores)
 
-                # Nombre Label:
-                nombre_label = QLabel(f"Jugador {jugador_row + 1}:")
+            # El texto del tooltip con CSS (para el <br>):
+            tooltip_text = (
+                "1. Puede iniciar sesión y aparecerá con su nombre de cuenta.<br>"
+                "2. Si no inicia sesión puede ingresar el nombre que quiera.<br>"
+                "3. Si no ingresa nombre aparecerá como anónimo."
+            )
+            
+            # Nombre Label:
+            nombre_label = QLabel(f"Jugador {jugador_row + 1}:")
+            nombre_label.setToolTip(tooltip_text)
+            
+            # Nombre Insertar texto:
+            nombre_input = QLineEdit()
+            nombre_input.setPlaceholderText("Nombre")
+            nombre_input.setToolTip(tooltip_text)
+            
+            # Selección Avatar Label:
+            avatar_label = QLabel("Elija su avatar:")
+            
+            # Selección Avatar seleccionador:
+            avatar_combo = QComboBox()
+            avatar_combo.addItem("Avatar 1", "imagenes/ui/perfilRecortado1.png")
+            avatar_combo.addItem("Avatar 2", "imagenes/ui/perfilRecortado2.png")
+            avatar_combo.addItem("Avatar 3", "imagenes/ui/perfilRecortado3.png")
+            avatar_combo.addItem("Avatar 4", "imagenes/ui/perfilRecortado4.png")
+            avatar_combo.addItem("Avatar 5", "imagenes/ui/perfilRecortado5.png")
+            avatar_combo.addItem("Avatar 6", "imagenes/ui/perfilRecortado6.png")
+            avatar_combo.addItem("Avatar 7", "imagenes/ui/perfilRecortado7.png")
+            avatar_combo.addItem("Avatar 8", "imagenes/ui/perfilRecortado8.png")
+            
+            # Selección Iniciar sesión Label:
+            sesion_label = QLabel("Iniciar sesión:")
+            sesion_label.setToolTip(tooltip_text)
+            
+            # Iniciar sesión botón:
+            boton_cuenta = QPushButton("Inicie", self)
+            boton_cuenta.clicked.connect(self.volver) # <-- Cambiar
+            boton_cuenta.setToolTip(tooltip_text)
+
+            # Añadir al layout
+            self.jugadores_layout.addWidget(nombre_label, jugador_row, 0)
+            self.jugadores_layout.addWidget(nombre_input, jugador_row, 1)
+            self.jugadores_layout.addWidget(avatar_label, jugador_row, 2)
+            self.jugadores_layout.addWidget(avatar_combo, jugador_row, 3)
+            self.jugadores_layout.addWidget(sesion_label, jugador_row, 4)
+            self.jugadores_layout.addWidget(boton_cuenta, jugador_row, 5)
+
+            # Almacenar referencias de los widgets:
+            # (Almaceno una referencia de los widgets de cada uno para que se puedan borrar).
+            self.jugadores.append({
+                "nombre_label": nombre_label,
+                "nombre_input": nombre_input,
+                "avatar_label": avatar_label,
+                "avatar_combo": avatar_combo,
+                "sesion_label": sesion_label,
+                "boton_cuenta": boton_cuenta,
                 
-                # Nombre Insertar texto:
-                nombre_input = QLineEdit()
-                nombre_input.setPlaceholderText("Nombre")
-                
-                # Selección Avatar Label:
-                avatar_label = QLabel("Elija su avatar:")
-                
-                # Selección Avatar seleccionador:
-                avatar_combo = QComboBox()
-                avatar_combo.addItem("Avatar 1", "imagenes/ui/perfilRecortado1.png")
-                avatar_combo.addItem("Avatar 2", "imagenes/ui/perfilRecortado2.png")
-                avatar_combo.addItem("Avatar 3", "imagenes/ui/perfilRecortado3.png")
-                avatar_combo.addItem("Avatar 4", "imagenes/ui/perfilRecortado4.png")
-                avatar_combo.addItem("Avatar 5", "imagenes/ui/perfilRecortado5.png")
-                avatar_combo.addItem("Avatar 6", "imagenes/ui/perfilRecortado6.png")
-                avatar_combo.addItem("Avatar 7", "imagenes/ui/perfilRecortado7.png")
-                avatar_combo.addItem("Avatar 8", "imagenes/ui/perfilRecortado8.png")
+                'nombre': nombre_input,
+                'avatar': avatar_combo,
+                'dinero': 0,
+                'propiedades': [],
+                'banco': [],
+                'acciones': [],
+            })
 
-                # Añadir al layout
-                self.jugadores_layout.addWidget(nombre_label, jugador_row, 0)
-                self.jugadores_layout.addWidget(nombre_input, jugador_row, 1)
-                self.jugadores_layout.addWidget(avatar_label, jugador_row, 2)
-                self.jugadores_layout.addWidget(avatar_combo, jugador_row, 3)
-
-                # Almacenar referencias de los widgets:
-                # (Almaceno una referencia de los widgets de cada uno para que se puedan borrar).
-                self.jugadores.append({
-                    "nombre_label": nombre_label,
-                    "nombre_input": nombre_input,
-                    "avatar_label": avatar_label,
-                    "avatar_combo": avatar_combo,
-                    
-                    'nombre': nombre_input,
-                    'avatar': avatar_combo,
-                    'dinero': int(self.dinero_inicial_input.text()) ,
-                    'propiedades': [],
-                    'banco': [],
-                    'acciones': [],
-                })
-
-                # Deshabilitar botón agregar jugadores, y habilitar crear partida si es que se alcanza el límite:
-                if len(self.jugadores) == int(self.jugadores_iniciales_input.text()):
-                    self.add_jugador_button.setEnabled(False)
-                    self.crear_partida_button.setEnabled(True) 
+            # Asegurarme que los botones se activen o desactiven cuando deban:
+            self.cambio_cant_jugadores() # <-- Es clave que esto se ejecute al final de cuando se agrega el jugador.
                 
         except Exception:
             print("Hubo un error, seguramente no había valor en la caja.")
@@ -223,30 +234,29 @@ class CrearPartida(QDialog):
             jugador["nombre_input"].deleteLater()
             jugador["avatar_label"].deleteLater()
             jugador["avatar_combo"].deleteLater()
+            jugador["sesion_label"].deleteLater()
+            jugador["boton_cuenta"].deleteLater()
 
             # Habilito el botón de agregar si es que estaba deshabilitado:
             self.cambio_cant_jugadores()
 
     def crear_partida(self):
-        if len(self.jugadores) == int(self.jugadores_iniciales_input.text()):
-            dinero_inicial = int(self.dinero_inicial_input.text())
-            jugadores = []
+        dinero_inicial = self.dinero_inicial
+        jugadores = []
 
-            # Datos Jugadores: (y así también se evita llevarse las 4 referencias de los widgets)
-            for jugador in self.jugadores:
-                nombre = jugador['nombre'].text()
-                avatar = jugador['avatar'].currentData()
-                dinero = jugador['dinero']
-                propiedades = jugador['propiedades']
-                banco = jugador['banco']
-                acciones = jugador['acciones']
-                jugadores.append({'nombre': nombre, 'avatar': avatar, 'dinero': dinero, 'propiedades': propiedades, 'banco': banco, 'acciones': acciones})
+        # Datos Jugadores: (y así también se evita llevarse las 4 referencias de los widgets)
+        for jugador in self.jugadores:
+            nombre = jugador['nombre'].text()
+            avatar = jugador['avatar'].currentData()
+            dinero = jugador['dinero']
+            propiedades = jugador['propiedades']
+            banco = jugador['banco']
+            acciones = jugador['acciones']
+            jugadores.append({'nombre': nombre, 'avatar': avatar, 'dinero': dinero, 'propiedades': propiedades, 'banco': banco, 'acciones': acciones})
 
-            self.close()
-            self.start_game(dinero_inicial, jugadores)
-        else:
-            print("La cantidad de jugadores indicados no coincide con los creados.")
+        self.close()
+        self.start_game(jugadores)
 
-    def start_game(self, dinero_inicial, jugadores):
-        self.t = Tablero(self.main_menu, dinero_inicial, jugadores)
+    def start_game(self, jugadores):
+        self.t = Tablero(self.main_menu, jugadores)
         self.t.show()

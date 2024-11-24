@@ -5,14 +5,14 @@ from datetime import datetime
 #from carta_boton import CartaBoton <-- (Yo no lo puse, tampoco se que haría)
 
 class Tablero(QMainWindow):
-    def __init__(self, main_menu, dinero_inicial, jugadores, parent=None):
+    def __init__(self, main_menu, jugadores, parent=None):
         super().__init__(parent)
         self.main_menu = main_menu
         self.setWindowTitle("Tablero de Juego")
         self.setGeometry(20, 30, 1500, 750)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
 
-        self.dinero_inicial = dinero_inicial
+        self.dinero_inicial = 0 # <-- No le veo mucho sentido a esto así.
         self.jugadores = jugadores
         self.turno_actual = 0
         self.tiempo_restante = 60
