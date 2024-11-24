@@ -5,6 +5,7 @@ from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
 from crear_partida import CrearPartida
 from opciones import Opciones
 from como_juego import ComoJuego
+from estadisticas import Estadisticas
 
 class MainMenu(QMainWindow):
     def __init__(self):
@@ -42,12 +43,12 @@ class MainMenu(QMainWindow):
 
         # (3):
         # Espaciador inferior:
-        self.layout.addSpacerItem(QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding))
+        self.layout.addSpacerItem(QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed))
 
         # (4):
         # Botones:
         botones_layout = QVBoxLayout()
-        botones_layout.setContentsMargins(30, 0, 30, 0) # <-- Márgenes!!!
+        botones_layout.setContentsMargins(30, 0, 30, 20) # <-- Márgenes!!!
 
         # (4.1):
         # Botón "Crear una Partida":
@@ -74,6 +75,15 @@ class MainMenu(QMainWindow):
         # Agregar los 3 botones al layout principal:
         self.layout.addLayout(botones_layout)
         
+        # ---
+        
+        layout_footer = QHBoxLayout()
+        
+        # Botón estadísticas en el footer:
+        self.estadisticas_boton = self.crear_boton_estadisticas("Ver mis Estadísticas", "imagenes/ui/chart.png")
+        self.estadisticas_boton.clicked.connect(self.mostrar_estadisticas_inicio_sesion)
+        layout_footer.addWidget(self.estadisticas_boton)
+        
         # Versión en el footer:
         self.version_label = QLabel("v1.0 ", self)
         self.version_label.setStyleSheet("""
@@ -81,7 +91,10 @@ class MainMenu(QMainWindow):
             font-size: 16px;
         """)
         self.version_label.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignBottom)
-        self.layout.addWidget(self.version_label)
+        layout_footer.addWidget(self.version_label)
+        
+        # Agrego el footer al layout principal:
+        self.layout.addLayout(layout_footer)
 
         # ---
 
@@ -89,6 +102,7 @@ class MainMenu(QMainWindow):
         self.crear_partida_window = CrearPartida(self)
         self.opciones_window = Opciones(self)
         self.como_juego_window = ComoJuego(self)
+        self.estadisticas_window = Estadisticas(self)
 
     def crear_boton(self, texto, icono_ruta):
         """Crea un botón que tiene un ícono (a la izquierda) y texto."""
@@ -126,6 +140,44 @@ class MainMenu(QMainWindow):
         layout.addWidget(texto_label)
 
         return boton
+    
+    def crear_boton_estadisticas(self, texto, icono_ruta):
+        """Crea un botón que tiene un ícono (a la izquierda) y texto."""
+        boton = QPushButton(self) # <-- Este es el contenedor principal.
+        boton.setStyleSheet("""
+            QPushButton {
+                border: 2px solid #444;
+                border-radius: 3px;
+                background-color: #222; /* <-- Es perfecto no cambiar */
+                font-size: 10px;
+                text-align: left;
+            }
+            QPushButton:hover {
+                background-color: #333; /* <-- Tampoco */
+            }
+        """)
+        boton.setFixedHeight(30)
+        boton.setFixedWidth(175)
+
+        # Layout del ícono y el texto:
+        layout = QHBoxLayout(boton)
+
+        # Ícono
+        icono_label = QLabel(self)
+        pixmap = QPixmap(icono_ruta).scaled(15, 15) # <-- Tamaño de la imagen.
+        icono_label.setPixmap(pixmap)
+        icono_label.setFixedSize(15, 15)           # <-- Tamaño fijo del contenedor del ícono.
+        layout.addWidget(icono_label)
+
+        # Texto
+        texto_label = QLabel(texto, self)
+        texto_label.setStyleSheet("""
+            padding-left: 5px;
+            font-size: 14px;
+        """)
+        layout.addWidget(texto_label)
+
+        return boton
 
     def sonido_click(self):
         self.player.stop()
@@ -145,3 +197,8 @@ class MainMenu(QMainWindow):
         self.sonido_click()
         self.hide()
         self.como_juego_window.exec()
+        
+    def mostrar_estadisticas_inicio_sesion(self):
+        self.sonido_click()
+        self.hide()
+        self.estadisticas_window.exec()
