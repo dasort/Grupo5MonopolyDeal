@@ -47,7 +47,7 @@ class MainMenu(QMainWindow):
         # (4):
         # Botones:
         botones_layout = QVBoxLayout()
-        botones_layout.setContentsMargins(30, 0, 30, 20) # <-- Márgenes!!!
+        botones_layout.setContentsMargins(30, 0, 30, 0) # <-- Márgenes!!!
 
         # (4.1):
         # Botón "Crear una Partida":
@@ -73,6 +73,15 @@ class MainMenu(QMainWindow):
 
         # Agregar los 3 botones al layout principal:
         self.layout.addLayout(botones_layout)
+        
+        # Versión en el footer:
+        self.version_label = QLabel("v1.0 ", self)
+        self.version_label.setStyleSheet("""
+            color: #888;
+            font-size: 16px;
+        """)
+        self.version_label.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignBottom)
+        self.layout.addWidget(self.version_label)
 
         # ---
 
