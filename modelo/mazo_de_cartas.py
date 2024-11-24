@@ -1,6 +1,6 @@
 from random import shuffle
-from modelo.carta.carta import Carta
-from modelo.mazo_de_descarte import MazoDeDescarte
+from carta.carta import Carta
+from mazo_de_descarte import MazoDeDescarte
 
 
 class MazoDeCartas:

@@ -1,10 +1,7 @@
-import sys
-from os import path
-sys.path.append(path.dirname(path.abspath(__file__)))
 from carta_propiedad import CartaPropiedad
 
 
-class CartaPropiedadDoble(CartaPropiedad):
+class CartaPropiedadComodin(CartaPropiedad):
     
     def __init__(self, id_carta: int, nombre: str, tipo: str, valor: int, path_a_imagen: str, path_a_queHace: str, color: str | list[str]) -> None:
         super().__init__(id_carta, nombre, tipo, valor, path_a_imagen, path_a_queHace, color)
