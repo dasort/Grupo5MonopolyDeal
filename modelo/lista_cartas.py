@@ -35,21 +35,24 @@ LISTA_PROPIEDADES= [
     {"id": 25, "nombre": "Propiedad Ferrocarril", "tipo": "propiedad", "valor": 1, "color": "ferrocarril", "path_a_imagen": f'{__cartas_path}\\propiedadFerrocarril.png', "path_a_queHace": f'{__ui_path}\\queHacePropiedades.png'},
     {"id": 26, "nombre": "Propiedad Ferrocarril", "tipo": "propiedad", "valor": 1, "color": "ferrocarril", "path_a_imagen": f'{__cartas_path}\\propiedadFerrocarril.png', "path_a_queHace": f'{__ui_path}\\queHacePropiedades.png'},
     {"id": 27, "nombre": "Propiedad Ferrocarril", "tipo": "propiedad", "valor": 1, "color": "ferrocarril", "path_a_imagen": f'{__cartas_path}\\propiedadFerrocarril.png', "path_a_queHace": f'{__ui_path}\\queHacePropiedades.png'},
-    {"id": 28, "nombre": "Propiedad Ferrocarril", "tipo": "propiedad", "valor": 1, "color": "ferrocarril", "path_a_imagen": f'{__cartas_path}\\propiedadFerrocarril.png', "path_a_queHace": f'{__ui_path}\\queHacePropiedades.png'},
-    {"id": 29, "nombre": "Comodin Multicolor", "tipo": "propiedad", "valor": 0, "color": ["marron", "celeste", "rosa", "naranja", "rojo", "amarillo", "verde", "azul", "sevicio", "ferrocarril"], "path_a_imagen": f'{__cartas_path}\\comodinMulticolor.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
-    {"id": 30, "nombre": "Comodin Multicolor", "tipo": "propiedad", "valor": 0, "color": ["marron", "celeste", "rosa", "naranja", "rojo", "amarillo", "verde", "azul", "sevicio", "ferrocarril"], "path_a_imagen": f'{__cartas_path}\\comodinMulticolor.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
-    {"id": 31, "nombre": "Comodin Naranja/Rosa", "tipo": "propiedad", "valor": 2, "color": ["naranja", "rosa"], "path_a_imagen": f'{__cartas_path}\\comodinNaranjaRosa.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
-    {"id": 32, "nombre": "Comodin Naranja/Rosa", "tipo": "propiedad", "valor": 2, "color": ["naranja", "rosa"], "path_a_imagen": f'{__cartas_path}\\comodinNaranjaRosa.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
-    {"id": 33, "nombre": "Comodin Amarillo/Rojo", "tipo": "propiedad", "valor": 3, "color": ["amarillo", "rojo"], "path_a_imagen": f'{__cartas_path}\\comodinAmarilloRojo.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
-    {"id": 34, "nombre": "Comodin Amarillo/Rojo", "tipo": "propiedad", "valor": 3, "color": ["amarillo", "rojo"], "path_a_imagen": f'{__cartas_path}\\comodinAmarilloRojo.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
-    {"id": 35, "nombre": "Comodin Celeste/Marron", "tipo": "propiedad", "valor": 1, "color": ["celeste", "marron"], "path_a_imagen": f'{__cartas_path}\\comodinCelesteMarron.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
-    {"id": 36, "nombre": "Comodin Azul/Verde", "tipo": "propiedad", "valor": 4, "color": ["azul", "verde"], "path_a_imagen": f'{__cartas_path}\\comodinAzulVerde.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
-    {"id": 37, "nombre": "Comodin Celeste/Ferrocarril", "tipo": "propiedad", "valor": 4, "color": ["celeste", "ferrocarril"], "path_a_imagen": f'{__cartas_path}\\comodinCelesteFerrocarril.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
-    {"id": 38, "nombre": "Comodin Servicio/Ferrocarril", "tipo": "propiedad", "valor": 2, "color": ["servicio", "ferrocarril"], "path_a_imagen": f'{__cartas_path}\\comodinServicioFerrocarril.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
-    {"id": 39, "nombre": "Comodin Verde/Ferrocarril", "tipo": "propiedad", "valor": 4, "color": ["verde", "ferrocarril"], "path_a_imagen": f'{__cartas_path}\\comodinVerdeFerrocarril.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
+    {"id": 28, "nombre": "Propiedad Ferrocarril", "tipo": "propiedad", "valor": 1, "color": "ferrocarril", "path_a_imagen": f'{__cartas_path}\\propiedadFerrocarril.png', "path_a_queHace": f'{__ui_path}\\queHacePropiedades.png'}
 ]
 
-LISTA_DINERO= [
+LISTA_PROPIEDADES_COMODIN = [
+    {"id": 29, "nombre": "Comodin Multicolor", "tipo": "propiedad_comodin", "valor": 0, "color": ["marron", "celeste", "rosa", "naranja", "rojo", "amarillo", "verde", "azul", "sevicio", "ferrocarril"], "path_a_imagen": f'{__cartas_path}\\comodinMulticolor.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
+    {"id": 30, "nombre": "Comodin Multicolor", "tipo": "propiedad_comodin", "valor": 0, "color": ["marron", "celeste", "rosa", "naranja", "rojo", "amarillo", "verde", "azul", "sevicio", "ferrocarril"], "path_a_imagen": f'{__cartas_path}\\comodinMulticolor.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
+    {"id": 31, "nombre": "Comodin Naranja/Rosa", "tipo": "propiedad_comodin", "valor": 2, "color": ["naranja", "rosa"], "path_a_imagen": f'{__cartas_path}\\comodinNaranjaRosa.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
+    {"id": 32, "nombre": "Comodin Naranja/Rosa", "tipo": "propiedad_comodin", "valor": 2, "color": ["naranja", "rosa"], "path_a_imagen": f'{__cartas_path}\\comodinNaranjaRosa.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
+    {"id": 33, "nombre": "Comodin Amarillo/Rojo", "tipo": "propiedad_comodin", "valor": 3, "color": ["amarillo", "rojo"], "path_a_imagen": f'{__cartas_path}\\comodinAmarilloRojo.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
+    {"id": 34, "nombre": "Comodin Amarillo/Rojo", "tipo": "propiedad_comodin", "valor": 3, "color": ["amarillo", "rojo"], "path_a_imagen": f'{__cartas_path}\\comodinAmarilloRojo.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
+    {"id": 35, "nombre": "Comodin Celeste/Marron", "tipo": "propiedad_comodin", "valor": 1, "color": ["celeste", "marron"], "path_a_imagen": f'{__cartas_path}\\comodinCelesteMarron.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
+    {"id": 36, "nombre": "Comodin Azul/Verde", "tipo": "propiedad_comodin", "valor": 4, "color": ["azul", "verde"], "path_a_imagen": f'{__cartas_path}\\comodinAzulVerde.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
+    {"id": 37, "nombre": "Comodin Celeste/Ferrocarril", "tipo": "propiedad_comodin", "valor": 4, "color": ["celeste", "ferrocarril"], "path_a_imagen": f'{__cartas_path}\\comodinCelesteFerrocarril.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
+    {"id": 38, "nombre": "Comodin Servicio/Ferrocarril", "tipo": "propiedad_comodin", "valor": 2, "color": ["servicio", "ferrocarril"], "path_a_imagen": f'{__cartas_path}\\comodinServicioFerrocarril.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'},
+    {"id": 39, "nombre": "Comodin Verde/Ferrocarril", "tipo": "propiedad_comodin", "valor": 4, "color": ["verde", "ferrocarril"], "path_a_imagen": f'{__cartas_path}\\comodinVerdeFerrocarril.png', "path_a_queHace": f'{__ui_path}\\queHaceComodin.png'}
+]
+
+LISTA_DINERO = [
     {"id": 40, "nombre": "Dinero de 1", "tipo": "dinero", "valor": 1, "path_a_imagen": f'{__cartas_path}\\dinero1.png', "path_a_queHace": f'{__ui_path}\\queHaceDinero.png'},
     {"id": 41, "nombre": "Dinero de 1", "tipo": "dinero", "valor": 1, "path_a_imagen": f'{__cartas_path}\\dinero1.png', "path_a_queHace": f'{__ui_path}\\queHaceDinero.png'},
     {"id": 42, "nombre": "Dinero de 1", "tipo": "dinero", "valor": 1, "path_a_imagen": f'{__cartas_path}\\dinero1.png', "path_a_queHace": f'{__ui_path}\\queHaceDinero.png'},
@@ -69,7 +72,7 @@ LISTA_DINERO= [
     {"id": 56, "nombre": "Dinero de 4", "tipo": "dinero", "valor": 4, "path_a_imagen": f'{__cartas_path}\\dinero4.png', "path_a_queHace": f'{__ui_path}\\queHaceDinero.png'},
     {"id": 57, "nombre": "Dinero de 5", "tipo": "dinero", "valor": 5, "path_a_imagen": f'{__cartas_path}\\dinero5.png', "path_a_queHace": f'{__ui_path}\\queHaceDinero.png'},
     {"id": 58, "nombre": "Dinero de 5", "tipo": "dinero", "valor": 5, "path_a_imagen": f'{__cartas_path}\\dinero5.png', "path_a_queHace": f'{__ui_path}\\queHaceDinero.png'},
-    {"id": 59, "nombre": "Dinero de 10", "tipo": "dinero", "valor": 10, "path_a_imagen": f'{__cartas_path}\\dinero10.png', "path_a_queHace": f'{__ui_path}\\queHaceDinero.png'},
+    {"id": 59, "nombre": "Dinero de 10", "tipo": "dinero", "valor": 10, "path_a_imagen": f'{__cartas_path}\\dinero10.png', "path_a_queHace": f'{__ui_path}\\queHaceDinero.png'}
 ]
 
 # Datos de las cartas de acción de Monopoly Deal
@@ -99,18 +102,24 @@ LISTA_ACCIONES= [
     {"id": 82, "nombre": "Alquiler Doble", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerDoble.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquilerDoble.png'},
     {"id": 83, "nombre": "Cobrador De Deudas", "tipo": "accion", "accion": None, "valor": 3, "path_a_imagen": f'{__cartas_path}\\cobradorDeDeudas.png', "path_a_queHace": f'{__ui_path}\\queHaceCobradorDeDeudas.png'},
     {"id": 84, "nombre": "Cobrador De Deudas", "tipo": "accion", "accion": None, "valor": 3, "path_a_imagen": f'{__cartas_path}\\cobradorDeDeudas.png', "path_a_queHace": f'{__ui_path}\\queHaceCobradorDeDeudas.png'},
-    {"id": 85, "nombre": "Cobrador De Deudas", "tipo": "accion", "accion": None, "valor": 3, "path_a_imagen": f'{__cartas_path}\\cobradorDeDeudas.png', "path_a_queHace": f'{__ui_path}\\queHaceCobradorDeDeudas.png'},
+    {"id": 85, "nombre": "Cobrador De Deudas", "tipo": "accion", "accion": None, "valor": 3, "path_a_imagen": f'{__cartas_path}\\cobradorDeDeudas.png', "path_a_queHace": f'{__ui_path}\\queHaceCobradorDeDeudas.png'}
+]
+
+LISTA_RENTA_DOBLE = [
+    {"id": 89, "nombre": "Alquiler Marron/Celeste", "tipo": "accion_renta", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerMarronCeleste.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 90, "nombre": "Alquiler Marron/Celeste", "tipo": "accion_renta", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerMarronCeleste.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 91, "nombre": "Alquiler Rojo/Amarillo", "tipo": "accion_renta", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerRojoAmarillo.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 92, "nombre": "Alquiler Rojo/Amarillo", "tipo": "accion_renta", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerRojoAmarillo.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 93, "nombre": "Alquiler Rosa/Naranja", "tipo": "accion_renta", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerRosaNaranja.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 94, "nombre": "Alquiler Rosa/Naranja", "tipo": "accion_renta", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerRosaNaranja.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 95, "nombre": "Alquiler Verde/Azul", "tipo": "accion_renta", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerVerdeAzul.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 96, "nombre": "Alquiler Verde/Azul", "tipo": "accion_renta", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerVerdeAzul.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 97, "nombre": "Alquiler Ferrocarril/Servicio", "tipo": "accion_renta", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerFerrocarrilServicio.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 98, "nombre": "Alquiler Ferrocarril/Servicio", "tipo": "accion_renta", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerFerrocarrilServicio.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'}
+]
+
+LISTA_RENTA_MULTICOLOR = [
     {"id": 86, "nombre": "Alquiler Multicolor", "tipo": "accion", "accion": None, "valor": 3, "path_a_imagen": f'{__cartas_path}\\alquilerMulticolor.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
     {"id": 87, "nombre": "Alquiler Multicolor", "tipo": "accion", "accion": None, "valor": 3, "path_a_imagen": f'{__cartas_path}\\alquilerMulticolor.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 88, "nombre": "Alquiler Multicolor", "tipo": "accion", "accion": None, "valor": 3, "path_a_imagen": f'{__cartas_path}\\alquilerMulticolor.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 89, "nombre": "Alquiler Marron/Celeste", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerMarronCeleste.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 90, "nombre": "Alquiler Marron/Celeste", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerMarronCeleste.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 91, "nombre": "Alquiler Rojo/Amarillo", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerRojoAmarillo.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 92, "nombre": "Alquiler Rojo/Amarillo", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerRojoAmarillo.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 93, "nombre": "Alquiler Rosa/Naranja", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerRosaNaranja.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 94, "nombre": "Alquiler Rosa/Naranja", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerRosaNaranja.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 95, "nombre": "Alquiler Verde/Azul", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerVerdeAzul.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 96, "nombre": "Alquiler Verde/Azul", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerVerdeAzul.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 97, "nombre": "Alquiler Ferrocarril/Servicio", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerFerrocarrilServicio.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 98, "nombre": "Alquiler Ferrocarril/Servicio", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerFerrocarrilServicio.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 88, "nombre": "Alquiler Multicolor", "tipo": "accion", "accion": None, "valor": 3, "path_a_imagen": f'{__cartas_path}\\alquilerMulticolor.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'}
 ]

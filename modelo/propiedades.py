@@ -1,3 +1,4 @@
+from carta import Carta
 from modelo.carta import Carta
 
 class Propiedades(Carta):

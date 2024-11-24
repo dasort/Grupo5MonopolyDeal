@@ -1,7 +1,7 @@
 from jugador import Jugador
 import random
 from modelo.mazo_de_cartas import MazodeCartas
-from modelo.carta.carta import Carta
+from modelo.cartas.carta import Carta
 class Controlador:
     def __init__(self, jugadores: Jugador):
         self.__jugadores = jugadores  # Instancias de la clase Jugador

@@ -1,4 +1,4 @@
-from modelo.carta.carta import Carta
+from carta.carta import Carta
 
 
 class MazoDeDescarte:

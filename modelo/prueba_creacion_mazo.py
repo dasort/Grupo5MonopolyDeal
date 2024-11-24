@@ -1,19 +1,15 @@
-from modelo.carta.carta import Carta
-from modelo.builder_cartas import *
-from modelo.mazo_de_cartas import MazoDeCartas
-import modelo.lista_cartas as sett
+from carta.carta import Carta
+from carta.carta_dinero import CartaDinero
+from carta.propiedad.carta_propiedad import CartaPropiedad
+from Grupo5MonopolyDeck.modelo.carta.accion.renta.carta_renta_doble import CartaRentaDoble
+from carta.accion.renta.carta_renta_multicolor import CartaRentaMulticolor
+from carta.accion import es_mi_cumpleanios
+from mazo_de_cartas import MazoDeCartas
+import lista_cartas
 
-cartas = []
-
-builder = CrearBuilderCarta()
-director = Director()
-director.builder = builder
-
-lista_de_cartas = sett.LISTA_PROPIEDADES + sett.LISTA_DINERO + sett.LISTA_ACCIONES
-
-for carta in lista_de_cartas:
+def crear_carta(carta: dict):
     if carta['tipo'] == 'propiedad':
-        director.carta_propiedad(
+        return CartaPropiedad(
             carta['id'],
             carta['nombre'],
             carta['tipo'],
@@ -22,9 +18,20 @@ for carta in lista_de_cartas:
             carta['path_a_imagen'],
             carta['path_a_queHace']
         )
-        cartas.append(director.builder.carta)
+
+cartas = []
+
+lista_de_cartas = lista_cartas.LISTA_PROPIEDADES + lista_cartas.LISTA_DINERO + lista_cartas.LISTA_ACCIONES
+
+for carta in lista_de_cartas:
+    if carta['tipo'] == 'propiedad':
+        cartas.append(
+            CartaPropiedad(
+                
+            )
+        )
     elif carta['tipo'] == 'dinero':
-        director.carta_dinero(
+        CartaDinero(
             carta['id'],
             carta['nombre'],
             carta['tipo'],
@@ -32,7 +39,6 @@ for carta in lista_de_cartas:
             carta['path_a_imagen'],
             carta['path_a_queHace']
         )
-        cartas.append(director.builder.carta)
     elif carta['tipo'] == 'accion':
         director.carta_accion(
             carta['id'],
@@ -43,7 +49,6 @@ for carta in lista_de_cartas:
             carta['path_a_imagen'],
             carta['path_a_queHace']
         )
-        cartas.append(director.builder.carta)
     else:
         raise Exception('Algo salió mal')
 
