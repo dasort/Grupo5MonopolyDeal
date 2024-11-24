@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QSpacerItem, QSizePolicy, QHBoxLayout, QApplication
-from PyQt6.QtGui import QIcon, QPixmap
+from PyQt6.QtGui import QIcon, QPixmap, QGuiApplication
 from PyQt6.QtCore import Qt, QUrl
 from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
 from crear_partida import CrearPartida
@@ -13,6 +13,7 @@ class MainMenu(QMainWindow):
         self.setWindowTitle("Monopoly Deal")
         self.setGeometry(480, 200, 600, 450)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
+        self.centrar_ventana()
 
         # Configuración del sonido: <-- Tutorial en Stack Overflow
         self.filename = "imagenes/sonido/click.wav"
@@ -179,6 +180,14 @@ class MainMenu(QMainWindow):
 
         return boton
 
+    def centrar_ventana(self):
+        """Método para centrar la ventana en el centro de la pantalla."""
+        forma_pantalla = QGuiApplication.primaryScreen().availableGeometry()
+        forma_ventana = self.frameGeometry()
+        centro_pantalla = forma_pantalla.center()
+        forma_ventana.moveCenter(centro_pantalla)
+        self.move(forma_ventana.topLeft())
+    
     def sonido_click(self):
         self.player.stop()
         self.player.play()
