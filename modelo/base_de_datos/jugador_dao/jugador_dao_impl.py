@@ -44,8 +44,6 @@ class JugadorDAOImpl(JugadorDAO):
             self.__conexion.commit()
         except (Exception, psy.DatabaseError)as e:
             print(f"Error al insertar usuario: {e}")
-        
-            
     
     def eliminar_jugador(self, jugador: JugadorBDD) -> None:
         query = "DELETE FROM jugador WHERE id_jugador = %s"
@@ -78,3 +76,38 @@ class JugadorDAOImpl(JugadorDAO):
             self.__conexion.commit()
         except (Exception, psy.DatabaseError)as e:
             print(f"Error al actualizar usuario: {e}")
+
+    def obtener_historial(self, jugador: JugadorBDD) -> tuple[int, int]:
+        '''Devuelve la cantidad de partidas jugadas y partidas ganadas por el jugador pasado como parámetro.'''
+        query_jugados = '''
+                select j.nickname, count(*)
+                from jugador as j
+                natural join juega
+                where j.nickname = %s
+                group by j.nickname
+                '''
+        query_ganados = '''
+                select j.nickname, count(p.ganador)
+                from jugador as j
+                natural join juega
+                natural join partida as p
+                where j.nickname = %s
+                group by j.nickname
+                '''
+        try:
+            cursor = self.__conexion.cursor()
+            cursor.execute(query_jugados, (jugador.get_nickname(), ))
+            partidas_jugadas = cursor.fetchone()
+            if partidas_jugadas is None:
+                partidas_jugadas = 0
+                partidas_ganadas = 0
+                return partidas_jugadas, partidas_ganadas
+            else:
+                cursor.execute(query_ganados, (jugador.get_nickname(), ))
+                partidas_ganadas = cursor.fetchone()
+                if partidas_ganadas is None:
+                    partidas_ganadas = 0
+                else:
+                    return partidas_jugadas, partidas_ganadas
+        except (Exception, psy.DatabaseError)as e:
+            print(f"Error al obtener el historial: {e}")
