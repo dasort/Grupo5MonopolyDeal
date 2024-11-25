@@ -137,8 +137,15 @@ class Propiedades(Carta):
         print(f"Cantidad de grupos: {self.__cantidad_grupos}")
         print("-" * 30)  # Separador para cada color
         
-     @property
+    @property
     def propiedades(self):
         return self.__propiedades
     def get_grupos(self):
         return self.__cantidad_grupos
+
+    def get_cartas_propiedades(self) -> list[Carta]:
+        cartas = []
+        for diccionario_color in self.propiedades.values():
+            for carta in diccionario_color['lista']:
+                cartas.append(carta)
+        return cartas
