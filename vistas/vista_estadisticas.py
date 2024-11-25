@@ -10,12 +10,12 @@ class Estadisticas(QDialog):
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
         self.centrar_ventana()
 
-        self.main_layout.addWidget(self.titulo_label)
-        self.main_layout.addLayout(self.layout_nombre)
-        self.main_layout.addLayout(self.layout_partidas_jugadas)
-        self.main_layout.addLayout(self.layout_partidas_ganadas)
-        self.main_layout.addWidget(self.boton_iniciar_sesion)
-        self.main_layout.addWidget(self.boton_volver)
+        #self.main_layout.addWidget(self.titulo_label)
+        #self.main_layout.addLayout(self.layout_nombre)
+        #self.main_layout.addLayout(self.layout_partidas_jugadas)
+        #self.main_layout.addLayout(self.layout_partidas_ganadas)
+        #self.main_layout.addWidget(self.boton_iniciar_sesion)
+        #self.main_layout.addWidget(self.boton_volver)
 
     def volver(self):
         self.hide()

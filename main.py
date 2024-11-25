@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtGui import QFont, QFontDatabase
 import sys
-from main_menu import MainMenu
+from vistas.vista_main_menu import MainMenu
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
