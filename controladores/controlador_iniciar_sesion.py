@@ -1,16 +1,19 @@
+
 from vistas.vista_iniciar_sesion import IniciarSesion
-from vista_crear_jugador import vista_crear_jugador
+from vistas.vista_main_menu import MainMenu
+from controladores.controlador_crear_cuenta import Controlador_crear_cuenta
 
 
-class controlador_iniciar_sesion():
-    def __init__(self,jugador):
-        self.__vista = IniciarSesion()  
-        self.__jugador= jugador
+class Controlador_iniciar_sesion():
+    def __init__(self,main_menu):
+        self.main_menu = main_menu
+        self._vista = IniciarSesion(self)  
+        self._vista.show()
         
         
     def abrirSegunda(self):
-        self.var = v()
-        self.__vista.close()
+        self._var = Controlador_crear_cuenta()
+        self._vista.close()
         
         
 

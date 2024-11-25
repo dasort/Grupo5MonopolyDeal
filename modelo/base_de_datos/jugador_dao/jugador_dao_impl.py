@@ -1,6 +1,6 @@
 import psycopg2 as psy
-from jugador_dao.jugador_bdd import JugadorBDD
-from jugador_dao.jugador_dao import JugadorDAO
+from .jugador_bdd import JugadorBDD
+from .jugador_dao import JugadorDAO
 
 
 class JugadorDAOImpl(JugadorDAO):
