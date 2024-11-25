@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 
 
 class Carta(ABC):
@@ -80,7 +80,8 @@ class Carta(ABC):
         En caso de que la carta no tenga una acción asociada (ej. cartas de propiedad comunes o cartas de dinero) devuelve None.'''
         return None
 
-    def accion(self) -> None: # sobrecargar en cartas de accion
+    @abstractmethod
+    def accion(self) -> None:
         '''Ejecuta la acción que le corresponde a la carta.'''
         pass
     

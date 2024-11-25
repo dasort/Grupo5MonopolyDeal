@@ -1,4 +1,4 @@
-from cartas.propiedad.carta_propiedad import CartaPropiedad
+from modelo.cartas.propiedad.carta_propiedad import CartaPropiedad
 
 
 class CartaPropiedadComodin(CartaPropiedad):
@@ -11,12 +11,14 @@ class CartaPropiedadComodin(CartaPropiedad):
     @property
     def color(self) -> str:
         if self.color is not str:
-            raise ValueError
-        return self.__color_elegido # si existe alguna situación en la que la carta vuelve al mazo o la mano hay que resetear color_elegido a None
+            return self._color
+        return self.__color_elegido
     
     def informacion_para_accion(self) -> str | None:
         return 'PropiedadComodin'
     
-    def accion(self, color: str) -> None:
+    def accion(self, info) -> None:
         '''Setea el color de la carta a una de las opciones disponibles.'''
+        color = info[0]
         self.__color_elegido = color
+        super().accion()

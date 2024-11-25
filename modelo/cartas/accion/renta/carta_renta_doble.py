@@ -1,4 +1,4 @@
-from cartas.carta import Carta
+from modelo.cartas.carta import Carta
 
 
 class CartaRentaDoble(Carta):
@@ -10,26 +10,17 @@ class CartaRentaDoble(Carta):
 
     @property
     def color(self) -> str:
-        return self._color
-    
-    @color.setter
-    def color(self, color: str) -> str:
-        self._color = color
-
-    @property
-    def color_elegido(self) -> str:
+        if self.color is not str:
+            return self._color
         return self._color_elegido
-    
-    @color_elegido.setter
-    def color_elegido(self, color: str) -> str:
-        self._color_elegido = color
-        
+
     def informacion_para_accion(self) -> str | None:
         return 'RentaDoble'
     
     def accion(self, info) -> None:
-        cartas = info[1]
+        cartas = info[0]
         for carta in cartas:
             carta.duenio = self.duenio
             self.duenio.agregar_a_banco(carta)
         self.duenio = None
+        self._color_elegido = None

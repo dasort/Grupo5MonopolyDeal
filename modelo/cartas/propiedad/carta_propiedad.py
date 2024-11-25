@@ -1,4 +1,4 @@
-from cartas.carta import Carta
+from modelo.cartas.carta import Carta
 
 
 class CartaPropiedad(Carta):
@@ -14,3 +14,6 @@ class CartaPropiedad(Carta):
     @color.setter
     def color(self, color) -> None:
         self._color = color
+
+    def accion(self) -> None:
+        self.duenio.agregar_a_propiedades(self)
