@@ -1,11 +1,8 @@
-from PyQt6.QtWidgets import QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QSpacerItem, QSizePolicy, QHBoxLayout, QApplication
+from PyQt6.QtWidgets import QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QSpacerItem, QSizePolicy, QHBoxLayout
 from PyQt6.QtGui import QIcon, QPixmap, QGuiApplication
 from PyQt6.QtCore import Qt, QUrl
 from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
-from crear_partida import CrearPartida
-from opciones import Opciones
-from como_juego import ComoJuego
-from estadisticas import Estadisticas
+from controlador_main_menu import controlador_main_menu
 
 class MainMenu(QMainWindow):
     def __init__(self):
@@ -23,6 +20,9 @@ class MainMenu(QMainWindow):
         self.player.setSource(QUrl.fromLocalFile(self.filename))
         self.audio_output.setVolume(50)
 
+        #controlador de menu:
+        self.controlador=controlador_main_menu()
+        
         # Widget principal y layout:
         self.main_widget = QWidget()
         self.setCentralWidget(self.main_widget)
@@ -54,7 +54,7 @@ class MainMenu(QMainWindow):
         # (4.1):
         # Botón "Crear una Partida":
         self.boton_crear_partida = self.crear_boton("Crear una Partida", "imagenes/ui/menu_boton_1.png")
-        self.boton_crear_partida.clicked.connect(self.mostrar_crear_partida)
+        self.boton_crear_partida.clicked.connect(self.controlador.mostrar_crear_partida)
         botones_layout.addWidget(self.boton_crear_partida)
 
         botones_layout.addSpacerItem(QSpacerItem(20, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed))
@@ -62,7 +62,7 @@ class MainMenu(QMainWindow):
         # (4.2):
         # Botón "Opciones":
         self.boton_opciones = self.crear_boton("Opciones", "imagenes/ui/menu_boton_2.png")
-        self.boton_opciones.clicked.connect(self.mostrar_opciones)
+        self.boton_opciones.clicked.connect(self.controlador.mostrar_opciones)
         botones_layout.addWidget(self.boton_opciones)
 
         botones_layout.addSpacerItem(QSpacerItem(20, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed))
@@ -70,7 +70,7 @@ class MainMenu(QMainWindow):
         # (4.3):
         # Botón "Iniciar Sesión o Crear Usuario":
         self.boton_iniciar_sesion = self.crear_boton("¿Cómo Juego?", "imagenes/ui/smiley.png")
-        self.boton_iniciar_sesion.clicked.connect(self.mostrar_como_juego)
+        self.boton_iniciar_sesion.clicked.connect(self.controlador.mostrar_como_juego)
         botones_layout.addWidget(self.boton_iniciar_sesion)
 
         # Agregar los 3 botones al layout principal:
@@ -82,7 +82,7 @@ class MainMenu(QMainWindow):
         
         # Botón estadísticas en el footer:
         self.estadisticas_boton = self.crear_boton_estadisticas("Ver mis Estadísticas", "imagenes/ui/chart.png")
-        self.estadisticas_boton.clicked.connect(self.mostrar_estadisticas_inicio_sesion)
+        self.estadisticas_boton.clicked.connect(self.controlador.mostrar_estadisticas_inicio_sesion)
         layout_footer.addWidget(self.estadisticas_boton)
         
         # Versión en el footer:
@@ -96,14 +96,6 @@ class MainMenu(QMainWindow):
         
         # Agrego el footer al layout principal:
         self.layout.addLayout(layout_footer)
-
-        # ---
-
-        # Las instancias de las ventanas secundarias:
-        self.crear_partida_window = CrearPartida(self)
-        self.opciones_window = Opciones(self)
-        self.como_juego_window = ComoJuego(self)
-        self.estadisticas_window = Estadisticas(self)
 
     def crear_boton(self, texto, icono_ruta):
         """Crea un botón que tiene un ícono (a la izquierda) y texto."""
@@ -188,26 +180,3 @@ class MainMenu(QMainWindow):
         forma_ventana.moveCenter(centro_pantalla)
         self.move(forma_ventana.topLeft())
     
-    def sonido_click(self):
-        self.player.stop()
-        self.player.play()
-
-    def mostrar_crear_partida(self):
-        self.sonido_click()
-        self.hide()
-        self.crear_partida_window.exec()
-
-    def mostrar_opciones(self):
-        self.sonido_click()
-        self.hide()
-        self.opciones_window.exec()
-
-    def mostrar_como_juego(self):
-        self.sonido_click()
-        self.hide()
-        self.como_juego_window.exec()
-        
-    def mostrar_estadisticas_inicio_sesion(self):
-        self.sonido_click()
-        self.hide()
-        self.estadisticas_window.exec()
