@@ -1,6 +1,6 @@
+import sys
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtGui import QFont, QFontDatabase
-import sys
 from vistas.vista_main_menu import MainMenu
 
 if __name__ == "__main__":
@@ -13,8 +13,12 @@ if __name__ == "__main__":
     app_font.setPointSize(12) # <-- Tamaño de la fuente.
     app.setFont(app_font)     # <-- Aplicar la fuente a toda la aplicación.
 
-    # Inicializar la ventana principal
-    main_window = MainMenu()
-    main_window.show()
+    # Inicializar la ventana principal:
+    try:
+        main_window = MainMenu()
+        main_window.show()
+    except Exception as e:
+        print(f"Error! No se pudo inicializar el menú principal: {e}")
+        sys.exit(1)
 
     sys.exit(app.exec())
