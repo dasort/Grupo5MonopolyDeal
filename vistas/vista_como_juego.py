@@ -201,7 +201,6 @@ class ComoJuego(QDialog):
 
     def volver(self):
         self.hide()
-        self.main_menu.show()
     
     def centrar_ventana(self):
         """Método para centrar la ventana en el centro de la pantalla."""
