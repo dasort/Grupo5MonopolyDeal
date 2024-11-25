@@ -1,5 +1,5 @@
 from random import shuffle
-from carta.carta import Carta
+from cartas.carta import Carta
 from mazo_de_descarte import MazoDeDescarte
 
 

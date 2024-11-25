@@ -1,4 +1,4 @@
-from carta.carta import Carta
+from cartas.carta import Carta
 
 
 class PasaPorLaSalida(Carta):

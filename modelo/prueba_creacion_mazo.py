@@ -1,36 +1,48 @@
-from carta.carta import Carta
-from carta.carta_dinero import CartaDinero
-from carta.propiedad.carta_propiedad import CartaPropiedad
-from Grupo5MonopolyDeck.modelo.carta.accion.renta.carta_renta_doble import CartaRentaDoble
-from carta.accion.renta.carta_renta_multicolor import CartaRentaMulticolor
-from carta.accion import es_mi_cumpleanios
+from cartas.carta import Carta
+from cartas.carta_dinero import CartaDinero
+from cartas.propiedad.carta_propiedad import CartaPropiedad
+from cartas.propiedad.carta_propiedad_comodin import CartaPropiedadComodin
+from cartas.accion.renta.carta_renta_doble import CartaRentaDoble
+from cartas.accion.renta.carta_renta_multicolor import CartaRentaMulticolor
+from cartas.accion.es_mi_cumpleanios import EsMiCumpleanios
+from cartas.accion.cobrador_de_deudas import CobradorDeDeuda
+from cartas.accion.negocio_furtivo import NegocioFurtivo
+from cartas.accion.pasa_por_la_salida import PasaPorLaSalida
+from cartas.accion.trato_forzoso import TratoForzoso
+# from carta.accion.roba_negocios import RobaNegocios
+from cartas.accion.renta.carta_renta_doble import CartaRentaDoble
+from cartas.accion.renta.carta_renta_multicolor import CartaRentaMulticolor
 from mazo_de_cartas import MazoDeCartas
-import lista_cartas
-
-def crear_carta(carta: dict):
-    if carta['tipo'] == 'propiedad':
-        return CartaPropiedad(
-            carta['id'],
-            carta['nombre'],
-            carta['tipo'],
-            carta['valor'],
-            carta['color'],
-            carta['path_a_imagen'],
-            carta['path_a_queHace']
-        )
+from lista_cartas import *
 
 cartas = []
 
-lista_de_cartas = lista_cartas.LISTA_PROPIEDADES + lista_cartas.LISTA_DINERO + lista_cartas.LISTA_ACCIONES
+def crear_carta_propiedad_renta(carta: dict, carta_clase: callable) -> Carta:
+    return carta_clase(
+        carta['id'],
+        carta['nombre'],
+        carta['tipo'],
+        carta['valor'],
+        carta['path_a_imagen'],
+        carta['path_a_queHace'],
+        carta['color']
+    )
 
-for carta in lista_de_cartas:
-    if carta['tipo'] == 'propiedad':
-        cartas.append(
-            CartaPropiedad(
-                
-            )
-        )
-    elif carta['tipo'] == 'dinero':
+for carta in LISTA_PROPIEDADES + LISTA_PROPIEDADES_COMODIN + LISTA_RENTA_DOBLE + LISTA_RENTA_MULTICOLOR:
+    if carta in LISTA_PROPIEDADES:
+        creada = crear_carta_propiedad_renta(carta, CartaPropiedad)
+    elif carta in LISTA_PROPIEDADES_COMODIN:
+        creada = crear_carta_propiedad_renta(carta, CartaPropiedadComodin)
+    elif carta in LISTA_RENTA_DOBLE:
+        creada = crear_carta_propiedad_renta(carta, CartaRentaDoble)
+    elif carta in LISTA_PROPIEDADES_COMODIN:
+        creada = crear_carta_propiedad_renta(carta, CartaRentaMulticolor)
+    else:
+        raise Exception('Algo salió mal')
+    cartas.append(creada)
+    
+for carta in LISTA_DINERO:
+    cartas.append(
         CartaDinero(
             carta['id'],
             carta['nombre'],
@@ -39,18 +51,36 @@ for carta in lista_de_cartas:
             carta['path_a_imagen'],
             carta['path_a_queHace']
         )
-    elif carta['tipo'] == 'accion':
-        director.carta_accion(
-            carta['id'],
-            carta['nombre'],
-            carta['tipo'],
-            carta['accion'],
-            carta['valor'],
-            carta['path_a_imagen'],
-            carta['path_a_queHace']
-        )
+    )
+
+def crear_carta_accion(carta: dict, carta_accion: callable) -> Carta:
+    return carta_accion(
+        carta['id'],
+        carta['nombre'],
+        carta['tipo'],
+        carta['valor'],
+        carta['path_a_imagen'],
+        carta['path_a_queHace']
+    )
+
+for carta in LISTA_ACCIONES:
+    if carta['nombre'] == "Es Mi Cumpleaños":
+        creada = crear_carta_accion(carta, EsMiCumpleanios)
+    elif carta['nombre'] == "Negocio Furtivo":
+        creada = crear_carta_accion(carta, NegocioFurtivo)
+    elif carta['nombre'] == "Pasa Por La Salida":
+        creada = crear_carta_accion(carta, PasaPorLaSalida)
+    # elif carta['nombre'] == "Roba Negocios":
+    #     creada = crear_carta_accion(carta, RobaNegocios)
+    elif carta['nombre'] == "Trato Forzoso":
+        creada = crear_carta_accion(carta, TratoForzoso)
+    elif carta['nombre'] == "Cobrador De Deudas":
+        creada = crear_carta_accion(carta, CobradorDeDeuda)
+    elif carta['nombre'] == "Cobrador De Deudas":
+        creada = crear_carta_accion(carta, CobradorDeDeuda)
     else:
         raise Exception('Algo salió mal')
+    cartas.append(creada)
 
 mazo = MazoDeCartas(cartas)
 

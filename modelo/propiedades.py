@@ -1,5 +1,5 @@
-from carta import Carta
-from modelo.carta import Carta
+from cartas import Carta
+from modelo.cartas import Carta
 
 class Propiedades(Carta):
     def __init__(self):

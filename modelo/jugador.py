@@ -1,5 +1,5 @@
 from Grupo5MonopolyDeck.modelo.propiedades import Propiedades
-from carta.carta import Carta
+from cartas.carta import Carta
 
 
 class Jugador:
