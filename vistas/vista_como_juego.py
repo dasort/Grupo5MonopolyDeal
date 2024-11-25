@@ -1,28 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-# No le den bola todavía, lo estoy haciendo (boni)
-
-
-
-
-
-
-
-
-
-
-
 from PyQt6.QtWidgets import QDialog, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QSpacerItem, QSizePolicy, QFrame, QMessageBox, QScrollArea, QGridLayout
 from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6.QtCore import Qt
@@ -91,7 +66,7 @@ class ComoJuego(QDialog):
         self.layout_abajo.setSpacing(5)
         self.layout_abajo.setAlignment(Qt.AlignmentFlag.AlignTop)
         
-        # El layout_abajo cambia dinámicamente.
+        # El layout_abajo cambia dinámicamente según que botón se seleccione.
         self.mostrar_reglas_generales() # <-- Acá me aseguro que empiece con la de Reglas Generales como predeterminado.
         
         # ---
@@ -483,7 +458,6 @@ class ComoJuego(QDialog):
         self.hide()
     
     def centrar_ventana(self):
-        """Método para centrar la ventana en el centro de la pantalla."""
         forma_pantalla = QGuiApplication.primaryScreen().availableGeometry()
         forma_ventana = self.frameGeometry()
         centro_pantalla = forma_pantalla.center()
