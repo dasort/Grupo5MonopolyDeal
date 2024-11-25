@@ -1,7 +1,6 @@
-from PyQt6.QtWidgets import QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QSpacerItem, QSizePolicy, QHBoxLayout, QApplication
-from PyQt6.QtGui import QIcon, QPixmap, QGuiApplication
-from PyQt6.QtCore import Qt, QUrl
-from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
+from PyQt6.QtWidgets import QMainWindow
+from PyQt6.QtCore import Qt
+from PyQt6.QtMultimedia import QMediaPlayer
 from crear_partida import CrearPartida
 from como_juego import ComoJuego
 from opciones import Opciones
