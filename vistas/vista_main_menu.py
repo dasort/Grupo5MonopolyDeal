@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidg
 from PyQt6.QtGui import QIcon, QPixmap, QGuiApplication
 from PyQt6.QtCore import Qt, QUrl
 from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
-from controlador_main_menu import controlador_main_menu
+from controladores.controlador_main_menu import controlador_main_menu
 
 class MainMenu(QMainWindow):
     def __init__(self):

@@ -1,4 +1,4 @@
-from iniciar_sesion import IniciarSesion
+from vistas.vista_iniciar_sesion import IniciarSesion
 from vista_crear_jugador import vista_crear_jugador
 
 

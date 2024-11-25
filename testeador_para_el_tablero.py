@@ -8,7 +8,7 @@
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtGui import QFont, QFontDatabase
 from tablero_pantalla import Tablero
-from main_menu import MainMenu
+from vistas.vista_main_menu import MainMenu
 import sys
 
 if __name__ == "__main__":

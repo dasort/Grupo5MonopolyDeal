@@ -2,9 +2,9 @@ from PyQt6.QtWidgets import QMainWindow
 from PyQt6.QtCore import Qt
 from PyQt6.QtMultimedia import QMediaPlayer
 from crear_partida import CrearPartida
-from como_juego import ComoJuego
-from opciones import Opciones
-from estadisticas import Estadisticas
+from vistas.vista_como_juego import ComoJuego
+from vistas.vista_opciones import Opciones
+from vistas.vista_estadisticas import Estadisticas
 
 
 class controlador_main_menu (QMainWindow):
