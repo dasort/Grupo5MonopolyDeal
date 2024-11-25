@@ -1,4 +1,4 @@
-from carta import Carta
+from cartas.carta import Carta
 
 
 class CobradorDeDeuda(Carta):

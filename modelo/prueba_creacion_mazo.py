@@ -1,4 +1,4 @@
-from cartas.carta import Carta
+# from cartas.carta import Carta
 from cartas.carta_dinero import CartaDinero
 from cartas.propiedad.carta_propiedad import CartaPropiedad
 from cartas.propiedad.carta_propiedad_comodin import CartaPropiedadComodin
@@ -17,7 +17,7 @@ from lista_cartas import *
 
 cartas = []
 
-def crear_carta_propiedad_renta(carta: dict, carta_clase: callable) -> Carta:
+def crear_carta_propiedad_renta(carta: dict, carta_clase: callable):
     return carta_clase(
         carta['id'],
         carta['nombre'],
@@ -35,7 +35,7 @@ for carta in LISTA_PROPIEDADES + LISTA_PROPIEDADES_COMODIN + LISTA_RENTA_DOBLE +
         creada = crear_carta_propiedad_renta(carta, CartaPropiedadComodin)
     elif carta in LISTA_RENTA_DOBLE:
         creada = crear_carta_propiedad_renta(carta, CartaRentaDoble)
-    elif carta in LISTA_PROPIEDADES_COMODIN:
+    elif carta in LISTA_RENTA_MULTICOLOR:
         creada = crear_carta_propiedad_renta(carta, CartaRentaMulticolor)
     else:
         raise Exception('Algo salió mal')
@@ -53,7 +53,7 @@ for carta in LISTA_DINERO:
         )
     )
 
-def crear_carta_accion(carta: dict, carta_accion: callable) -> Carta:
+def crear_carta_accion(carta: dict, carta_accion: callable):
     return carta_accion(
         carta['id'],
         carta['nombre'],
@@ -70,14 +70,15 @@ for carta in LISTA_ACCIONES:
         creada = crear_carta_accion(carta, NegocioFurtivo)
     elif carta['nombre'] == "Pasa Por La Salida":
         creada = crear_carta_accion(carta, PasaPorLaSalida)
-    # elif carta['nombre'] == "Roba Negocios":
-    #     creada = crear_carta_accion(carta, RobaNegocios)
+    elif carta['nombre'] == "Roba Negocios":
+        pass
+        # creada = crear_carta_accion(carta, RobaNegocios)
     elif carta['nombre'] == "Trato Forzoso":
         creada = crear_carta_accion(carta, TratoForzoso)
     elif carta['nombre'] == "Cobrador De Deudas":
         creada = crear_carta_accion(carta, CobradorDeDeuda)
-    elif carta['nombre'] == "Cobrador De Deudas":
-        creada = crear_carta_accion(carta, CobradorDeDeuda)
+    elif carta['nombre'] == "Alquiler Doble":
+        pass
     else:
         raise Exception('Algo salió mal')
     cartas.append(creada)
