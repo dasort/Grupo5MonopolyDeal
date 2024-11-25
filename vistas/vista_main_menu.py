@@ -75,7 +75,7 @@ class MainMenu(QMainWindow):
         # Botón estadísticas en el footer:
         self.estadisticas_boton = self.crear_boton_estadisticas("Ver mis Estadísticas", "imagenes/ui/grafico.png")
         self.estadisticas_boton.clicked.connect(self.controlador.mostrar_estadisticas_inicio_sesion)
-        tooltip_estadisticas = ("Inicia sesión para ver tus Estadísticas.")
+        tooltip_estadisticas = ("Iniciá sesión para ver tus Estadísticas.")
         self.estadisticas_boton.setToolTip(tooltip_estadisticas)
         layout_footer.addWidget(self.estadisticas_boton)
         

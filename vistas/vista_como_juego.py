@@ -243,34 +243,50 @@ class ComoJuego(QDialog):
         separador3.setFrameShape(QFrame.Shape.HLine)
         separador3.setFrameShadow(QFrame.Shadow.Sunken)
         
-        linea15 = QLabel("3. Ganá la Partida:")
+        linea15 = QLabel("3. Guardá Dinero en tu Banco:")
         linea15.setStyleSheet("""
-            color: #8BFF77;
+            color: #FFC12C;
             font-size: 18px;
         """)
-        
-        linea16 = QLabel("El jugador que gana la partida es quien consigue <u>3 sets completos de propiedades</u>.")
-        linea17 = QLabel("Hay <u>distintos tipos de propiedades</u>, rojas, azules, de ferrocarríl, etc.")
-        linea18 = QLabel("Cada tipo de propiedad requiere <u>juntar una cierta cantidad del mismo tipo</u>, esto varía.")
-        linea19 = QLabel("Ejemplos:")
-        linea20 = QLabel("  -  a. Set de propiedades azul completo requiere <b>2 del mismo tipo</b>.")
-        linea21 = QLabel("  -  b. Set de propiedades verde completo requiere <b>3 del mismo tipo</b>.")
-        linea22 = QLabel("  -  c. Set de propiedades de ferrocarríl (negro) completo requiere <b>4 del mismo tipo</b>.")
+        linea16 = QLabel("Los demás jugadores te jugarán cartas de acción que te hará pagarles con dinero (pagar deuda)... ¿Pero con qué dinero?")
+        linea17 = QLabel("El de tu banco! Ahí guardás tus <u>cartas de dinero</u>, y podés poner otras cartas que no son de dinero.")
+        linea18 = QLabel("<u>Todas las cartas tienen un valor asignado</u>, lo podés ver en su diseño, por lo que te sirven para pagar deudas también.")
+        linea19 = QLabel("Cuando debas pagarle a otro usuario se consumirán cartas de tu banco, perdiendo dinero.")
+        linea20 = QLabel("Si te quedas sin dinero en el banco... <b>¡Deberás Pagar con tus propiedades!</b>")
+        linea21 = QLabel("Y si te quedas sin dinero en el banco y propiedades no pasa nada, <u>se te perdona y seguís jugando.</u>")
         
         separador4 = QFrame(self)
         separador4.setFrameShape(QFrame.Shape.HLine)
         separador4.setFrameShadow(QFrame.Shadow.Sunken)
         
-        linea23 = QLabel("4. ¡No Dejés que te Ganen!:")
-        linea23.setStyleSheet("""
+        linea22 = QLabel("4. Ganá la Partida:")
+        linea22.setStyleSheet("""
+            color: #8BFF77;
+            font-size: 18px;
+        """)
+        
+        linea23 = QLabel("El jugador que gana la partida es quien consigue <u>3 sets completos de propiedades</u>.")
+        linea24 = QLabel("Hay <u>distintos tipos de propiedades</u>, rojas, azules, de ferrocarríl, etc.")
+        linea25 = QLabel("Cada tipo de propiedad requiere <u>juntar una cierta cantidad del mismo tipo</u>, esto varía.")
+        linea26 = QLabel("Ejemplos:")
+        linea27 = QLabel("  -  a. Set de propiedades azul completo requiere <b>2 del mismo tipo</b>.")
+        linea28 = QLabel("  -  b. Set de propiedades verde completo requiere <b>3 del mismo tipo</b>.")
+        linea29 = QLabel("  -  c. Set de propiedades de ferrocarríl (negro) completo requiere <b>4 del mismo tipo</b>.")
+        
+        separador5 = QFrame(self)
+        separador5.setFrameShape(QFrame.Shape.HLine)
+        separador5.setFrameShadow(QFrame.Shadow.Sunken)
+        
+        linea30 = QLabel("5. ¡No Dejés que te Ganen!:")
+        linea30.setStyleSheet("""
             color: #FF4B4B;
             font-size: 18px;
         """)
         
-        linea24 = QLabel("Jugá cartas de acción contra otros jugadores estratégicamente <u>para evitar que te ganen</u>.")
-        linea25 = QLabel("Hay 8 cartas distintas de acción, te permitirán hacerles la vida imposible a los demás.")
-        linea26 = QLabel("Robales, intercambiales propiedades, quitales sets completos, hacé que te paguen, y otras cosas más!")
-        linea27 = QLabel("Ahora es el momento de ir al apartado de <Ver las Cartas>, ahí vas a ver cuales usar, cómo usarlas y que hacen.")
+        linea31 = QLabel("Jugá cartas de acción contra otros jugadores estratégicamente <u>para evitar que te ganen</u>.")
+        linea32 = QLabel("Hay 8 cartas distintas de acción, te permitirán hacerles la vida imposible a los demás.")
+        linea33 = QLabel("Robales, intercambiales propiedades, quitales sets completos, hacé que te paguen, y otras cosas más!")
+        linea34 = QLabel("Ahora es el momento de ir al apartado de <Ver las Cartas>, ahí vas a ver cuales usar y que hacen.")
         
         # ---
         
@@ -302,14 +318,23 @@ class ComoJuego(QDialog):
         self.layout_abajo.addWidget(linea19)
         self.layout_abajo.addWidget(linea20)
         self.layout_abajo.addWidget(linea21)
-        self.layout_abajo.addWidget(linea22)
         self.layout_abajo.addSpacing(15)
         self.layout_abajo.addWidget(separador4)
+        self.layout_abajo.addWidget(linea22)
         self.layout_abajo.addWidget(linea23)
         self.layout_abajo.addWidget(linea24)
         self.layout_abajo.addWidget(linea25)
         self.layout_abajo.addWidget(linea26)
         self.layout_abajo.addWidget(linea27)
+        self.layout_abajo.addWidget(linea28)
+        self.layout_abajo.addWidget(linea29)
+        self.layout_abajo.addSpacing(15)
+        self.layout_abajo.addWidget(separador5)
+        self.layout_abajo.addWidget(linea30)
+        self.layout_abajo.addWidget(linea31)
+        self.layout_abajo.addWidget(linea32)
+        self.layout_abajo.addWidget(linea33)
+        self.layout_abajo.addWidget(linea34)
         
     def mostrar_ver_cartas(self):
         self.limpiar_layout(self.layout_abajo)
