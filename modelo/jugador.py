@@ -46,7 +46,7 @@ class Jugador:
     def get_banco(self):
         return "Banco",self.__listas["Banco"]
     def get_propiedades(self):
-        return "Propiedades",self.__listas["Propiedades"].get_todas_las_cartas()
+        return self.__listas["Propiedades"].propiedades
     def get_avatar(self):
         return self.__avatar
     
