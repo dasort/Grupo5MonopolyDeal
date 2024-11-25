@@ -6,7 +6,8 @@ class PasaPorLaSalida(Carta):
     def informacion_para_accion(self) -> str | None:
         return 'mazo'
 
-    def accion(self, mazo) -> None:
+    def accion(self, info) -> None:
+        mazo = info[0]
         cartas = mazo.dar_cartas(1)
         for carta in cartas:
             carta.duenio = self.duenio
