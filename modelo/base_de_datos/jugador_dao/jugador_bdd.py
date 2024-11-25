@@ -1,5 +1,5 @@
 from __future__ import annotations
-from jugador_dao.hash_contrasenia import hash_contrasenia
+from .hash_contrasenia import hash_contrasenia
 
 
 class JugadorBDD:

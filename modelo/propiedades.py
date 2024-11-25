@@ -47,7 +47,7 @@ class Propiedades(Carta):
                     cartas["numero"] += 1
                     self.__propiedades[elemento.color]["grupos"] = self.contar_grupos(self.__propiedades[elemento.color]["lista"])
                     self.contar()
-                    #self.__cantidad_grupos = self.contar_grupos(self.__propiedades[elemento.color])
+                    #self.__cantidad_grupos = self.contar_grupos(self.__propiedades[elemento.color]["lista"])
                     return  # Salimos después de agregar
 
                 # Caso 2: Sublista incompleta y es servicio/ferrocarril
@@ -137,6 +137,8 @@ class Propiedades(Carta):
         print(f"Cantidad de grupos: {self.__cantidad_grupos}")
         print("-" * 30)  # Separador para cada color
         
-    
+     @property
+    def propiedades(self):
+        return self.__propiedades
     def get_grupos(self):
         return self.__cantidad_grupos

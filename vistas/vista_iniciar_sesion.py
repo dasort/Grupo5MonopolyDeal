@@ -4,6 +4,10 @@ from PyQt6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit
 from PyQt6.QtGui import QIcon, QPixmap, QGuiApplication
 from PyQt6.QtCore import Qt, QTimer
 from crear_partida import CrearPartida
+from modelo.base_de_datos.jugador_dao import jugador_dao_impl
+from modelo.base_de_datos.jugador_dao import jugador_bdd
+from modelo.base_de_datos.jugador_dao import jugador_dao
+
 
 class IniciarSesion(QDialog):
     def __init__(self, main_menu, parent=None):
@@ -131,7 +135,8 @@ class IniciarSesion(QDialog):
                 background-color: #4D4D4D;
             }
         """)
-        self.register_button.clicked.connect(self.registrar_usuario)
+        #self.register_button.clicked.connect(self.registrar_usuario) no hace falta porque esto lo hace el vista_crear_cuenta
+        
         
         # ---
 
@@ -174,42 +179,9 @@ class IniciarSesion(QDialog):
         self.main_layout.addWidget(self.register_button)
         self.main_layout.addWidget(self.boton_volver)
 
+    
+
     def iniciar_sesion(self):
-        username = self.username_input.text()
-        password = self.password_input.text()
-
-        if not username or not password:
-            QMessageBox.warning(self, "Campos vacíos", "Por favor, complete todos los campos.")
-            return
-
-        try:
-            # Conexión BD
-            conexion = psycopg2.connect(
-                host="localhost",
-                database="monopoly_db",
-                user="tu_usuario",
-                password="tu_contraseña"
-            )
-            cursor = conexion.cursor()
-
-            # Consulta
-            query = "SELECT * FROM usuarios WHERE nombre = %s AND contraseña = %s"
-            cursor.execute(query, (username, password))
-            resultado = cursor.fetchone()
-
-            if resultado:
-                QMessageBox.information(self, "Inicio de Sesión", f"¡Bienvenido, {username}!")
-                self.abrir_crear_partida()
-            else:
-                QMessageBox.warning(self, "Error", "Usuario o contraseña incorrectos.")
-            
-            cursor.close()
-            conexion.close()
-
-        except Exception as e:
-            QMessageBox.critical(self, "Error de Conexión", f"No se pudo conectar a la base de datos: {str(e)}")
-
-    def registrar_usuario(self):
         usuario = self.username_input.text()
         contraseña = self.password_input.text()
 
@@ -220,29 +192,23 @@ class IniciarSesion(QDialog):
             # Conectar BD
             conexion = psycopg2.connect(
                 host="localhost",
-                database="monopoly_db",
-                user="tu_usuario",
-                password="tu_contraseña"
+                database="monopoly",
+                user="postgres",
+                password="1234"
             )
             cursor = conexion.cursor()
+            
+            bd=None
+            bd.obtener_jugador(usuario)
 
-            consulta_verificar = "SELECT * FROM usuarios WHERE nombre = %s"
-            cursor.execute(consulta_verificar, (usuario,))
-            resultado = cursor.fetchone()
+            #consulta_verificar = "SELECT * FROM jugador WHERE nickname = %s"
+            #cursor.execute(consulta_verificar, (usuario,))
+            #resultado = cursor.fetchone()
 
-            if resultado:
+            if bd.obtener_jugador():
                 QMessageBox.warning(self, "Usuario existente", "El nombre de usuario ya está registrado. Elija otro.")
                 return
 
-            # Insertar en BD
-            consulta_insertar = "INSERT INTO usuarios (nombre, contraseña) VALUES (%s, %s)"
-            cursor.execute(consulta_insertar, (usuario, contraseña))
-            conexion.commit()
-
-            QMessageBox.information(self, "Registro Exitoso", "Usuario registrado con éxito.")
-    
-        except Exception as e:
-            QMessageBox.critical(self, "Error de Conexión", f"No se pudo conectar a la base de datos: {str(e)}")
     
         finally:
             if cursor:
