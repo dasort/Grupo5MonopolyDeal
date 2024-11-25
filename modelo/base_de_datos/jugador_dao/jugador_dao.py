@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from jugador_dao.jugador_bdd import JugadorBDD
+from .jugador_bdd import JugadorBDD
 
 
 class JugadorDAO(ABC):
