@@ -424,6 +424,61 @@ class ComoJuego(QDialog):
     def mostrar_a_cerca_interfaz(self):
         self.limpiar_layout(self.layout_abajo)
 
+        pixmap = QPixmap("imagenes/ui/interfaz.png").scaled(880, 300, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        label_imagen = QLabel()
+        label_imagen.setPixmap(pixmap)
+        label_imagen.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        linea1 = QLabel("Interfaz General:")
+        linea1.setStyleSheet("""
+            color: #E1A3FF;
+            font-size: 18px;
+        """)
+        linea2 = QLabel("1. Acá se ven todas las cartas de los jugadores, es esencial tenerlas todas a la vista.")
+        linea3 = QLabel("2. Acá se ven tus cartas en grande, para que no tengas que estar acercándote a la pantalla.")
+        linea4 = QLabel("3. Al tocar 1 vez la carta se muestra una explicación sobre que hace.")
+        linea5 = QLabel("4. Este es tu mazo de cartas, tienes un máximo de 7.")
+        linea6 = QLabel("5. Turno del jugador actual.")
+        linea7 = QLabel("6. Tiempo restante del turno, el máximo para cada jugador son siempre 60 segundos.")
+        linea8 = QLabel("7. Finaliza tu turno manualmente para que otro jugador juegue.")
+        linea9 = QLabel("8. Finaliza la partida para todos cuando quieras (que no sea por enojo).")
+        
+        separador = QFrame(self)
+        separador.setFrameShape(QFrame.Shape.HLine)
+        separador.setFrameShadow(QFrame.Shadow.Sunken)
+        
+        linea10 = QLabel("Sección Jugadores:")
+        linea10.setStyleSheet("""
+            color: #E1A3FF;
+            font-size: 18px;
+        """)
+        linea11 = QLabel("A. Cada jugador tiene su ícono correspondiente que eligió al crear la partida.")
+        linea12 = QLabel("B. Acá se muestra el nickname de cada jugador, si inició sesión se mostraría ese.")
+        linea13 = QLabel("C. Acá se muestra el dinero de cada jugador, se calcula según las cartas del banco.")
+        linea14 = QLabel("D. Acá se muestran las cartas de propiedad de dicho jugador.")
+        linea15 = QLabel("E. Acá se muestran las cartas del banco de dicho jugador.")
+
+        # ---
+
+        self.layout_abajo.addWidget(label_imagen)
+        self.layout_abajo.addWidget(linea1)
+        self.layout_abajo.addWidget(linea2)
+        self.layout_abajo.addWidget(linea3)
+        self.layout_abajo.addWidget(linea4)
+        self.layout_abajo.addWidget(linea5)
+        self.layout_abajo.addWidget(linea6)
+        self.layout_abajo.addWidget(linea7)
+        self.layout_abajo.addWidget(linea8)
+        self.layout_abajo.addWidget(linea9)
+        self.layout_abajo.addSpacing(15)
+        self.layout_abajo.addWidget(separador)
+        self.layout_abajo.addWidget(linea10)
+        self.layout_abajo.addWidget(linea11)
+        self.layout_abajo.addWidget(linea12)
+        self.layout_abajo.addWidget(linea13)
+        self.layout_abajo.addWidget(linea14)
+        self.layout_abajo.addWidget(linea15)
+
     def volver(self):
         self.hide()
     
