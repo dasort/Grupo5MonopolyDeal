@@ -11,6 +11,7 @@ class JugadorBDD:
         self.__nickname = nickname
         self.__contrasenia = contrasenia
         self.__salt = salt
+        self.__datos_bdd = None
     
     @classmethod
     def constructor_reducido(cls, nombre: str, apellido: str, nickname: str, contrasenia: str | int) -> JugadorBDD:
