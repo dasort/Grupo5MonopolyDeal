@@ -72,25 +72,33 @@ class ComoJuego(QDialog):
         # ---
         
         # Volver:
-        self.boton_volver = self.crear_boton_volver("Volver", "imagenes/ui/home.png")
+        self.boton_volver = self.crear_boton_volver("Volver", "imagenes/ui/casa.png")
         self.boton_volver.clicked.connect(self.volver)
+        tooltip_volver = ("Volvé al Menú Principal.")
+        self.boton_volver.setToolTip(tooltip_volver)
         self.layout_arriba_arriba.addWidget(self.boton_volver)
         
         # ---
         
         # Botón "Reglas Generales":
-        self.boton_reglas_generales = self.crear_boton("Reglas Generales", "imagenes/ui/book_question.png")
+        self.boton_reglas_generales = self.crear_boton("Reglas Generales", "imagenes/ui/libro.png")
         self.boton_reglas_generales.clicked.connect(self.mostrar_reglas_generales)
+        tooltip_reglas = ("Ver las Reglas Generales.")
+        self.boton_reglas_generales.setToolTip(tooltip_reglas)
         self.layout_arriba_abajo.addWidget(self.boton_reglas_generales)
         
         # Botón "Ver las Cartas":
-        self.boton_ver_cartas = self.crear_boton("Ver las Cartas", "imagenes/ui/blogs_stack.png")
+        self.boton_ver_cartas = self.crear_boton("Ver las Cartas", "imagenes/ui/pila_cartas.png")
         self.boton_ver_cartas.clicked.connect(self.mostrar_ver_cartas)
+        tooltip_cartas = ("Ver las Cartas.")
+        self.boton_ver_cartas.setToolTip(tooltip_cartas)
         self.layout_arriba_abajo.addWidget(self.boton_ver_cartas)
         
         # Botón "A cerca de la Interfaz":
-        self.boton_a_cerca_interfaz = self.crear_boton("A cerca de la Interfaz", "imagenes/ui/checkerboard.png")
+        self.boton_a_cerca_interfaz = self.crear_boton("A cerca de la Interfaz", "imagenes/ui/tablero.png")
         self.boton_a_cerca_interfaz.clicked.connect(self.mostrar_a_cerca_interfaz)
+        tooltip_interfaz = ("Ver cómo funciona la Interfaz.")
+        self.boton_a_cerca_interfaz.setToolTip(tooltip_interfaz)
         self.layout_arriba_abajo.addWidget(self.boton_a_cerca_interfaz)
 
         # ---
