@@ -33,24 +33,24 @@ class ControladorPartida:
     
     def procesa_pedido(self, pedido) -> list:
         match pedido:
-        case 'EsMiCumpleaños':
-            pass
-        case 'CobradordDeDeuda':
-            pass
-        case 'NegocioFurtivo':
-            pass
-        case 'PasaPorLaSalida':
-            pass
-        case 'TratoForzoso':
-            pass
-        case 'RentaDoble':
-            pass
-        case 'RentaMulticolor':
-            pass
-        case 'PropiedadComodin':
-            pass
-        case _:
-            raise ValueError(f"Pedido desconocido: {pedido}")
+            case 'EsMiCumpleaños':
+                pass
+            case 'CobradordDeDeuda':
+                pass
+            case 'NegocioFurtivo':
+                pass
+            case 'PasaPorLaSalida':
+                pass
+            case 'TratoForzoso':
+                pass
+            case 'RentaDoble':
+                pass
+            case 'RentaMulticolor':
+                pass
+            case 'PropiedadComodin':
+                pass
+            case _:
+                raise ValueError(f"Pedido desconocido: {pedido}")
             
     # Elije la una carta de la mano esta funcion necesita cambios pero es la idea de lo que hay que hacer
     def  elijir_carta(self,jugador: Jugador) -> Carta:
