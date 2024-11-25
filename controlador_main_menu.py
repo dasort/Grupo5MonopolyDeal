@@ -7,7 +7,7 @@ from opciones import Opciones
 from estadisticas import Estadisticas
 
 
-class controlador_menu (QMainWindow):
+class controlador_main_menu (QMainWindow):
     def __init__(self): 
         super().__init__()
         

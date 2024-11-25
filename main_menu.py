@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidg
 from PyQt6.QtGui import QIcon, QPixmap, QGuiApplication
 from PyQt6.QtCore import Qt, QUrl
 from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
-from controlador_menu import controlador_menu
+from controlador_main_menu import controlador_main_menu
 
 class MainMenu(QMainWindow):
     def __init__(self):
@@ -21,7 +21,7 @@ class MainMenu(QMainWindow):
         self.audio_output.setVolume(50)
 
         #controlador de menu:
-        self.controlador=controlador_menu()
+        self.controlador=controlador_main_menu()
         
         # Widget principal y layout:
         self.main_widget = QWidget()
@@ -96,15 +96,6 @@ class MainMenu(QMainWindow):
         
         # Agrego el footer al layout principal:
         self.layout.addLayout(layout_footer)
-
-        # ---
-
-        # Las instancias de las ventanas secundarias:
-        #self.crear_partida_window = CrearPartida(self)
-        #self.opciones_window = Opciones(self)
-       # self.como_juego_window = ComoJuego(self)
-       # self.estadisticas_window = Estadisticas(self)
-        
 
     def crear_boton(self, texto, icono_ruta):
         """Crea un botón que tiene un ícono (a la izquierda) y texto."""
