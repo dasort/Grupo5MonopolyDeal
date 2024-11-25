@@ -8,8 +8,8 @@ class Jugador:
         self.__nombre = nombre
         self.__listas = {"Mano":[],"Banco":[],"Propiedades":Propiedades()}
         
-    def agregar_a_mano(self, cartas: list[Carta]):
-        self.__listas["Mano"].extend(cartas)
+    def agregar_a_mano(self, cartas: Carta):
+        self.__listas["Mano"].append(cartas)
 
     def agregar_a_banco(self, carta: Carta):
         self.__listas["Banco"].append(carta)
