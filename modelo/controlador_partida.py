@@ -32,24 +32,25 @@ class ControladorPartida:
         carta.accion(datos_para_accion)
     
     def procesa_pedido(self, pedido) -> list:
-        if pedido == 'EsMiCumpleaños':
+        match pedido:
+        case 'EsMiCumpleaños':
             pass
-        elif pedido == 'CobradordDeDeuda':
+        case 'CobradordDeDeuda':
             pass
-        elif pedido == 'NegocioFurtivo':
+        case 'NegocioFurtivo':
             pass
-        elif pedido == 'PasaPorLaSalida':
+        case 'PasaPorLaSalida':
             pass
-        elif pedido == 'TratoForzoso':
+        case 'TratoForzoso':
             pass
-        elif pedido == 'RentaDoble':
+        case 'RentaDoble':
             pass
-        elif pedido == 'RentaMulticolor':
+        case 'RentaMulticolor':
             pass
-        elif pedido == 'PropiedadComodin':
+        case 'PropiedadComodin':
             pass
-        else:
-            raise ValueError
+        case _:
+            raise ValueError(f"Pedido desconocido: {pedido}")
             
     # Elije la una carta de la mano esta funcion necesita cambios pero es la idea de lo que hay que hacer
     def  elijir_carta(self,jugador: Jugador) -> Carta:
