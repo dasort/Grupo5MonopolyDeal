@@ -12,26 +12,15 @@ class ControladorPartida:
         self.__cartas_descarte = []  # Pila de descarte
         self.__turno_actual = 0  
         self.repartir_cartas()
-        
-    #carga el mazo del jugador con una lista de cartas
-    def cargar_mazo(self,cartas :Carta):
-        self.__mazo.extend(cartas)
-        
-    #retorna el mazo cargado con las cartas
-    def mostrar_mazo(self):
-        return self.__mazo
-    
+          
     # Reparte 5 cartas a cada jugador
     def repartir_cartas(self):
-        for jugador in self.__jugadores:
-            cartas_a_repartir = self.sacar_cartas(5)  # Obtiene una lista de 5 cartas
-            jugador.tomar_carta(cartas_a_repartir)
+        for jugador in self.__jugadores: # Obtiene una lista de 5 cartas
+            jugador.tomar_carta(self.__mazo.dar_cartas(5))
     
-    # Toma una carta aleartoria del mazo eliminandola
+   # Toma una carta aleartoria del mazo eliminandola
     def tomar_carta_mazo(self,jugador: Jugador):
-        carta = random.choice(self.__mazo)
-        self.__mazo.remove(carta)
-        jugador.tomar_carta(carta)
+        jugador.tomar_carta(self.__mazo.__dar_carta())
     
     # Otra funcion que necesita cambios cuando se termine de hacer el mazo
     def jugar_carta(self, jugador: Jugador, carta : Carta):
