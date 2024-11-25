@@ -6,7 +6,7 @@ class Estadisticas(QDialog):
     def __init__(self, main_menu, parent=None):
         super().__init__(parent)
         self.main_menu = main_menu
-        self.setWindowTitle("Estadisticas")
+        self.setWindowTitle("Estadísticas")
         self.setGeometry(570, 240, 400, 300)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
         self.centrar_ventana()
@@ -18,7 +18,7 @@ class Estadisticas(QDialog):
         
         # Título aclarativo:
         self.titulo_label = QLabel(self)
-        self.titulo_label.setText("Estas son sus estadísticas")
+        self.titulo_label.setText("Estas son tus Estadísticas")
         self.titulo_label.setFixedHeight(33)
         self.titulo_label.setStyleSheet("""
             font-size: 20px;
@@ -178,21 +178,22 @@ class Estadisticas(QDialog):
         
         # ---
         
-        # Actualizo los Labels concatenándoles los datos del usuario.
+        # Actualizo los Labels concatenándoles los datos del usuario:
         self.actualizar_datos()
         
         # ---
         
     def actualizar_datos(self):
         nombre = "(Nombre de ejemplo)"
-        self.nombre_label.setText(self.nombre_label.text() + nombre)
         apellido = "(Apellido de ejemplo)"
-        self.apellido_label.setText(self.apellido_label.text() + apellido)
         nickname = "(Nickname de ejemplo)"
-        self.nickname_label.setText(self.nickname_label.text() + nickname)
         partidas_jugadas = "(Partidas Jugadas de ejemplo)"
-        self.partidas_jugadas_label.setText(self.partidas_jugadas_label.text() + partidas_jugadas)
         partidas_ganadas = "(Partidas Ganadas de ejemplo)"
+        
+        self.nombre_label.setText(self.nombre_label.text() + nombre)
+        self.apellido_label.setText(self.apellido_label.text() + apellido)
+        self.nickname_label.setText(self.nickname_label.text() + nickname)
+        self.partidas_jugadas_label.setText(self.partidas_jugadas_label.text() + partidas_jugadas)
         self.partidas_ganadas_label.setText(self.partidas_ganadas_label.text() + partidas_ganadas)
 
     def volver(self):
