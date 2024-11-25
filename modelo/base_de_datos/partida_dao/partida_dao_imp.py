@@ -45,7 +45,7 @@ class PartidaDaoImpl(PartidaDAO):
             cursor.execute(query, (str(partida.id_ganador), str(partida.id_partida)))
             self.__conexion.commit()
         except (Exception, psy.DatabaseError) as e:
-            print(f"Error al acyualizar ganador: {e}")
+            print(f"Error al actualizar ganador: {e}")
     
     def registrar_jugadores_en_partida(self, partida: PartidaBDD, jugadores: list[JugadorBDD]):
         query = "INSERT INTO juega (id_partida, id_jugador) VALUES (%s, %s)"

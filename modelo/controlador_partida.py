@@ -5,8 +5,8 @@ from modelo.cartas.carta import Carta
 
 
 class ControladorPartida:
-    def __init__(self, jugadores: Jugador):
-        # self.__vista = Vista(self) # poner el nombre de la vista correcto
+    def __init__(self, jugadores: list[Jugador]):
+        self.__vista = Vista(self) # poner el nombre de la vista correcto
         self.__jugadores = jugadores  # Instancias de la clase Jugador
         self.__mazo = MazoDeCartas()
         self.__mesa = None
@@ -28,29 +28,30 @@ class ControladorPartida:
         # Verificar si la carta puede ser jugada
         pedido = carta.informacion_para_accion()
         if pedido is not None:
-            datos_para_accion = self.procesa_pedido(pedido)
+            datos_para_accion = self.procesa_pedido(pedido, carta)
         carta.accion(datos_para_accion)
     
-    def procesa_pedido(self, pedido) -> list:
-        match pedido:
-            case 'EsMiCumpleaños':
-                pass
-            case 'CobradordDeDeuda':
-                pass
-            case 'NegocioFurtivo':
-                pass
-            case 'PasaPorLaSalida':
-                pass
-            case 'TratoForzoso':
-                pass
-            case 'RentaDoble':
-                pass
-            case 'RentaMulticolor':
-                pass
-            case 'PropiedadComodin':
-                pass
-            case _:
-                raise ValueError(f"Pedido desconocido: {pedido}")
+    def procesa_pedido(self, pedido, carta: Carta) -> list:
+        if pedido == 'EsMiCumpleaños':
+            cartas = []
+            for jugador in self.__jugadores:
+                ca
+        elif pedido == 'CobradordDeDeuda':
+            pass
+        elif pedido == 'NegocioFurtivo':
+            pass
+        elif pedido == 'PasaPorLaSalida':
+            return [self.__mazo]
+        elif pedido == 'TratoForzoso':
+            pass
+        elif pedido == 'RentaDoble':
+            pass
+        elif pedido == 'RentaMulticolor':
+            pass
+        elif pedido == 'PropiedadComodin':
+            return self.__vista.pedir_color(carta.color) # metodo en la vista que le permite al jugador elegir entre los colores de la carta
+        else:
+            raise ValueError
             
     # Elije la una carta de la mano esta funcion necesita cambios pero es la idea de lo que hay que hacer
     def  elijir_carta(self,jugador: Jugador) -> Carta:
