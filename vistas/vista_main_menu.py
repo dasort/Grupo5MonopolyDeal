@@ -12,9 +12,7 @@ class MainMenu(QMainWindow):
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
         self.centrar_ventana()
 
-        
-
-        #controlador de menu:
+        # Controlador del menu:
         self.controlador=controlador_main_menu()
         
         # Widget principal y layout:
@@ -30,7 +28,7 @@ class MainMenu(QMainWindow):
         # Imagen encabezado:
         self.imagen_label = QLabel(self)
         pixmap = QPixmap("imagenes/ui/headerLogo.png").scaled(
-            400, 100, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation
+            500, 130, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation
         )
         self.imagen_label.setPixmap(pixmap)
         self.imagen_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -63,7 +61,7 @@ class MainMenu(QMainWindow):
 
         # (4.3):
         # Botón "Iniciar Sesión o Crear Usuario":
-        self.boton_iniciar_sesion = self.crear_boton("¿Cómo Juego?", "imagenes/ui/smiley.png")
+        self.boton_iniciar_sesion = self.crear_boton("¿Cómo Juego?", "imagenes/ui/emoji.png")
         self.boton_iniciar_sesion.clicked.connect(self.controlador.mostrar_como_juego)
         botones_layout.addWidget(self.boton_iniciar_sesion)
 
@@ -75,8 +73,10 @@ class MainMenu(QMainWindow):
         layout_footer = QHBoxLayout()
         
         # Botón estadísticas en el footer:
-        self.estadisticas_boton = self.crear_boton_estadisticas("Ver mis Estadísticas", "imagenes/ui/chart.png")
+        self.estadisticas_boton = self.crear_boton_estadisticas("Ver mis Estadísticas", "imagenes/ui/grafico.png")
         self.estadisticas_boton.clicked.connect(self.controlador.mostrar_estadisticas_inicio_sesion)
+        tooltip_estadisticas = ("Inicia sesión para ver tus Estadísticas.")
+        self.estadisticas_boton.setToolTip(tooltip_estadisticas)
         layout_footer.addWidget(self.estadisticas_boton)
         
         # Versión en el footer:
@@ -149,14 +149,14 @@ class MainMenu(QMainWindow):
         # Layout del ícono y el texto:
         layout = QHBoxLayout(boton)
 
-        # Ícono
+        # Ícono:
         icono_label = QLabel(self)
         pixmap = QPixmap(icono_ruta).scaled(15, 15) # <-- Tamaño de la imagen.
         icono_label.setPixmap(pixmap)
         icono_label.setFixedSize(15, 15)           # <-- Tamaño fijo del contenedor del ícono.
         layout.addWidget(icono_label)
 
-        # Texto
+        # Texto:
         texto_label = QLabel(texto, self)
         texto_label.setStyleSheet("""
             padding-left: 5px;
