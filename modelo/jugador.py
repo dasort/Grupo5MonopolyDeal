@@ -42,9 +42,9 @@ class Jugador:
         
     # Métodos para obtener las cartas de las listas
     def get_mano(self):
-        return "Mano", self.__listas["Mano"]
+        return  self.__listas["Mano"]
     def get_banco(self):
-        return "Banco",self.__listas["Banco"]
+        return self.__listas["Banco"]
     def get_propiedades(self):
         return self.__listas["Propiedades"].propiedades
     def get_avatar(self):
