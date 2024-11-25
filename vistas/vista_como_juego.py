@@ -23,7 +23,7 @@
 
 
 
-from PyQt6.QtWidgets import QDialog, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QSpacerItem, QSizePolicy, QFrame, QMessageBox, QScrollArea
+from PyQt6.QtWidgets import QDialog, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QSpacerItem, QSizePolicy, QFrame, QMessageBox, QScrollArea, QGridLayout
 from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QGuiApplication
@@ -330,6 +330,96 @@ class ComoJuego(QDialog):
         
     def mostrar_ver_cartas(self):
         self.limpiar_layout(self.layout_abajo)
+        
+        grid_layout = QGridLayout()
+        grid_layout.setContentsMargins(10, 10, 10, 10)
+        grid_layout.setSpacing(15)
+
+        cartas = [
+            {"ruta": "imagenes/cartas/dinero1.png", "descripcion": "Carta de Dinero: Sirve para pagar deudas, vale 1 millón."},
+            {"ruta": "imagenes/cartas/dinero2.png", "descripcion": "Carta de Dinero: Sirve para pagar deudas, vale 2 millones."},
+            {"ruta": "imagenes/cartas/dinero3.png", "descripcion": "Carta de Dinero: Sirve para pagar deudas, vale 3 millones."},
+            {"ruta": "imagenes/cartas/dinero4.png", "descripcion": "Carta de Dinero: Sirve para pagar deudas, vale 4 millones."},
+            {"ruta": "imagenes/cartas/dinero5.png", "descripcion": "Carta de Dinero: Sirve para pagar deudas, vale 5 millones."},
+            {"ruta": "imagenes/cartas/dinero10.png", "descripcion": "Carta de Dinero: Sirve para pagar deudas, vale 10 millones."},
+            {"ruta": "imagenes/cartas/propiedadAmarillo.png", "descripcion": "Carta de Propiedad: Coleccioná 3 para crear un set completo."},
+            {"ruta": "imagenes/cartas/propiedadAzul.png", "descripcion": "Carta de Propiedad: Coleccioná 2 para crear un set completo."},
+            {"ruta": "imagenes/cartas/propiedadCeleste.png", "descripcion": "Carta de Propiedad: Coleccioná 3 para crear un set completo."},
+            {"ruta": "imagenes/cartas/propiedadFerrocarril.png", "descripcion": "Carta de Propiedad: Coleccioná 4 para crear un set completo."},
+            {"ruta": "imagenes/cartas/propiedadMarron.png", "descripcion": "Carta de Propiedad: Coleccioná 2 para crear un set completo."},
+            {"ruta": "imagenes/cartas/propiedadNaranja.png", "descripcion": "Carta de Propiedad: Coleccioná 3 para crear un set completo."},
+            {"ruta": "imagenes/cartas/propiedadRojo.png", "descripcion": "Carta de Propiedad: Coleccioná 3 para crear un set completo."},
+            {"ruta": "imagenes/cartas/propiedadRosa.png", "descripcion": "Carta de Propiedad: Coleccioná 3 para crear un set completo."},
+            {"ruta": "imagenes/cartas/propiedadServicio1.png", "descripcion": "Carta de Propiedad: Coleccioná 2 para crear un set completo."},
+            {"ruta": "imagenes/cartas/propiedadServicio2.png", "descripcion": "Carta de Propiedad: Coleccioná 2 para crear un set completo."},
+            {"ruta": "imagenes/cartas/propiedadVerde.png", "descripcion": "Carta de Propiedad: Coleccioná 3 para crear un set completo."},
+            {"ruta": "imagenes/cartas/comodinAmarilloRojo.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Amarillo y Rojo), elegí el que necesites."},
+            {"ruta": "imagenes/cartas/comodinAzulVerde.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Azul y Verde), elegí el que necesites."},
+            {"ruta": "imagenes/cartas/comodinCelesteFerrocarril.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Celeste y Ferrocarríl), elegí el que necesites."},
+            {"ruta": "imagenes/cartas/comodinCelesteMarron.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Celeste y Marrón), elegí el que necesites."},
+            {"ruta": "imagenes/cartas/comodinNaranjaRosa.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Naranja y Rosa), elegí el que necesites."},
+            {"ruta": "imagenes/cartas/comodinServicioFerrocarril.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Servicio y Ferrocarril), elegí el que necesites."},
+            {"ruta": "imagenes/cartas/comodinVerdeFerrocarril.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Verde y Ferrocarril), elegí el que necesites."},
+            {"ruta": "imagenes/cartas/comodinMulticolor.png", "descripcion": "Carta Comodín: Vale para cualquier tipo!, elegí el que necesites."},
+            {"ruta": "imagenes/cartas/alquilerFerrocarrilServicio.png", "descripcion": "Carta Alquiler: Todos te pagan por ambos colores!"},
+            {"ruta": "imagenes/cartas/alquilerMarronCeleste.png", "descripcion": "Carta Alquiler: Todos te pagan por ambos colores!"},
+            {"ruta": "imagenes/cartas/alquilerRojoAmarillo.png", "descripcion": "Carta Alquiler: Todos te pagan por ambos colores!"},
+            {"ruta": "imagenes/cartas/alquilerRosaNaranja.png", "descripcion": "Carta Alquiler: Todos te pagan por ambos colores!"},
+            {"ruta": "imagenes/cartas/alquilerVerdeAzul.png", "descripcion": "Carta Alquiler: Todos te pagan por ambos colores!"},
+            {"ruta": "imagenes/cartas/alquilerMulticolor.png", "descripcion": "Carta Alquiler: Elige a un jugador que te pague por un tipo de propiedad específica que quieras!"},
+            {"ruta": "imagenes/cartas/alquilerFerrocarrilServicio.png", "descripcion": "Carta Alquiler: Todos te pagan por ambos colores!"},
+            {"ruta": "imagenes/cartas/alquilerDoble.png", "descripcion": "Carta de Acción: Jugá esta carta y otra de alquiler para que el alquiler de esa carta sea el doble de costosa."},
+            {"ruta": "imagenes/cartas/cobradorDeDeudas.png", "descripcion": "Carta de Acción: El jugador que elijas te va a tener que pagar 5 millones."},
+            {"ruta": "imagenes/cartas/esMiCumpleanos.png", "descripcion": "Carta de Acción: Todos los jugadores te tienen que pagar como 'regalo' 2 millones... ¡Feliz cumpleaños!"},
+            {"ruta": "imagenes/cartas/negocioFurtivo.png", "descripcion": "Carta de Acción: Sacale la propiedad que quieras a otro jugador (No puede ser de un set completo)."},
+            {"ruta": "imagenes/cartas/pasaPorLaSalida.png", "descripcion": "Carta de Acción: Podés agarrar 2 cartas más."},
+            {"ruta": "imagenes/cartas/robaNegocios.png", "descripcion": "Carta de Acción: Sacale un set completo a otro jugador!"},
+            {"ruta": "imagenes/cartas/tratoForzoso.png", "descripcion": "Carta de Acción: Intercambiá una propiedad tuya con la de otro jugador (No puede ser de un set completo)."}
+        ]
+
+        columnas = 5
+        fila = 0
+        columna = 0
+
+        # Botones para cada carta:
+        for carta in cartas:
+            boton_carta = QPushButton(self)
+            boton_carta.setFixedSize(150, 235)
+
+            pixmap = QPixmap(carta["ruta"]).scaled(150, 235, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+            boton_carta.setIcon(QIcon(pixmap))
+            boton_carta.setIconSize(pixmap.size()) # <-- Tamaño del ícono.
+            boton_carta.setStyleSheet("""
+                QPushButton {
+                    border: 5px solid #555;
+                    border-radius: 5px;
+                    background-color: #333;
+                }
+                QPushButton:hover {
+                    border: 5px solid #FFFFFF;
+                }
+            """)
+            
+            boton_carta.clicked.connect(lambda checked, descripcion=carta["descripcion"]: self.mostrar_info_carta(descripcion))
+
+            # Agregarlo al boton a la cuadrícula:
+            grid_layout.addWidget(boton_carta, fila, columna)
+
+            # Avanzar:
+            columna += 1
+            if columna >= columnas:
+                columna = 0
+                fila += 1
+
+        # Widget contenedor para el layout:
+        widget_cartas = QWidget()
+        widget_cartas.setLayout(grid_layout)
+
+        # Agregarlo:
+        self.layout_abajo.addWidget(widget_cartas)
+    
+    def mostrar_info_carta(self, descripcion):
+        QMessageBox.information(self, "Información de la Carta", descripcion)
         
     def mostrar_a_cerca_interfaz(self):
         self.limpiar_layout(self.layout_abajo)
