@@ -3,7 +3,7 @@ import psycopg2
 from PyQt6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QFrame, QSpacerItem, QSizePolicy
 from PyQt6.QtGui import QIcon, QPixmap, QGuiApplication
 from PyQt6.QtCore import Qt, QTimer
-from crear_partida import CrearPartida
+from vistas.vista_crear_partida import CrearPartida
 from modelo.base_de_datos.jugador_dao import jugador_dao_impl
 from modelo.base_de_datos.jugador_dao import jugador_bdd
 from modelo.base_de_datos.jugador_dao import jugador_dao

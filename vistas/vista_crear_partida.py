@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QDialog, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, QGridLayout, QMessageBox, QSizePolicy, QSpacerItem
 from PyQt6.QtGui import QIcon, QPixmap, QIntValidator 
 from PyQt6.QtCore import Qt
-from controlador_crear_partida import ControladorCrearPartida 
+from controladores.controlador_crear_partida import ControladorCrearPartida 
 
 class CrearPartida(QDialog):
     def __init__(self, main_menu, parent=None):
