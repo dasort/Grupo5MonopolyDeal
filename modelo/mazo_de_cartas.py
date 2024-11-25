@@ -1,6 +1,7 @@
 from random import shuffle
-from carta.carta import Carta
+from cartas.carta import Carta
 from mazo_de_descarte import MazoDeDescarte
+from crear_cartas import crear_cartas
 
 
 class MazoDeCartas:
@@ -8,8 +9,8 @@ class MazoDeCartas:
     Permite dar cartas a los jugadores según la cantidad que se desee.
     '''
     
-    def __init__(self, cartas: list[Carta]) -> None:
-        self.__mazo = cartas # cartas comienza con todas las cartas que se usan en el juego
+    def __init__(self) -> None:
+        self.__mazo = crear_cartas() # crear_cartas devuelve una lista con todas las cartas del juego
         shuffle(self.__mazo)
     
     def __dar_carta(self) -> Carta:

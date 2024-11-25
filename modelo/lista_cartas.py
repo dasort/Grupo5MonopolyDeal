@@ -77,49 +77,49 @@ LISTA_DINERO = [
 
 # Datos de las cartas de acción de Monopoly Deal
 LISTA_ACCIONES= [
-    {"id": 60, "nombre": "Es Mi Cumpleaños", "tipo": "accion", "accion": None, "valor": 5, "path_a_imagen": f'{__cartas_path}\\esMiCumpleanos.png', "path_a_queHace": f'{__ui_path}\\queHaceEsMiCumpleanos.png'},
-    {"id": 61, "nombre": "Es Mi Cumpleaños", "tipo": "accion", "accion": None, "valor": 5, "path_a_imagen": f'{__cartas_path}\\esMiCumpleanos.png', "path_a_queHace": f'{__ui_path}\\queHaceEsMiCumpleanos.png'},
-    {"id": 62, "nombre": "Es Mi Cumpleaños", "tipo": "accion", "accion": None, "valor": 5, "path_a_imagen": f'{__cartas_path}\\esMiCumpleanos.png', "path_a_queHace": f'{__ui_path}\\queHaceEsMiCumpleanos.png'},
-    {"id": 63, "nombre": "Negocio Furtivo", "tipo": "accion", "accion": None, "valor": 3, "path_a_imagen": f'{__cartas_path}\\negocioFurtivo.png', "path_a_queHace": f'{__ui_path}\\queHaceNegocioFurtivo.png'},
-    {"id": 64, "nombre": "Negocio Furtivo", "tipo": "accion", "accion": None, "valor": 3, "path_a_imagen": f'{__cartas_path}\\negocioFurtivo.png', "path_a_queHace": f'{__ui_path}\\queHaceNegocioFurtivo.png'},
-    {"id": 65, "nombre": "Negocio Furtivo", "tipo": "accion", "accion": None, "valor": 3, "path_a_imagen": f'{__cartas_path}\\negocioFurtivo.png', "path_a_queHace": f'{__ui_path}\\queHaceNegocioFurtivo.png'},
-    {"id": 66, "nombre": "Pasa Por La Salida", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\pasaPorLaSalida.png', "path_a_queHace": f'{__ui_path}\\queHacePasaPorLaSalida.png'},
-    {"id": 67, "nombre": "Pasa Por La Salida", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\pasaPorLaSalida.png', "path_a_queHace": f'{__ui_path}\\queHacePasaPorLaSalida.png'},
-    {"id": 68, "nombre": "Pasa Por La Salida", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\pasaPorLaSalida.png', "path_a_queHace": f'{__ui_path}\\queHacePasaPorLaSalida.png'},
-    {"id": 69, "nombre": "Pasa Por La Salida", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\pasaPorLaSalida.png', "path_a_queHace": f'{__ui_path}\\queHacePasaPorLaSalida.png'},
-    {"id": 70, "nombre": "Pasa Por La Salida", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\pasaPorLaSalida.png', "path_a_queHace": f'{__ui_path}\\queHacePasaPorLaSalida.png'},
-    {"id": 71, "nombre": "Pasa Por La Salida", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\pasaPorLaSalida.png', "path_a_queHace": f'{__ui_path}\\queHacePasaPorLaSalida.png'},
-    {"id": 72, "nombre": "Pasa Por La Salida", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\pasaPorLaSalida.png', "path_a_queHace": f'{__ui_path}\\queHacePasaPorLaSalida.png'},
-    {"id": 73, "nombre": "Pasa Por La Salida", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\pasaPorLaSalida.png', "path_a_queHace": f'{__ui_path}\\queHacePasaPorLaSalida.png'},
-    {"id": 74, "nombre": "Pasa Por La Salida", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\pasaPorLaSalida.png', "path_a_queHace": f'{__ui_path}\\queHacePasaPorLaSalida.png'},
-    {"id": 75, "nombre": "Pasa Por La Salida", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\pasaPorLaSalida.png', "path_a_queHace": f'{__ui_path}\\queHacePasaPorLaSalida.png'},
-    {"id": 76, "nombre": "Roba Negocios", "tipo": "accion", "accion": None, "valor": 5, "path_a_imagen": f'{__cartas_path}\\robaNegocios.png', "path_a_queHace": f'{__ui_path}\\queHaceRobaNegocios.png'},
-    {"id": 77, "nombre": "Roba Negocios", "tipo": "accion", "accion": None, "valor": 5, "path_a_imagen": f'{__cartas_path}\\robaNegocios.png', "path_a_queHace": f'{__ui_path}\\queHaceRobaNegocios.png'},
-    {"id": 78, "nombre": "Trato Forzoso", "tipo": "accion", "accion": None, "valor": 3, "path_a_imagen": f'{__cartas_path}\\tratoForzoso.png', "path_a_queHace": f'{__ui_path}\\queHaceTratoForzoso.png'},
-    {"id": 79, "nombre": "Trato Forzoso", "tipo": "accion", "accion": None, "valor": 3, "path_a_imagen": f'{__cartas_path}\\tratoForzoso.png', "path_a_queHace": f'{__ui_path}\\queHaceTratoForzoso.png'},
-    {"id": 80, "nombre": "Trato Forzoso", "tipo": "accion", "accion": None, "valor": 3, "path_a_imagen": f'{__cartas_path}\\tratoForzoso.png', "path_a_queHace": f'{__ui_path}\\queHaceTratoForzoso.png'},
-    {"id": 81, "nombre": "Alquiler Doble", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerDoble.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquilerDoble.png'},
-    {"id": 82, "nombre": "Alquiler Doble", "tipo": "accion", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerDoble.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquilerDoble.png'},
-    {"id": 83, "nombre": "Cobrador De Deudas", "tipo": "accion", "accion": None, "valor": 3, "path_a_imagen": f'{__cartas_path}\\cobradorDeDeudas.png', "path_a_queHace": f'{__ui_path}\\queHaceCobradorDeDeudas.png'},
-    {"id": 84, "nombre": "Cobrador De Deudas", "tipo": "accion", "accion": None, "valor": 3, "path_a_imagen": f'{__cartas_path}\\cobradorDeDeudas.png', "path_a_queHace": f'{__ui_path}\\queHaceCobradorDeDeudas.png'},
-    {"id": 85, "nombre": "Cobrador De Deudas", "tipo": "accion", "accion": None, "valor": 3, "path_a_imagen": f'{__cartas_path}\\cobradorDeDeudas.png', "path_a_queHace": f'{__ui_path}\\queHaceCobradorDeDeudas.png'}
+    {"id": 60, "nombre": "Es Mi Cumpleaños", "tipo": "accion", "valor": 5, "path_a_imagen": f'{__cartas_path}\\esMiCumpleanos.png', "path_a_queHace": f'{__ui_path}\\queHaceEsMiCumpleanos.png'},
+    {"id": 61, "nombre": "Es Mi Cumpleaños", "tipo": "accion", "valor": 5, "path_a_imagen": f'{__cartas_path}\\esMiCumpleanos.png', "path_a_queHace": f'{__ui_path}\\queHaceEsMiCumpleanos.png'},
+    {"id": 62, "nombre": "Es Mi Cumpleaños", "tipo": "accion", "valor": 5, "path_a_imagen": f'{__cartas_path}\\esMiCumpleanos.png', "path_a_queHace": f'{__ui_path}\\queHaceEsMiCumpleanos.png'},
+    {"id": 63, "nombre": "Negocio Furtivo", "tipo": "accion", "valor": 3, "path_a_imagen": f'{__cartas_path}\\negocioFurtivo.png', "path_a_queHace": f'{__ui_path}\\queHaceNegocioFurtivo.png'},
+    {"id": 64, "nombre": "Negocio Furtivo", "tipo": "accion", "valor": 3, "path_a_imagen": f'{__cartas_path}\\negocioFurtivo.png', "path_a_queHace": f'{__ui_path}\\queHaceNegocioFurtivo.png'},
+    {"id": 65, "nombre": "Negocio Furtivo", "tipo": "accion", "valor": 3, "path_a_imagen": f'{__cartas_path}\\negocioFurtivo.png', "path_a_queHace": f'{__ui_path}\\queHaceNegocioFurtivo.png'},
+    {"id": 66, "nombre": "Pasa Por La Salida", "tipo": "accion", "valor": 1, "path_a_imagen": f'{__cartas_path}\\pasaPorLaSalida.png', "path_a_queHace": f'{__ui_path}\\queHacePasaPorLaSalida.png'},
+    {"id": 67, "nombre": "Pasa Por La Salida", "tipo": "accion", "valor": 1, "path_a_imagen": f'{__cartas_path}\\pasaPorLaSalida.png', "path_a_queHace": f'{__ui_path}\\queHacePasaPorLaSalida.png'},
+    {"id": 68, "nombre": "Pasa Por La Salida", "tipo": "accion", "valor": 1, "path_a_imagen": f'{__cartas_path}\\pasaPorLaSalida.png', "path_a_queHace": f'{__ui_path}\\queHacePasaPorLaSalida.png'},
+    {"id": 69, "nombre": "Pasa Por La Salida", "tipo": "accion", "valor": 1, "path_a_imagen": f'{__cartas_path}\\pasaPorLaSalida.png', "path_a_queHace": f'{__ui_path}\\queHacePasaPorLaSalida.png'},
+    {"id": 70, "nombre": "Pasa Por La Salida", "tipo": "accion", "valor": 1, "path_a_imagen": f'{__cartas_path}\\pasaPorLaSalida.png', "path_a_queHace": f'{__ui_path}\\queHacePasaPorLaSalida.png'},
+    {"id": 71, "nombre": "Pasa Por La Salida", "tipo": "accion", "valor": 1, "path_a_imagen": f'{__cartas_path}\\pasaPorLaSalida.png', "path_a_queHace": f'{__ui_path}\\queHacePasaPorLaSalida.png'},
+    {"id": 72, "nombre": "Pasa Por La Salida", "tipo": "accion", "valor": 1, "path_a_imagen": f'{__cartas_path}\\pasaPorLaSalida.png', "path_a_queHace": f'{__ui_path}\\queHacePasaPorLaSalida.png'},
+    {"id": 73, "nombre": "Pasa Por La Salida", "tipo": "accion", "valor": 1, "path_a_imagen": f'{__cartas_path}\\pasaPorLaSalida.png', "path_a_queHace": f'{__ui_path}\\queHacePasaPorLaSalida.png'},
+    {"id": 74, "nombre": "Pasa Por La Salida", "tipo": "accion", "valor": 1, "path_a_imagen": f'{__cartas_path}\\pasaPorLaSalida.png', "path_a_queHace": f'{__ui_path}\\queHacePasaPorLaSalida.png'},
+    {"id": 75, "nombre": "Pasa Por La Salida", "tipo": "accion", "valor": 1, "path_a_imagen": f'{__cartas_path}\\pasaPorLaSalida.png', "path_a_queHace": f'{__ui_path}\\queHacePasaPorLaSalida.png'},
+    {"id": 76, "nombre": "Roba Negocios", "tipo": "accion", "valor": 5, "path_a_imagen": f'{__cartas_path}\\robaNegocios.png', "path_a_queHace": f'{__ui_path}\\queHaceRobaNegocios.png'},
+    {"id": 77, "nombre": "Roba Negocios", "tipo": "accion", "valor": 5, "path_a_imagen": f'{__cartas_path}\\robaNegocios.png', "path_a_queHace": f'{__ui_path}\\queHaceRobaNegocios.png'},
+    {"id": 78, "nombre": "Trato Forzoso", "tipo": "accion", "valor": 3, "path_a_imagen": f'{__cartas_path}\\tratoForzoso.png', "path_a_queHace": f'{__ui_path}\\queHaceTratoForzoso.png'},
+    {"id": 79, "nombre": "Trato Forzoso", "tipo": "accion", "valor": 3, "path_a_imagen": f'{__cartas_path}\\tratoForzoso.png', "path_a_queHace": f'{__ui_path}\\queHaceTratoForzoso.png'},
+    {"id": 80, "nombre": "Trato Forzoso", "tipo": "accion", "valor": 3, "path_a_imagen": f'{__cartas_path}\\tratoForzoso.png', "path_a_queHace": f'{__ui_path}\\queHaceTratoForzoso.png'},
+    {"id": 81, "nombre": "Alquiler Doble", "tipo": "accion", "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerDoble.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquilerDoble.png'},
+    {"id": 82, "nombre": "Alquiler Doble", "tipo": "accion", "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerDoble.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquilerDoble.png'},
+    {"id": 83, "nombre": "Cobrador De Deudas", "tipo": "accion", "valor": 3, "path_a_imagen": f'{__cartas_path}\\cobradorDeDeudas.png', "path_a_queHace": f'{__ui_path}\\queHaceCobradorDeDeudas.png'},
+    {"id": 84, "nombre": "Cobrador De Deudas", "tipo": "accion", "valor": 3, "path_a_imagen": f'{__cartas_path}\\cobradorDeDeudas.png', "path_a_queHace": f'{__ui_path}\\queHaceCobradorDeDeudas.png'},
+    {"id": 85, "nombre": "Cobrador De Deudas", "tipo": "accion", "valor": 3, "path_a_imagen": f'{__cartas_path}\\cobradorDeDeudas.png', "path_a_queHace": f'{__ui_path}\\queHaceCobradorDeDeudas.png'}
 ]
 
 LISTA_RENTA_DOBLE = [
-    {"id": 89, "nombre": "Alquiler Marron/Celeste", "tipo": "accion_renta", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerMarronCeleste.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 90, "nombre": "Alquiler Marron/Celeste", "tipo": "accion_renta", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerMarronCeleste.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 91, "nombre": "Alquiler Rojo/Amarillo", "tipo": "accion_renta", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerRojoAmarillo.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 92, "nombre": "Alquiler Rojo/Amarillo", "tipo": "accion_renta", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerRojoAmarillo.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 93, "nombre": "Alquiler Rosa/Naranja", "tipo": "accion_renta", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerRosaNaranja.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 94, "nombre": "Alquiler Rosa/Naranja", "tipo": "accion_renta", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerRosaNaranja.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 95, "nombre": "Alquiler Verde/Azul", "tipo": "accion_renta", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerVerdeAzul.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 96, "nombre": "Alquiler Verde/Azul", "tipo": "accion_renta", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerVerdeAzul.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 97, "nombre": "Alquiler Ferrocarril/Servicio", "tipo": "accion_renta", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerFerrocarrilServicio.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 98, "nombre": "Alquiler Ferrocarril/Servicio", "tipo": "accion_renta", "accion": None, "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerFerrocarrilServicio.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'}
+    {"id": 89, "nombre": "Alquiler Marron/Celeste", "tipo": "accion", "color": ["marron", "celeste"], "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerMarronCeleste.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 90, "nombre": "Alquiler Marron/Celeste", "tipo": "accion", "color": ["marron", "celeste"], "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerMarronCeleste.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 91, "nombre": "Alquiler Rojo/Amarillo", "tipo": "accion", "color": ["rojo", "amarillo"], "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerRojoAmarillo.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 92, "nombre": "Alquiler Rojo/Amarillo", "tipo": "accion", "color": ["rojo", "amarillo"], "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerRojoAmarillo.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 93, "nombre": "Alquiler Rosa/Naranja", "tipo": "accion", "color": ["rosa", "naranja"], "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerRosaNaranja.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 94, "nombre": "Alquiler Rosa/Naranja", "tipo": "accion", "color": ["rosa", "naranja"], "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerRosaNaranja.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 95, "nombre": "Alquiler Verde/Azul", "tipo": "accion", "color": ["verde", "azul"], "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerVerdeAzul.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 96, "nombre": "Alquiler Verde/Azul", "tipo": "accion", "color": ["verde", "azul"], "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerVerdeAzul.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 97, "nombre": "Alquiler Ferrocarril/Servicio", "tipo": "accion", "color": ["ferrocarril", "servicio"], "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerFerrocarrilServicio.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 98, "nombre": "Alquiler Ferrocarril/Servicio", "tipo": "accion", "color": ["ferrocarril", "servicio"], "valor": 1, "path_a_imagen": f'{__cartas_path}\\alquilerFerrocarrilServicio.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'}
 ]
 
 LISTA_RENTA_MULTICOLOR = [
-    {"id": 86, "nombre": "Alquiler Multicolor", "tipo": "accion", "accion": None, "valor": 3, "path_a_imagen": f'{__cartas_path}\\alquilerMulticolor.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 87, "nombre": "Alquiler Multicolor", "tipo": "accion", "accion": None, "valor": 3, "path_a_imagen": f'{__cartas_path}\\alquilerMulticolor.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
-    {"id": 88, "nombre": "Alquiler Multicolor", "tipo": "accion", "accion": None, "valor": 3, "path_a_imagen": f'{__cartas_path}\\alquilerMulticolor.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'}
+    {"id": 86, "nombre": "Alquiler Multicolor", "tipo": "accion", "color": ["ferrocarril", "servicio", "verde", "azul", "rosa", "naranja", "rojo", "amarillo", "marron", "celeste"], "valor": 3, "path_a_imagen": f'{__cartas_path}\\alquilerMulticolor.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 87, "nombre": "Alquiler Multicolor", "tipo": "accion", "color": ["ferrocarril", "servicio", "verde", "azul", "rosa", "naranja", "rojo", "amarillo", "marron", "celeste"], "valor": 3, "path_a_imagen": f'{__cartas_path}\\alquilerMulticolor.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'},
+    {"id": 88, "nombre": "Alquiler Multicolor", "tipo": "accion", "color": ["ferrocarril", "servicio", "verde", "azul", "rosa", "naranja", "rojo", "amarillo", "marron", "celeste"], "valor": 3, "path_a_imagen": f'{__cartas_path}\\alquilerMulticolor.png', "path_a_queHace": f'{__ui_path}\\queHaceAlquiler.png'}
 ]

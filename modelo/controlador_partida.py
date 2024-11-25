@@ -1,11 +1,13 @@
 from jugador import Jugador
 import random
-from modelo.mazo_de_cartas import MazodeCartas
+from modelo.mazo_de_cartas import MazoDeCartas
 from modelo.cartas.carta import Carta
-class Controlador:
+
+
+class ControladorPartida:
     def __init__(self, jugadores: Jugador):
         self.__jugadores = jugadores  # Instancias de la clase Jugador
-        self.__mazo = []
+        self.__mazo = MazoDeCartas()
         self.__mesa = None
         self.__cartas_descarte = []  # Pila de descarte
         self.__turno_actual = 0  

@@ -1,5 +1,5 @@
-from propiedades import Propiedades
-from carta.carta import Carta
+from Grupo5MonopolyDeck.modelo.propiedades import Propiedades
+from cartas.carta import Carta
 
 
 class Jugador:
@@ -7,6 +7,7 @@ class Jugador:
         self.__avatar = avatar
         self.__nombre = nombre
         self.__listas = {"Mano":[],"Banco":[],"Propiedades":Propiedades()}
+        
     def agregar_a_mano(self, carta: Carta):
         self.__listas["Mano"].append(carta)
 
