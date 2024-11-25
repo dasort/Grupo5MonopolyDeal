@@ -23,7 +23,6 @@ class ControladorPartida:
     def tomar_carta_mazo(self,jugador: Jugador):
         jugador.tomar_carta(self.__mazo.__dar_carta())
     
-    # Otra funcion que necesita cambios cuando se termine de hacer el mazo
     def jugar_carta(self, carta: Carta) -> None:
         # Verificar si la carta puede ser jugada
         pedido = carta.informacion_para_accion()
@@ -33,26 +32,67 @@ class ControladorPartida:
     
     def procesa_pedido(self, pedido, carta: Carta) -> list:
         if pedido == 'EsMiCumpleaños':
-            cartas = []
+            cartas_para_pago = []
+            jugadores_validos = self.jugadores_validos_para_cobro(2)
             for jugador in self.__jugadores:
-                ca
+                if jugador is not carta.duenio:
+                    cartas_para_pago.extend(self.elegir_dinero(jugador, 2))
+            return cartas_para_pago
         elif pedido == 'CobradordDeDeuda':
-            pass
+            cartas_para_pago = []
+            jugadores_validos = self.jugadores_validos_para_cobro(5)
+            jugador_seleccionado = self.elegir_jugador(carta.duenio, jugadores_validos)
+            cartas_para_pago = self.elegir_dinero(jugador_seleccionado, 5)
+            return cartas_para_pago
         elif pedido == 'NegocioFurtivo':
-            pass
+            propiedad_seleccionada = []
+            jugador_seleccionado = self.elegir_jugador(carta.duenio, self.__jugadores)
+            propiedad_seleccionada = self.elegir_propiedad(jugador_seleccionado) # hay que verificar que no esté en un set
+            return [propiedad_seleccionada]
         elif pedido == 'PasaPorLaSalida':
             return [self.__mazo]
         elif pedido == 'TratoForzoso':
-            pass
+            propiedad_propia = self.elegir_propiedad(carta.duenio) # se podría mandar una cadena que se muestre en el dialog
+            jugador_seleccionado = self.elegir_jugador(carta.duenio) # ej. 'Elija una de sus propiedades para intercambiar con otro jugador'
+            propiedad_otro = self.elegir_propiedad(jugador_seleccionado) # Esta cadena se mostraría en el dialog en la interfaz
+            return [propiedad_propia, propiedad_otro]
         elif pedido == 'RentaDoble':
             pass
         elif pedido == 'RentaMulticolor':
             pass
         elif pedido == 'PropiedadComodin':
-            return self.__vista.pedir_color(carta.color) # metodo en la vista que le permite al jugador elegir entre los colores de la carta
+            return [self.elegir_color(carta.color)] # metodo en la vista que le permite al jugador elegir entre los colores de la carta
         else:
             raise ValueError
-            
+    
+    def jugadores_validos_para_cobro(self, valor_minimo: int):
+        return [jugador for jugador in self.__jugadores if jugador.calcular_valor_banco_propiedades() > valor_minimo]
+
+    def elegir_jugador(self, jugador_excluido: Jugador, jugadores_validos: list[Jugador]) -> Jugador:
+        jugadores = []
+        for jugador in jugadores_validos:
+            if jugador is not jugador_excluido:
+                jugadores.append(jugador)
+        dialogo = self.__vista.dialog_pedir_jugador(jugadores)
+        dialogo.exec()
+        return dialogo.jugador_seleccionado
+
+    def elegir_dinero(self, jugador_seleccionado: Jugador, dinero_necesario: int) -> list[Carta]:
+        dialogo = self.__vista.dialog_pedir_dinero(jugador_seleccionado.get_banco(), dinero_necesario)
+        dialogo.exec()
+        return dialogo.cartas_seleccionadas
+
+    def elegir_propiedad(self, jugador: Jugador):
+        propiedades = jugador.get_objeto_propiedad().get_cartas_propiedades()
+        dialogo = self.__vista.dialog_pedir_propiedad(propiedades)
+        dialogo.exec()
+        return dialogo.propiedad_seleccionada
+    
+    def elegir_color(self, lista_colores: list[str]) -> str:
+        dialogo = self.__vista.dialog_pedir_color(lista_colores)
+        dialogo.exec()
+        return dialogo.color_seleccionado
+
     # Elije la una carta de la mano esta funcion necesita cambios pero es la idea de lo que hay que hacer
     def  elijir_carta(self,jugador: Jugador) -> Carta:
         print("Elije la Carta")
@@ -67,6 +107,7 @@ class ControladorPartida:
         cartas = self.__mazo[:cantidad]
         self.__mazo = self.__mazo[cantidad:]
         return cartas
+    
     #devulve el jugador actual segun el turno actual
     def jugador_actual(self):
         return self.__jugadores[self.__turno_actual]
@@ -76,6 +117,7 @@ class ControladorPartida:
         if self.turno_actual + 1 >= len(self.__jugadores): 
             self.turno_actual = 0
         else: self.turno_actual += 1
+        
     # devuelve el mazo de jugador en su turno
     def cargar_mazo_del_jugador_actual(self, cartas):
         jugador_actual = self.jugador_actual()

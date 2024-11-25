@@ -3,7 +3,7 @@ from modelo.cartas.carta import Carta
 
 
 class Jugador:
-    def __init__(self,nombre,avatar: str):
+    def __init__(self,nombre: str,avatar: str):
         self.__avatar = avatar
         self.__nombre = nombre
         self.__listas = {"Mano":[],"Banco":[],"Propiedades":Propiedades()}
@@ -23,6 +23,16 @@ class Jugador:
         else:
             self.__listas["Mano"].extend([cartas])
     
+    def calcular_valor_banco_propiedades(self) -> int:
+        '''Calcula el valor de las cartas en el banco y la lista de propiedades del jugador.\n
+        Necesario porque un jugador no puede pagarle a otro si no tiene el valor necesario.'''
+        propiedades = self.get_propiedades().get_cartas_propiedades()
+        banco = self.get_banco()
+        valor_total = 0
+        for carta in propiedades + banco:
+            valor_total += carta.valor
+        return valor_total
+    
     def elegir_carta(self, lista: str, carta: Carta):
         # Obtener la lista de cartas
         try:
@@ -41,15 +51,23 @@ class Jugador:
             raise  # Re-lanza el error para ser manejado a un nivel superior si es necesario
         
     # Métodos para obtener las cartas de las listas
-    def get_mano(self):
-        return  self.__listas["Mano"]
-    def get_banco(self):
+    def get_mano(self) -> list[Carta]:
+        return self.__listas["Mano"]
+    
+    def get_banco(self) -> list[Carta]:
         return self.__listas["Banco"]
-    def get_propiedades(self):
+    
+    def get_propiedades(self) -> dict:
         return self.__listas["Propiedades"].propiedades
+    
     def get_avatar(self):
         return self.__avatar
     
     @property
-    def nombre (self):
+    def nombre(self) -> str:
         return self.__nombre
+
+    def get_objeto_propiedad(self) -> Propiedades:
+        return self.__listas["Propiedades"]
+
+    # def tiene_propiedades()
