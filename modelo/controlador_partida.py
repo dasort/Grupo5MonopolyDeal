@@ -5,8 +5,8 @@ from modelo.cartas.carta import Carta
 
 
 class ControladorPartida:
-    def __init__(self, jugadores: Jugador):
-        # self.__vista = Vista(self) # poner el nombre de la vista correcto
+    def __init__(self, jugadores: list[Jugador]):
+        self.__vista = Vista(self) # poner el nombre de la vista correcto
         self.__jugadores = jugadores  # Instancias de la clase Jugador
         self.__mazo = MazoDeCartas()
         self.__mesa = None
@@ -28,18 +28,20 @@ class ControladorPartida:
         # Verificar si la carta puede ser jugada
         pedido = carta.informacion_para_accion()
         if pedido is not None:
-            datos_para_accion = self.procesa_pedido(pedido)
+            datos_para_accion = self.procesa_pedido(pedido, carta)
         carta.accion(datos_para_accion)
     
-    def procesa_pedido(self, pedido) -> list:
+    def procesa_pedido(self, pedido, carta: Carta) -> list:
         if pedido == 'EsMiCumpleaños':
-            pass
+            cartas = []
+            for jugador in self.__jugadores:
+                ca
         elif pedido == 'CobradordDeDeuda':
             pass
         elif pedido == 'NegocioFurtivo':
             pass
         elif pedido == 'PasaPorLaSalida':
-            pass
+            return [self.__mazo]
         elif pedido == 'TratoForzoso':
             pass
         elif pedido == 'RentaDoble':
@@ -47,7 +49,7 @@ class ControladorPartida:
         elif pedido == 'RentaMulticolor':
             pass
         elif pedido == 'PropiedadComodin':
-            pass
+            return self.__vista.pedir_color(carta.color) # metodo en la vista que le permite al jugador elegir entre los colores de la carta
         else:
             raise ValueError
             
