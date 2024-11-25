@@ -14,7 +14,7 @@ Elegimos recrear el juego de cartas "Monopoly Deal" aplicando Patrones de diseñ
 - [@DiegoVidal](https://github.com/VidalDiegoo)
 - [@CarlosLopes](https://github.com/carlitoslopes)
 - [@DahianaWilliams](https://github.com/dahiwms)
-- [@NadinGonzalez](https://github.com/faltaellink)
+- [@NadinGonzalez](https://github.com/nadinMG)
 - [@HugoOsvaldoBarrera](https://github.com/colo1413)
 ## 📚 Universidad 
 Este proyecto fue desarrollado como parte de la materia **Programación Orientada a Objetos (POO)** en la **Universidad Nacional de la Patagonia San Juan Bosco (UNPSJB)**, sede Comodoro Rivadavia.
