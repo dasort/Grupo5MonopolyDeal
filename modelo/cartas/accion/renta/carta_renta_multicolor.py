@@ -1,4 +1,4 @@
-from cartas.accion.renta.carta_renta_doble import CartaRentaDoble
+from modelo.cartas.accion.renta.carta_renta_doble import CartaRentaDoble
 
 
 class CartaRentaMulticolor(CartaRentaDoble):

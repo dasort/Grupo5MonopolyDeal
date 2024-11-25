@@ -1,4 +1,4 @@
-from cartas.carta import Carta
+from modelo.cartas.carta import Carta
 
 
 class CartaDinero(Carta):

@@ -1,4 +1,4 @@
-from cartas.propiedad.carta_propiedad import CartaPropiedad
+from modelo.cartas.propiedad.carta_propiedad import CartaPropiedad
 
 
 class CartaPropiedadComodin(CartaPropiedad):
