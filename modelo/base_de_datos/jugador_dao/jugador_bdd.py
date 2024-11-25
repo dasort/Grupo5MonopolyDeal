@@ -20,6 +20,14 @@ class JugadorBDD:
         jugador.__nickname = nickname
         jugador.set_contrasenia(str(contrasenia))
         return jugador
+    
+    @property 
+    def datos_bdd(self): 
+        return self.__datos_bdd 
+    
+    @datos_bdd.setter 
+    def datos_bdd(self, datos): 
+        self.__datos_bdd = datos
 
     def get_id_jugador(self) -> int:
         return self.__id_jugador

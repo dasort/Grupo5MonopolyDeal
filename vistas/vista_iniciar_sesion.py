@@ -10,9 +10,10 @@ from modelo.base_de_datos.jugador_dao import jugador_dao
 
 
 class IniciarSesion(QDialog):
-    def __init__(self, main_menu, parent=None):
+    def __init__(self, main_menu,controlador ,parent=None):
         super().__init__(parent)
         self.main_menu = main_menu  
+        self.controlador = controlador
         self.setWindowTitle("Iniciar Sesión")
         self.setGeometry(480, 200, 600, 450)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
@@ -184,6 +185,8 @@ class IniciarSesion(QDialog):
     def iniciar_sesion(self):
         usuario = self.username_input.text()
         contraseña = self.password_input.text()
+        jugador = jugador_bdd()
+        jugador.datos_bdd= self.ob
 
         if not usuario or not contraseña:
             QMessageBox.warning(self, "Campos vacíos", "Por favor, complete todos los campos.")
@@ -215,6 +218,32 @@ class IniciarSesion(QDialog):
                 cursor.close()
             if conexion:
                 conexion.close()
+                
+    def obtener_datos_del_usuario(self,jugador):
+        try:
+            # Conectar a la base de datos 
+            conn = psycopg2.connect( 
+                host="localhost",
+                database="monopoly",
+                user="postgres",
+                password="1234" ) 
+            cursor = conn.cursor() 
+            # Ejecutar la consulta para obtener los datos del usuario 
+            query = "SELECT contrasenia, salt FROM usuarios WHERE nombre_usuario = %s" 
+            cursor.execute(query, [jugador]) 
+            result = cursor.fetchone()
+            # Cerrar la conexión 
+            cursor.close() 
+            conn.close()
+            if result: 
+                return { 'contrasenia': result[0], 'salt': result[1] } 
+            else: 
+                return None 
+        except Exception as e: 
+            print(f"Error al conectarse a la base de datos: {e}")
+            return None
+        
+        
 
     def volver(self):
         self.hide()
