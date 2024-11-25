@@ -1,7 +1,6 @@
 from PyQt6.QtWidgets import QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QSpacerItem, QSizePolicy, QHBoxLayout
 from PyQt6.QtGui import QIcon, QPixmap, QGuiApplication
-from PyQt6.QtCore import Qt, QUrl
-from PyQt6.QtMultimedia import QAudioOutput, QMediaPlayer
+from PyQt6.QtCore import Qt
 from controladores.controlador_main_menu import controlador_main_menu
 
 class MainMenu(QMainWindow):
@@ -12,13 +11,7 @@ class MainMenu(QMainWindow):
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
         self.centrar_ventana()
 
-        # Configuración del sonido: <-- Tutorial en Stack Overflow
-        self.filename = "imagenes/sonido/click.wav"
-        self.player = QMediaPlayer()
-        self.audio_output = QAudioOutput()
-        self.player.setAudioOutput(self.audio_output)
-        self.player.setSource(QUrl.fromLocalFile(self.filename))
-        self.audio_output.setVolume(50)
+        
 
         #controlador de menu:
         self.controlador=controlador_main_menu()

@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QMainWindow
-from PyQt6.QtCore import Qt
-from PyQt6.QtMultimedia import QMediaPlayer
+from PyQt6.QtCore import QUrl
+from PyQt6.QtMultimedia import QSoundEffect
 from crear_partida import CrearPartida
 from vistas.vista_como_juego import ComoJuego
 from vistas.vista_opciones import Opciones
@@ -10,7 +10,10 @@ class controlador_main_menu (QMainWindow):
     def __init__(self): 
         super().__init__()
         
-        self.player = QMediaPlayer()
+        # Configuración del sonido:
+        self.sound_effect = QSoundEffect()
+        self.sound_effect.setSource(QUrl.fromLocalFile("imagenes/sonido/click.wav"))
+        self.sound_effect.setVolume(50)
         
         # Funciones de los botones:
         self.boton_crear_partida=CrearPartida(self)
@@ -20,8 +23,7 @@ class controlador_main_menu (QMainWindow):
     
     # Sonido de los botones:
     def sonido_click(self):
-        self.player.stop()
-        self.player.play()
+        self.sound_effect.play()
     
     # Botón crear partida:
     def mostrar_crear_partida(self):
