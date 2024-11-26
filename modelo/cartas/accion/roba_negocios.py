@@ -17,3 +17,6 @@ class RobaNegocios(CartaAccion):
                     carta.duenio = self.duenio
                     self.duenio.agregar_a_propiedades(carta)
             self.duenio = None
+
+    def es_jugable(self, lista_jugadores: list) -> bool:
+        return super().es_jugable(lista_jugadores)
