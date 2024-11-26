@@ -211,7 +211,7 @@ class Tablero(QMainWindow):
         descripcion_carta_layout.addWidget(self.descripcion_carta_label)
         # Agregar el layout al área de la zona inferior derecha:
         self.zona_inferior_derecha_layout.addLayout(descripcion_carta_layout)
-    #region MINI ZOOM
+    #region -------------------  MINI ZOOM  ------------------------
         # Agregar el Mini menu
         ventana = QWidget()
         
@@ -228,25 +228,41 @@ class Tablero(QMainWindow):
         contenedor.setContentsMargins(0, 0, 0, 0)
         # Crear el primer widget (cartas)
         cartas_ = QWidget()
-        self.grupos = QWidget()
         #cartas.setFixedSize(100, 150)
         self.cartas_layouts = QGridLayout(cartas_)  # Layout interno de "cartas"
         self.cartas_layouts.setContentsMargins(0, 0, 0, 0)
         # .setStyleSheet("background-color: transparent;")
-        cartas_.setStyleSheet("border: 2px solid blue; background-color: transparent;")
+    
 
         
 
-        #self.cartas_layout.addWidget(self.grupos, 0, 0)
-        #self.cartas_layout.addWidget(self.grupos, 0, 1)
+        
         #self.cartas_layout.addWidget(QLabel("a"), 0, 3)
         # Crear el widget con los botones
         botones = QWidget()
-        botones_layout = QHBoxLayout(botones)  # Layout interno de "botones"
-        botones_layout.addWidget(QPushButton("Botón 1"))
-        botones_layout.addWidget(QPushButton("Botón 2"))
-        botones_layout.addWidget(QPushButton("Botón 3"))
-        botones.setStyleSheet("border: 2px solid green; background-color: #e8f5e9;")
+        self.botones_layout = QHBoxLayout(botones)  # Layout interno de "botones"
+        cartas_ = QWidget()
+        self.cartas_layouts = QGridLayout(cartas_)
+        self.pestaña_cartas()
+        
+        
+        botones.setStyleSheet("""
+    QPushButton {
+        background-color: rgba(194, 78, 27, 0.2);
+        color: white;
+        border: 2px solid rgba(43, 22, 11, 1);
+        border-radius: 10px;
+        padding: 8px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+    QPushButton:hover {
+        background-color: rgba(194, 137, 48, 0.9);
+    }
+    QPushButton:pressed {
+        background-color: rgba(125, 72, 34, 1);
+    }
+""")
         # Añadir los widgets al layout principal
         contenedor.addWidget(cartas_)  # Primera fila
         contenedor.addWidget(botones)  # Segunda fila # Segunda fila
@@ -263,47 +279,57 @@ class Tablero(QMainWindow):
         
         #endregion update
     
-    #region Probando cosas
-    def cargar_cartas(self):
-        #self.limpiar_layout(self.cartas_layouts)
-        filas = 2
-        columnas = 5
+    def cargar_cartas(self,tipo,jugador: Jugador):
+        self.limpiar_layout(self.cartas_layouts)
+        filas = 0
+        columnas = 0
         maximo = filas * columnas
-        cantidad = self.contar_propiedades(self.__controlador.get_jugador_actual().get_propiedades)
-        
-        for index in range(maximo):
-            fila = index // columnas
-            columna = index % columnas
-            if index < cantidad:
-                print(f"------------------ ENTRANDO A FOR -----------------")
-                grupos = QWidget()  # Crear un nuevo QWidget para cada grupo
-                self.agregar_cartas(self.__controlador.get_jugador_actual().propiedades, grupos)
+        if tipo == "propiedad":
+            cantidad = self.contar_propiedades(jugador.get_propiedades)
+            clase = jugador.propiedades
+            listas =  clase.lista_grupos()
+            if len(listas) < 11:
+                for diccionarios in listas:
+                    if isinstance(diccionarios, dict):
+                        columnas += 1
+                        grupo =  self.agregar_cartas(diccionarios["sublista"])
+                        self.cartas_layouts.addWidget(grupo, filas, columnas)
+                        if columnas == 5:
+                            filas +=1
+                            columnas = 0
+                            print("llego al for de diccionarios")
+                    else:
+                        print("No es un diccionario")
+        elif tipo == "dinero":
             
-                # Añadir el grupo al layout
-                self.cartas_layouts.addWidget(grupos, fila, columna)
+            lista = jugador.get_banco  # Llamas al método para obtener la lista
+            sublistas = [lista[i:i + 5] for i in range(0, len(lista), 5)]
+            if len(sublistas) < 11:
+                for cartas in sublistas:
+                    
+                    columnas += 1
+                    grupo =  self.agregar_cartas(cartas)
+                    self.cartas_layouts.addWidget(grupo, filas, columnas)
+                    if columnas == 5:
+                        filas +=1
+                        columnas = 0
                 
-    def agregar_cartas(self, listas, grupos: QWidget):
-        """
-        Crea y organiza varias cartas dentro de `mano_contenedora`.
-        """
-        if isinstance(listas, dict):  # Verifica que listas sea un diccionario
-            print("Agregando cartas")
-            a = 0  # Contador para las cartas
-            listas_sublistas = listas.lista_grupos()
-            for sublistas in listas_sublistas:
-                grupos = QWidget()
-                for index, lista in enumerate(sublistas):
-                    #propiedad = lista[index]
-                    carta = QLabel(self)  # Crea un QLabel para cada carta
-                    carta.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-                    carta.setScaledContents(True)
-                    carta.setMinimumSize(60, 100)  # Tamaño mínimo de la carta
-                    carta.setMaximumSize(80, 120)  # Tamaño máximo de la carta
-                    pixmap = QPixmap(lista.path_a_imagen)
-                    carta.setPixmap(pixmap)  # Establece la imagen en el QLabel
-                    self.agregar_carta(carta, grupos, offset=index * 20)
-                print(f"Cantidad que se mostró: {a} cartas")
-            
+                
+    def agregar_cartas(self, sublista):
+        grupos = QWidget()
+        for index, lista in enumerate(sublista):
+            print("llego al for de sublistas")
+            #propiedad = lista[index]
+            carta = QLabel(self)
+            #carta.mousePressEvent = self.evento_click_carta(carta)# Crea un QLabel para cada carta
+            carta.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+            carta.setScaledContents(True)
+            carta.setMinimumSize(60, 100)  # Tamaño mínimo de la carta
+            carta.setMaximumSize(80, 120)  # Tamaño máximo de la carta
+            pixmap = QPixmap(lista.path_a_imagen)
+            carta.setPixmap(pixmap)  # Establece la imagen en el QLabel
+            self.agregar_carta(carta, grupos, offset=index * 20)
+        return grupos
     def agregar_carta(self, carta, padre, offset):
         """
         Agrega una carta al widget `mano_contenedora` con un desplazamiento para simular superposición.
@@ -315,15 +341,24 @@ class Tablero(QMainWindow):
             carta.show()
         else:
             print("No hay suficiente espacio para mover la carta.")
-        #print("Agregar termina")
-
     #endregion
     def update_interfaz(self):
-        self.cargar_cartas()
+        self.pestaña_cartas()
         self.mostrar_jugadores(self.__controlador.get_jugadores())
         self.mostrar_mano_jugador()
         self.repaint()
-        
+    def pestaña_cartas(self):
+        self.limpiar_layout(self.botones_layout)
+        self.limpiar_layout(self.cartas_layouts)
+        propiedades_button = QPushButton("Propiedades")
+        dinero_button = QPushButton("Dinero")
+        descarte_button = QPushButton("Descarte")
+        propiedades_button.clicked.connect(lambda:self.cargar_cartas("propiedad",self.jugadores[self.turno_actual]))
+        dinero_button.clicked.connect(lambda:self.cargar_cartas("dinero",self.jugadores[self.turno_actual]))
+        descarte_button.clicked.connect(self.elejir_color)
+        self.botones_layout.addWidget(propiedades_button)
+        self.botones_layout.addWidget(dinero_button)
+        self.botones_layout.addWidget(descarte_button)    
     def limpiar_layout(self, layout):
         """Elimina todos los widgets de un layout."""
         while layout.count():
