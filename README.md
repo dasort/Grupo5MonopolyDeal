@@ -15,33 +15,58 @@ Elegimos recrear el juego de cartas "Monopoly Deal" aplicando Patrones de diseñ
 - [@NadinGonzalez](https://github.com/nadinMG)
 - [@HugoOsvaldoBarrera](https://github.com/colo1413)
 
-## 📚 Universidad 
+## Sobre el proyecto
+- Esta es una versión adaptada del **Monopoly Deal**, usando nuestra propia temática basada en la ciudad de **Comodoro Rivadavia**.
+- **Diseño único**: Las cartas las diseñamos desde 0, con menciones de calles y avenidas de la ciudad.
+
+### 📚 Universidad 
 Este proyecto fue desarrollado como parte de la materia **Programación Orientada a Objetos (POO)** en la **Universidad Nacional de la Patagonia San Juan Bosco (UNPSJB)**, sede Comodoro Rivadavia.
 
 ## Monopoly Deal Preview Gameplay
 ![](./imagenes/readme/GIF.gif)
 
-## Características Técnicas
+## 📊 Características Técnicas
 
-- Implementamos el **Patrón de Diseño MVC (Modelo-Vista-Controlador)**, asegurando:
-  - **Separación de responsabilidades**: Lógica, interfaz y el control están separados, para facilitar la escalabilidad y el mantenimiento.
-  - Realizado con la estructura de código más organizadas posible.
-
-
-## Características Artísticas
-- Esta es una versión adaptada del **Monopoly Deal**, usando nuestra propia temática basada en la ciudad de **Comodoro Rivadavia**.
-- **Diseño único**: Las cartas las diseñamos desde 0, con menciones de calles y avenidas de la ciudad.
-- Nuestro enfoque principal es darles una experiencia:
-  - ✔**Funcional**
-  - ✔**Atractiva**
-  - ✔**Intuitiva** (Asegurandonos que los usuarios tengan una experiencia lo más cercana al Monopoly Deal original).
+### Patrón de Diseño MVC (Modelo-Vista-Controlador)
+- **Separación de responsabilidades:** La lógica, interfaz y el control están separados, facilitando la escalabilidad y el mantenimiento del código.
+- **Estructura organizada:** Código estructurado y modular, promoviendo buenas prácticas de programación.
 
 
-## 🔸 VERSION DE PYTHON: [3.12.5]
-## 🔸Paquetes y librerias utilizadas 
+## 🛠️ Requisitos del Sistema
+- **Python:** Versión `3.12.5`
 
+### Tecnologías Utilizadas
+- **PyQt6:** Para la interfaz gráfica del usuario (GUI), proporcionando una experiencia interactiva y visualmente agradable.
+- **Psycopg2:** Para la conexión y manipulación de la base de datos PostgreSQL.
+- **Hashlib:** Utilizado para asegurar y encriptar datos sensibles.
+
+### Paquetes y librerías necesarias:
+- `PyQt6`
+- `Psycopg2`
+- `Hashlib`
+
+## 🚀 Cómo Ejecutar el Proyecto
+
+### 1. Clonar el repositorio:
 ```bash
-  - Pyqt6 
-  - psycopg2 
-  - hashlib
+git clone https://github.com/lucasub360/Grupo5MonopolyDeal
+cd monopoly-deal
 ```
+
+### 2. Crear y activar un entorno virtual (OPCIONAL): 
+```bash
+python -m venv env
+source env/bin/activate  # En Windows: env\Scripts\activate
+```
+
+### 3. Instalar las dependencias::
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Ejecutar la aplicación:
+```bash
+python main.py
+```
+
+### ¡Felicidades! Ya podes disfrutar del juego🎉
