@@ -9,9 +9,8 @@ class ComoJuego(QDialog):
         self.setWindowTitle("¿Cómo Juego?")
         self.setGeometry(340, 130, 900, 600)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
-        
 
-        # controlador de como juego :
+        # Controlador de como juego:
         self.controlador_juego=controlador_como_juego(self)
         
         # Main layout:
@@ -60,7 +59,6 @@ class ComoJuego(QDialog):
         self.layout_arriba_abajo.setContentsMargins(20, 10, 20, 10)
         self.layout_arriba_abajo.setSpacing(12)
         self.layout_arriba_abajo.setAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignTop)
-        
         
         # El layout_abajo cambia dinámicamente según que botón se seleccione.
         self.controlador_juego.mostrar_reglas_generales() # <-- Acá me aseguro que empiece con la de Reglas Generales como predeterminado.

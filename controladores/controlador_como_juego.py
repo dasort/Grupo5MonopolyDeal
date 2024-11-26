@@ -8,23 +8,21 @@ class controlador_como_juego(QMainWindow):
     def __init__(self,accion): 
         super().__init__()
         self.accion=accion
+        self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
         
-        
-        #widget abajo :
+        # Widget abajo :
         self.widget_abajo=QWidget()
-        #creacion de labels:
         
         self.layout_abajo = QVBoxLayout(self.widget_abajo)
         self.layout_abajo.setContentsMargins(10, 10, 10, 10)
         self.layout_abajo.setSpacing(5)
         self.layout_abajo.setAlignment(Qt.AlignmentFlag.AlignTop)
-
         
     def mostrar_reglas_generales(self):
         
         self.limpiar_layout(self.layout_abajo)
         
-        linea1 = QLabel("¡Bienvenido a Monopoly Deal de Escrit  orio!")
+        linea1 = QLabel("¡Bienvenido a Monopoly Deal de Escritorio!")
         linea1.setStyleSheet("""
             padding-left: 5px;
             font-size: 22px;
@@ -161,7 +159,6 @@ class controlador_como_juego(QMainWindow):
         self.layout_abajo.addWidget(linea33)
         self.layout_abajo.addWidget(linea34)
         
-        
     def mostrar_ver_cartas(self):
         self.limpiar_layout(self.layout_abajo)
         
@@ -253,7 +250,11 @@ class controlador_como_juego(QMainWindow):
         self.layout_abajo.addWidget(widget_cartas)
     
     def mostrar_info_carta(self, descripcion):
-        QMessageBox.information(self, "Información de la Carta", descripcion)
+        mensaje = QMessageBox(self)
+        mensaje.setWindowTitle("Información de la Carta")
+        mensaje.setText(descripcion)
+        mensaje.setIcon(QMessageBox.Icon.NoIcon) # <-- Para que no hagan el sonido.
+        mensaje.exec()
         
     def mostrar_a_cerca_interfaz(self):
         self.limpiar_layout(self.layout_abajo)
@@ -313,21 +314,16 @@ class controlador_como_juego(QMainWindow):
         self.layout_abajo.addWidget(linea14)
         self.layout_abajo.addWidget(linea15)
     
-    
-        
-    
     def limpiar_layout(self, layout):
         while layout.count():
             item = layout.takeAt(0)
             if item.widget():
                 item.widget().deleteLater() # <-- Borrar el Widget.
             elif item.layout():
-                self.limpiar_layout(item.layout())
-                
+                self.limpiar_layout(item.layout())   
     
     def volver(self):
         self.accion.hide()
-        
     
     def centrar_ventana(self):
         forma_pantalla = QGuiApplication.primaryScreen().availableGeometry()
