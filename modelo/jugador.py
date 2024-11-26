@@ -66,9 +66,6 @@ class Jugador:
     def get_propiedades(self) -> dict:
         return self.__listas["Propiedades"].propiedades
     
-    def get_avatar(self):
-        return self.__avatar
-    
     @property
     def nombre(self) -> str:
         return self.__nombre
@@ -77,7 +74,12 @@ class Jugador:
     def nombre(self, nombre) -> None:
         self.__nombre = nombre
     
-    def set_avatar(self, avatar) -> None:
+    @property
+    def avatar(self):
+        return self.__avatar
+
+    @avatar.setter
+    def avatar(self, avatar) -> None:
         self.__avatar = avatar
         
     def get_objeto_propiedad(self) -> Propiedades:

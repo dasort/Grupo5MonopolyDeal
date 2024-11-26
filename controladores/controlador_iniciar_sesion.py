@@ -32,7 +32,7 @@ class Controlador_iniciar_sesion:
         contrasenia = self.__vista.password_input.text()
         
         if not usuario or not contrasenia:
-            self.__vista.show_error_dialog()
+            self.__vista.show_error_dialog('Tiene que llenar los dos campos para iniciar sesión.')
         else:
             conn = JugadorDAOImpl(Database().conexion())
             if self.check_ya_registrado(usuario):
@@ -51,6 +51,7 @@ class Controlador_iniciar_sesion:
     
     def check_ya_registrado(self, usuario) -> bool:
         for jugador in self.__jugadores:
-            if jugador.datos_bdd.get_nickname() == usuario:
-                return True
+            if jugador.datos_bdd is not None:
+                if jugador.datos_bdd.get_nickname() == usuario:
+                    return True
         return False
