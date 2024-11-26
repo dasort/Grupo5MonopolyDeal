@@ -11,7 +11,7 @@ class ComoJuego(QDialog):
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
         
 
-        # controlador de como juego:
+        # controlador de como juego :
         self.controlador_juego=controlador_como_juego(self)
         
         # Main layout:
