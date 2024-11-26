@@ -113,11 +113,12 @@ class Opciones(QDialog):
             "Cárdenas, Franco\n"
             "Lopes, Carlos\n"
             "Gonzales, Nadin\n"
-            "Cabana, Ricardo (Abandonó)\n"
             "Williams, Dahiana\n"
             "Vidal, Maida Diego\n"
-            "Ampuero, Alejandro\n"
-            "Contreras, Joel\n")
+            "Ampuero, Alejandro\n\n"
+            "Contreras, Joel (No participó)\n"
+            "Cabana, Ricardo (Abandonó)\n")
+            
         mensaje.setIcon(QMessageBox.Icon.Information)
         mensaje.setStandardButtons(QMessageBox.StandardButton.Ignore)
         mensaje.exec()
