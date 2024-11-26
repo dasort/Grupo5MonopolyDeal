@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButt
 from PyQt6.QtGui import QIcon, QPixmap, QGuiApplication
 from PyQt6.QtCore import Qt
 
+
 class Estadisticas(QDialog):
     def __init__(self, main_menu, parent=None):
         super().__init__(parent)

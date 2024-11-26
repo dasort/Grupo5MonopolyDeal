@@ -56,7 +56,7 @@ cd monopoly-deal
 ### 2. Crear y activar un entorno virtual (OPCIONAL): 
 ```bash
 python -m venv env
-source env/bin/activate  # En Windows: env\Scripts\activate
+source env/bin/activate # ( En Windows: env\Scripts\activate )
 ```
 
 ### 3. Instalar las dependencias::

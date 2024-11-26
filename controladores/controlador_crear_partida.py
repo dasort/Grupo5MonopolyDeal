@@ -4,6 +4,7 @@ from controladores.controlador_iniciar_sesion import Controlador_iniciar_sesion
 from modelo.jugador import Jugador
 
 
+
 class ControladorCrearPartida:
     def __init__(self, main_menu):
         self.__main_menu = main_menu
@@ -22,17 +23,21 @@ class ControladorCrearPartida:
         if len(self.__vista.jugadores) >= self.__vista.minimo_jugadores:
             if len(self.__vista.jugadores) == self.__vista.maximo_jugadores:
                 self.__vista.agregar_jugador_boton.setEnabled(False)
+                self.__vista.shortcut1.setEnabled(False)
             else:
                 self.__vista.agregar_jugador_boton.setEnabled(True)
                 self.__vista.crear_partida_boton.setEnabled(True)
                 self.__vista.aviso_label.hide()
+                self.__vista.shortcut1.setEnabled(True)
         else:
             if len(self.__vista.jugadores) == 1:
                 self.__vista.quitar_jugador_boton.setEnabled(True)
                 self.__vista.crear_partida_boton.setEnabled(False)
                 self.__vista.aviso_label.show()
+                self.__vista.shortcut2.setEnabled(True)
             else:
                 self.__vista.quitar_jugador_boton.setEnabled(False)
+                self.__vista.shortcut2.setEnabled(False)
 
     def quitar_jugador(self):
         if self.__vista.jugadores:

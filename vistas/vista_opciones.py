@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QDialog, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QSpacerItem, QSizePolicy, QFrame, QMessageBox
+from PyQt6.QtWidgets import QDialog, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QSpacerItem, QSizePolicy, QFrame, QMessageBox, QSlider
 from PyQt6.QtGui import QGuiApplication
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
@@ -11,92 +11,142 @@ class Opciones(QDialog):
         self.__controlador = controlador
         
         self.setWindowTitle("Opciones")
-        self.setGeometry(570, 240, 400, 300)
+        self.setGeometry(570, 240, 400, 415)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
 
-        #Layout
-        self.layout = QVBoxLayout()
-        self.layout_para_centrar_botones = QVBoxLayout()
-        self.layout.addSpacing(10)
-
-        #Titulo
-        self.label = QLabel("Ajustes y configuraciones del juego:", self)
-        self.layout.addWidget(self.label)
-        self.layout.addSpacing(20)
-
-        #Linea
-        linea1 = QFrame(self)
-        linea1.setFrameShape(QFrame.Shape.HLine)
-        linea1.setFrameShadow(QFrame.Shadow.Sunken)
-        self.layout.addWidget(linea1)
-
-        self.layout.addSpacing(10)
-
-        #Botones a,b,c ------------
-        boton_a = QPushButton("Version prémium", self)
-        boton_a.setFixedWidth(250)
-        boton_a.setEnabled(False)
-
-        boton_b = QPushButton("Recompensa diaria", self)
-        boton_b.setFixedWidth(250)
-        boton_b.setEnabled(False)
-
-        boton_c = QPushButton("Activar cheats", self)
-        boton_c.setFixedWidth(250)
-        boton_c.setEnabled(False)
-        #------------
-
-        self.layout_para_centrar_botones.addWidget(boton_a, alignment=Qt.AlignmentFlag.AlignCenter)
-        self.layout_para_centrar_botones.addSpacing(2)
-        self.layout_para_centrar_botones.addWidget(boton_b, alignment=Qt.AlignmentFlag.AlignCenter)
-        self.layout_para_centrar_botones.addSpacing(2)
-        self.layout_para_centrar_botones.addWidget(boton_c, alignment=Qt.AlignmentFlag.AlignCenter)
-        self.layout.addLayout(self.layout_para_centrar_botones)
-        self.layout.addSpacing(10)
+        # Layouts:
+        self.main_layout = QVBoxLayout()
+        self.main_layout.setAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignTop)
+        self.main_layout.setContentsMargins(0, 20, 0, 0)
+        self.main_layout.setSpacing(20)
+        self.setLayout(self.main_layout)
         
-        #Otra Linea: 
-        linea1 = QFrame(self)
-        linea1.setFrameShape(QFrame.Shape.HLine)
-        linea1.setFrameShadow(QFrame.Shadow.Sunken)
-        self.layout.addWidget(linea1)
+        self.layout_botones_centrales = QVBoxLayout()
+        self.layout_botones_centrales.setAlignment(Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignTop)
+        self.layout_botones_centrales.setSpacing(10)
 
-        self.layout.addSpacing(10)
+        # Título:
+        self.titulo_label = QLabel("Ajustes y configuraciones del juego:", self)
+        self.titulo_label.setStyleSheet("""
+            font-size: 18px;
+            text-align: left;
+        """)
+        self.main_layout.addWidget(self.titulo_label)
 
-        # Boton Créditos:
-        boton_creditos = QPushButton("Créditos", self)
-        boton_creditos.clicked.connect(self.mostrar_creditos)
-        self.layout.addWidget(boton_creditos)
+        # Línea 1:
+        self.linea1 = QFrame(self)
+        self.linea1.setFrameShape(QFrame.Shape.HLine)
+        self.linea1.setFrameShadow(QFrame.Shadow.Sunken)
+        self.main_layout.addWidget(self.linea1)
 
-        self.layout.addSpacing(10)
+        # Botones centrales:
+        boton_a = self.crear_boton_central("Version prémium")
+        boton_a.setToolTip("Disponible en la v2.0.")
+        self.layout_botones_centrales.addWidget(boton_a)
 
-        #Otra Linea: 
-        linea1 = QFrame(self)
-        linea1.setFrameShape(QFrame.Shape.HLine)
-        linea1.setFrameShadow(QFrame.Shadow.Sunken)
-        self.layout.addWidget(linea1)
+        boton_b = self.crear_boton_central("Recompensa diaria")
+        boton_b.setToolTip("Disponible solo en la versión prémium.")
+        self.layout_botones_centrales.addWidget(boton_b)
 
-        self.layout.addSpacing(10)
+        boton_c = self.crear_boton_central("Activar cheats")
+        boton_c.setToolTip("Disponible en una recompensa diaria.")
+        self.layout_botones_centrales.addWidget(boton_c)
 
-        # Volver:
-        self.boton_volver = QPushButton("Volver al Menú Principal", self)
+        self.main_layout.addLayout(self.layout_botones_centrales)
+        
+        # Línea 2: 
+        self.linea2 = QFrame(self)
+        self.linea2.setFrameShape(QFrame.Shape.HLine)
+        self.linea2.setFrameShadow(QFrame.Shadow.Sunken)
+        self.main_layout.addWidget(self.linea2)
+        
+        # ---
+        
+        # Layout para el volumen:
+        self.volumen_widget = QWidget()
+        self.layout_volumen = QHBoxLayout(self.volumen_widget)
+        self.volumen_widget.setFixedWidth(320)
+        
+        # Label para el volumen:
+        self.volumen_label = QLabel("Volumen:", self)
+        self.volumen_label.setStyleSheet("""
+            font-size: 18px;
+            text-align: left;
+        """)
+        self.layout_volumen.addWidget(self.volumen_label)
+        
+        # Slider para el volumen:
+        self.slider_volumen = QSlider(Qt.Orientation.Horizontal, self)
+        self.slider_volumen.setMinimum(0)
+        self.slider_volumen.setMaximum(100)
+        self.slider_volumen.setValue(self.__controlador.obtener_volumen())
+        self.slider_volumen.valueChanged.connect(self.__controlador.cambiar_volumen)
+        self.slider_volumen.setFixedWidth(185)
+        self.layout_volumen.addWidget(self.slider_volumen)
+        
+        self.main_layout.addWidget(self.volumen_widget)
+
+        # ---
+        
+        # Botón Créditos:
+        self.boton_creditos = self.crear_boton("Créditos")
+        self.boton_creditos.clicked.connect(self.mostrar_creditos)
+        self.boton_creditos.setToolTip("Visualizá los desarrolladores de este juego.")
+        self.main_layout.addWidget(self.boton_creditos)
+
+        # Botón Volver:
+        self.boton_volver = self.crear_boton("Volver al Menú Principal")
         self.boton_volver.clicked.connect(self.__controlador.volver)
-        self.layout.addWidget(self.boton_volver)
-        self.setLayout(self.layout) 
+        self.boton_volver.setToolTip("Volvé al Menú Principal.")
+        self.main_layout.addWidget(self.boton_volver)
 
+    def crear_boton(self, texto):
+        boton = QPushButton(texto, self)
+        boton.setStyleSheet("""
+            QPushButton {
+                border: 2px solid #444;
+                border-radius: 5px;
+                background-color: #222; /* <-- Es perfecto no cambiar */
+                font-size: 18px;
+                text-align: center;
+            }
+            QPushButton:hover {
+                background-color: #333; /* <-- Tampoco */
+            }
+        """)
+        boton.setFixedHeight(30)
+        boton.setFixedWidth(320)
+    
+        return boton
+    
+    def crear_boton_central(self, texto):
+        boton = QPushButton(texto, self)
+        boton.clicked.connect(self.mostrar_creditos)
+        boton.setEnabled(False)
+        boton.setStyleSheet("""
+            font-size: 17px;
+        """)
+        
+        boton.setFixedHeight(32)
+        boton.setFixedWidth(250)
+    
+        return boton
+    
     def mostrar_creditos(self):
         mensaje = QMessageBox(self)
         mensaje.setWindowTitle("Créditos")
-        mensaje.setText("Nosotros desarrollamos este juego:")
+        mensaje.setText("Nosotros desarrollamos este juego:  ")
         mensaje.setInformativeText(
             "\n\nBonifacio, Lucas\n"
             "Cárdenas, Franco\n"
             "Lopes, Carlos\n"
             "Gonzales, Nadin\n"
-            "Cabana, Ricardo (Abandonó)\n"
             "Williams, Dahiana\n"
             "Vidal, Maida Diego\n"
-            "Ampuero, Alejandro\n"
-            "Contreras, Joel\n")
+            "Ampuero, Alejandro\n\n"
+            "Contreras, Joel (No participó)\n"
+            "Cabana, Ricardo (Abandonó)\n")
+            
         mensaje.setIcon(QMessageBox.Icon.Information)
         mensaje.setStandardButtons(QMessageBox.StandardButton.Ignore)
         mensaje.exec()

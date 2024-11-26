@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import QApplication
 from PyQt6.QtGui import QFont, QFontDatabase
 from controladores.controlador_main_menu import ControladorMainMenu
 
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 

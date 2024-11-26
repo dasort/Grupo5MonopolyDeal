@@ -176,6 +176,15 @@ class IniciarSesion(QDialog):
         self.main_layout.addWidget(self.login_button)
         self.main_layout.addWidget(self.register_button)
         self.main_layout.addWidget(self.boton_volver)
+
+    def volver(self):
+        self.hide()
+        self.main_menu.show()
+
+    def abrir_crear_partida(self):
+        self.hide()
+        self.crear_partida_window = CrearPartida(self)
+        self.crear_partida_window.show()
         
     def alternar_modo_echo(self):
         # Estado anterior antes de cambiarlo:
