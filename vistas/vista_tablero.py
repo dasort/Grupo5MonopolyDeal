@@ -342,6 +342,15 @@ class Tablero(QMainWindow):
         else:
             print("No hay suficiente espacio para mover la carta.")
     #endregion
+    def limpiar_layout(self, layout):
+        """Elimina todos los widgets de un layout."""
+        while layout.count():
+            item = layout.takeAt(0)
+            widget = item.widget()
+            if widget:
+                widget.deleteLater()
+            elif item.layout():
+                self.limpiar_layout(item.layout())
     def update_interfaz(self):
         self.pestaña_cartas()
         self.mostrar_jugadores(self.__controlador.get_jugadores())
