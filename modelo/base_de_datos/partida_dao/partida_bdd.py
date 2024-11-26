@@ -2,7 +2,7 @@ from __future__ import annotations
 
 
 class PartidaBDD: 
-    def __init__(self, id_partida: int, id_ganador: int) -> None:
+    def __init__(self, id_partida: int = None, id_ganador: int = None) -> None:
         self.__id_partida = id_partida
         self.__id_ganador = id_ganador
     
