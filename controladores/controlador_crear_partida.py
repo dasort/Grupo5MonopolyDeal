@@ -15,9 +15,9 @@ class ControladorCrearPartida:
         self.__vista.hide()
         var = self.__main_menu()
 
-    def abre_iniciar_sesion(self):
+    def abre_iniciar_sesion(self, jugador, jugadores):
         self.__vista.hide()
-        var = Controlador_iniciar_sesion(self.__main_menu, self)
+        var = Controlador_iniciar_sesion(jugador, jugadores, self.__main_menu, self)
 
     def cambio_cant_jugadores(self):
         if len(self.__vista.jugadores) >= self.__vista.minimo_jugadores:
@@ -55,20 +55,30 @@ class ControladorCrearPartida:
             self.cambio_cant_jugadores()
             self.__vista.cargar_iconos()
 
+    def devolver_jugador(self):
+        return Jugador(f'Anónimo{len(self.__vista.jugadores)+1}')
+
     def crear_partida(self):
+        # jugadores = []
+        # for jugador in self.__vista.jugadores:
+        #     nombre = jugador['nombre'].text()
+        #     avatar = jugador['avatar'].currentData()
+        #     dinero = jugador['dinero']
+        #     propiedades = jugador['propiedades']
+        #     banco = jugador['banco']
+        #     acciones = jugador['acciones']
+        #     jugadores.append({'nombre': nombre, 'avatar': avatar, 'dinero': dinero, 'propiedades': propiedades, 'banco': banco, 'acciones': acciones})
+        # self.__vista.close()
+        # self.start_game(jugadores)
+
         jugadores = []
-        for jugador in self.__vista.jugadores:
-            nombre = jugador['nombre'].text()
-            avatar = jugador['avatar'].currentData()
-            dinero = jugador['dinero']
-            propiedades = jugador['propiedades']
-            banco = jugador['banco']
-            acciones = jugador['acciones']
-            jugadores.append({'nombre': nombre, 'avatar': avatar, 'dinero': dinero, 'propiedades': propiedades, 'banco': banco, 'acciones': acciones})
-        print(jugadores)
+        for j in self.__vista.jugadores:
+            jugador = j['jugador_objeto']
+            jugador.nombre = j['nombre'].text()
+            jugador.set_avatar(j['avatar'].currentData())
+            jugadores.append(jugador)
         self.__vista.close()
         self.start_game(jugadores)
-
+        
     def start_game(self, jugadores):
-        self.__vista = ControladorPartida(self.__main_menu, jugadores)
-        self.__vista.show()
+        ControladorPartida(self.__main_menu, jugadores)

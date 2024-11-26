@@ -4,7 +4,7 @@ from modelo.base_de_datos.jugador_dao.jugador_bdd import JugadorBDD
 
 
 class Jugador:
-    def __init__(self,nombre: str,avatar: str):
+    def __init__(self, nombre: str = None, avatar: str = None):
         self.__avatar = avatar
         self.__nombre = nombre
         self.__listas = {"Mano":[],"Banco":[],"Propiedades":Propiedades()}
@@ -73,6 +73,13 @@ class Jugador:
     def nombre(self) -> str:
         return self.__nombre
 
+    @nombre.setter
+    def nombre(self, nombre) -> None:
+        self.__nombre = nombre
+    
+    def set_avatar(self, avatar) -> None:
+        self.__avatar = avatar
+        
     def get_objeto_propiedad(self) -> Propiedades:
         return self.__listas["Propiedades"]
 

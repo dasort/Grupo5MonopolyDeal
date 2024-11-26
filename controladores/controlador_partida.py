@@ -13,7 +13,6 @@ from vistas.vista_tablero import Tablero
 class ControladorPartida:
     def __init__(self, main_menu: Callable, jugadores: list[Jugador]):
         self.__main_menu = main_menu
-        self.__vista = Tablero(self) # poner el nombre de la vista correcto
         self.__jugadores = jugadores  # Instancias de la clase Jugador
         self.__jugador_actual = choice(self.__jugadores)
         self.__cartas_jugadas_en_turno = 0
@@ -21,7 +20,8 @@ class ControladorPartida:
         self.__cartas_descarte = MazoDeDescarte()  # Pila de descarte
         self.__turno_actual = self.__jugadores.index(self.__jugador_actual)
         self.__ganador: Jugador = None
-        self.empezar_partida()
+        self.repartir_cartas()
+        self.__vista = Tablero(self)
         self.__vista.show()
 
     def get_mazo(self):
@@ -177,8 +177,8 @@ class ControladorPartida:
 
     def chequea_ganador(self) -> bool:
         for jugador in self.__jugadores:
-            sets_jugador = jugador.get_objeto_propiedad().get_sets_completos()
-            if len(sets_jugador) == 3:
+            sets_jugador = jugador.get_objeto_propiedad().get_grupos()
+            if sets_jugador == 3:
                 if self.__ganador is None:
                     self.__ganador = jugador
                 elif isinstance(self.__ganador, Jugador):
@@ -217,6 +217,11 @@ class ControladorPartida:
         else:
             self.__turno_actual += self.__turno_actual + 1
         self.__jugador_actual = self.__jugadores[self.__turno_actual]
+        tamanio_mano = len(self.__jugador_actual.get_mano())
+        if tamanio_mano <= 5:
+            self.dar_dos_cartas()
+        elif tamanio_mano == 6:
+            self.tomar_carta_mazo(self.__jugador_actual)
         self.__vista.mostrar_mano_jugador()
     
     def volver(self):

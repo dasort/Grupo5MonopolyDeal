@@ -182,7 +182,7 @@ class Propiedades(Carta):
         for color in self.__propiedades.keys():
             set_propiedad = dict()
             set_propiedad['color'] = color
-            set_propiedad['cartas'] = self.__propiedades[color]['lista']['sublista']
+            set_propiedad['cartas'] = self.__propiedades[color]['lista'][0]
             sets_completos.append(set_propiedad)
         for set in sets_completos:
             if len(set['cartas']) < self.__maximo_cartas_por_set[set['color']]:
@@ -199,3 +199,6 @@ class Propiedades(Carta):
         # primero se accede al color correcto en el diccionario valor_alquiler_por_set, luego se accede a la posición de la
         # lista que tiene un índice igual a la cantidad de propiedades en el set. Se le resta uno porque el primer índice
         # es 0 y la mínima cantidad es 1
+
+    def accion(self) -> None:
+        pass

@@ -9,10 +9,14 @@ class Tablero(QMainWindow):
     def __init__(self, controlador, parent=None):
         super().__init__()
         self.__controlador = controlador
+        
         self.setWindowTitle("Tablero de Juego")
         self.setGeometry(20, 30, 1500, 750)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
 
+        path_script = Path(__file__).resolve()
+        self.path_proyecto = path_script.parent.parent
+        
         self.tiempo_restante = 60
         
         self.carta_seleccionada = None
@@ -196,9 +200,10 @@ class Tablero(QMainWindow):
 
         # Descripción de carta
         self.descripcion_carta_label = QLabel(self)
-        path_script = Path(__file__).resolve()
-        self.path_proyecto = path_script.parent.parent
+        
         self.path_queHaceVacio = self.path_proyecto / "imagenes/ui/queHaceVacio.png"
+        self.path_queHaceVacio = self.path_queHaceVacio.as_posix()
+
         pixmap_fondo = QPixmap(self.path_queHaceVacio).scaled(400, 300, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
         self.descripcion_carta_label.setPixmap(pixmap_fondo) #                  |                                   | Estos dos dos Qt solucionan la vida.
         self.descripcion_carta_label.setFixedSize(400, 300)
@@ -543,6 +548,7 @@ class Tablero(QMainWindow):
         cartas = jugador_actual.get_mano()
         
         imagen_vacia = self.path_proyecto / "imagenes/cartas/cartaVacia.png"
+        imagen_vacia = imagen_vacia.as_posix()
 
         # Lógica para mostrar hasta 7 cartas:
         for i in range(7):      # <-- (No se va a exceder, pero igual tengo que usarlo).
@@ -558,6 +564,7 @@ class Tablero(QMainWindow):
                 carta_label.mousePressEvent = self.evento_click_carta(carta)
             else:
                 carta_imagen = imagen_vacia
+            print(carta_imagen)
             pixmap = QPixmap(carta_imagen).scaled(100, 150, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
             carta_label.setPixmap(pixmap)
             carta_label.setFixedSize(100, 150)

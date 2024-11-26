@@ -250,6 +250,8 @@ class CrearPartida(QMainWindow):
             border-radius: 5px;
         """)
         
+        jugador = self.__controlador.devolver_jugador()
+        
         layout_jugador = QVBoxLayout(widget_jugador)
         layout_jugador.setContentsMargins(0, 0, 0, 0)
         layout_jugador.setSpacing(0)
@@ -289,7 +291,7 @@ class CrearPartida(QMainWindow):
         sesion_label.setToolTip(tooltip_text)
 
         boton_cuenta = QPushButton("Inicie", self)
-        boton_cuenta.clicked.connect(self.__controlador.abre_iniciar_sesion)
+        boton_cuenta.clicked.connect(lambda: self.__controlador.abre_iniciar_sesion(jugador, self.jugadores))
         boton_cuenta.setToolTip(tooltip_text)
         boton_cuenta.setStyleSheet("""
             QPushButton {
@@ -334,10 +336,7 @@ class CrearPartida(QMainWindow):
             
             'nombre': nombre_input,
             'avatar': avatar_combo,
-            'dinero': 0,
-            'propiedades': [],
-            'banco': [],
-            'acciones': [],
+            'jugador_objeto': jugador
         })
         
         self.__controlador.cambio_cant_jugadores()

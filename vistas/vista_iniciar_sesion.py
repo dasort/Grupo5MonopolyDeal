@@ -119,7 +119,7 @@ class IniciarSesion(QDialog):
                 background-color: #4D4D4D;
             }
         """)
-        self.login_button.clicked.connect(self.iniciar_sesion)
+        self.login_button.clicked.connect(self.__controlador.iniciar_sesion)
         
         # ---
 
@@ -133,7 +133,7 @@ class IniciarSesion(QDialog):
                 background-color: #4D4D4D;
             }
         """)
-        self.register_button.clicked.connect(self.abrir_crear_cuenta)
+        self.register_button.clicked.connect(self.__controlador.abrir_crear_cuenta)
         
         
         # ---
@@ -148,7 +148,7 @@ class IniciarSesion(QDialog):
                 background-color: #4D4D4D;
             }
         """)
-        self.boton_volver.clicked.connect(self.volver)
+        self.boton_volver.clicked.connect(self.__controlador.volver)
         
         #linea1 = QFrame(self)
         #linea2 = QFrame(self)
@@ -176,15 +176,6 @@ class IniciarSesion(QDialog):
         self.main_layout.addWidget(self.login_button)
         self.main_layout.addWidget(self.register_button)
         self.main_layout.addWidget(self.boton_volver)
-
-    def volver(self):
-        self.hide()
-        self.main_menu.show()
-
-    def abrir_crear_partida(self):
-        self.hide()
-        self.crear_partida_window = CrearPartida(self)
-        self.crear_partida_window.show()
         
     def alternar_modo_echo(self):
         # Estado anterior antes de cambiarlo:
