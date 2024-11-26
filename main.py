@@ -18,7 +18,7 @@ if __name__ == "__main__":
         main_window = MainMenu()
         main_window.show()
     except Exception as e:
-        print(f"Error! No se pudo inicializar el menú principal: {e}")
+        print(f"\n(¡Error!): No se pudo inicializar el programa: {e}\n")
         sys.exit(1)
 
     sys.exit(app.exec())
