@@ -3,7 +3,7 @@ from PyQt6.QtMultimedia import QSoundEffect
 from vistas.vista_main_menu import MainMenu
 from controladores.controlador_crear_partida import ControladorCrearPartida
 from controladores.controlador_opciones import ControladorOpciones
-# from controladores.controlador_estadistica import ControladorEstadística
+from controladores.controlador_estadisticas import ControladorEstadisticas
 from controladores.controlador_como_juego import ControladorComoJuego
 
 
@@ -47,7 +47,7 @@ class ControladorMainMenu:
     def mostrar_estadisticas_inicio_sesion(self):
         self.sonido_click()
         self.__vista.hide()
-        # ControladorEstadisticas(self)
+        ControladorEstadisticas(self)
     
     # Getters:
     def get_volumen(self):

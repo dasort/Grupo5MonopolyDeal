@@ -51,7 +51,6 @@ class ControladorCrearPartida:
             jugador["avatar_combo"].deleteLater()
             jugador["sesion_label"].deleteLater()
             jugador["boton_cuenta"].deleteLater()
-
             self.cambio_cant_jugadores()
             self.__vista.cargar_iconos()
 
