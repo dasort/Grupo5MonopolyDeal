@@ -10,7 +10,7 @@ class controlador_como_juego(QMainWindow):
         self.accion=accion
         
         
-        #widget abajo:
+        #widget abajo :
         self.widget_abajo=QWidget()
         #creacion de labels:
         
