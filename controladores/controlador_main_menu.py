@@ -12,10 +12,12 @@ class ControladorMainMenu:
         super().__init__()
         self.__vista = MainMenu(self)
 
+        self.__volumen = 1 # <-- Máximo por default.
+        
         # Configuración del sonido:
         self.sound_effect = QSoundEffect()
         self.sound_effect.setSource(QUrl.fromLocalFile("imagenes/sonido/click.wav"))
-        self.sound_effect.setVolume(50)
+        self.sound_effect.setVolume(self.__volumen)
         
         self.__vista.show()
 
@@ -33,7 +35,7 @@ class ControladorMainMenu:
     def mostrar_opciones(self):
         self.sonido_click()
         self.__vista.hide()
-        ControladorOpciones(ControladorMainMenu)
+        ControladorOpciones(self) # <-- Así puedo actualizar el volumen.
         
     # Botón cómo jugar:
     def mostrar_como_juego(self):
@@ -46,3 +48,15 @@ class ControladorMainMenu:
         self.sonido_click()
         self.__vista.hide()
         # ControladorEstadisticas(self)
+    
+    # Getters:
+    def get_volumen(self):
+        return self.__volumen
+    
+    def get_vista(self):
+        return self.__vista
+
+    # Setters:
+    def set_volumen(self, volumen):
+        self.__volumen = volumen
+        self.sound_effect.setVolume(self.__volumen)

@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QDialog, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QSpacerItem, QSizePolicy, QFrame, QMessageBox
+from PyQt6.QtWidgets import QDialog, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QSpacerItem, QSizePolicy, QFrame, QMessageBox, QSlider
 from PyQt6.QtGui import QGuiApplication
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
@@ -11,7 +11,7 @@ class Opciones(QDialog):
         self.__controlador = controlador
         
         self.setWindowTitle("Opciones")
-        self.setGeometry(570, 240, 400, 345)
+        self.setGeometry(570, 240, 400, 415)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
 
         # Layouts:
@@ -59,7 +59,35 @@ class Opciones(QDialog):
         self.linea2.setFrameShape(QFrame.Shape.HLine)
         self.linea2.setFrameShadow(QFrame.Shadow.Sunken)
         self.main_layout.addWidget(self.linea2)
+        
+        # ---
+        
+        # Layout para el volumen:
+        self.volumen_widget = QWidget()
+        self.layout_volumen = QHBoxLayout(self.volumen_widget)
+        self.volumen_widget.setFixedWidth(320)
+        
+        # Label para el volumen:
+        self.volumen_label = QLabel("Volumen:", self)
+        self.volumen_label.setStyleSheet("""
+            font-size: 18px;
+            text-align: left;
+        """)
+        self.layout_volumen.addWidget(self.volumen_label)
+        
+        # Slider para el volumen:
+        self.slider_volumen = QSlider(Qt.Orientation.Horizontal, self)
+        self.slider_volumen.setMinimum(0)
+        self.slider_volumen.setMaximum(100)
+        self.slider_volumen.setValue(self.__controlador.obtener_volumen())
+        self.slider_volumen.valueChanged.connect(self.__controlador.cambiar_volumen)
+        self.slider_volumen.setFixedWidth(185)
+        self.layout_volumen.addWidget(self.slider_volumen)
+        
+        self.main_layout.addWidget(self.volumen_widget)
 
+        # ---
+        
         # Botón Créditos:
         self.boton_creditos = self.crear_boton("Créditos")
         self.boton_creditos.clicked.connect(self.mostrar_creditos)

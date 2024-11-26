@@ -9,4 +9,12 @@ class ControladorOpciones:
 
     def volver(self):
         self.__vista.hide()
-        var = self.__main_menu()
+        #var = self.__main_menu()
+        self.__main_menu.get_vista().show() # <-- Así trabajo con el mismo de antes.
+    
+    def cambiar_volumen(self, valor):
+        volumen = valor / 100 # <-- Para convertirlo en un número flotante, el cual setVolume puede manejar (0.0 ~ 1.0).
+        self.__main_menu.set_volumen(volumen)
+    
+    def obtener_volumen(self):
+        return int (self.__main_menu.get_volumen() * 100)
