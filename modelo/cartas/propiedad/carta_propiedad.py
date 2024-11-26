@@ -17,3 +17,4 @@ class CartaPropiedad(Carta):
 
     def accion(self) -> None:
         self.duenio.agregar_a_propiedades(self)
+        super().accion()

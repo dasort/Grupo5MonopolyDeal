@@ -16,4 +16,11 @@ class NegocioFurtivo(CartaAccion):
                 propiedad.duenio = self.duenio
                 self.duenio.agregar_a_propiedades(propiedad)
                 self.duenio = None
-        
+        super().accion()
+    
+    def es_jugable(self, lista_jugadores: list) -> bool:
+        for jugador in lista_jugadores:
+            if jugador != self.duenio:
+                if jugador.get_objeto_propiedad().get_cartas_propiedades():
+                    return True
+        return False

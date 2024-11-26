@@ -10,7 +10,7 @@ class CartaPropiedadComodin(CartaPropiedad):
     
     @property
     def color(self) -> str:
-        if self.color is not str:
+        if self._color is not str:
             return self._color
         return self.__color_elegido
     

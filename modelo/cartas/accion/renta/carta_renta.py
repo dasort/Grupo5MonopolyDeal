@@ -24,3 +24,4 @@ class CartaRenta(Carta):
             self.duenio.agregar_a_banco(carta)
         self.duenio = None
         self._color_elegido = None
+        super().accion()

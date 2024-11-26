@@ -68,6 +68,7 @@ class ControladorPartida:
             carta.accion(datos_para_accion)
         else:
             carta.accion()
+        self.__vista.update_interfaz()
         if self.chequea_ganador():
             self.registrar_partida()
         self.__cartas_jugadas_en_turno += 1
@@ -221,6 +222,7 @@ class ControladorPartida:
         else:
             self.__turno_actual += self.__turno_actual + 1
         self.__jugador_actual = self.__jugadores[self.__turno_actual]
+        self.__cartas_jugadas_en_turno = 0
         tamanio_mano = len(self.__jugador_actual.get_mano())
         if tamanio_mano <= 5:
             self.dar_dos_cartas()

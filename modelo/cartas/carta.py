@@ -80,10 +80,9 @@ class Carta(ABC):
         En caso de que la carta no tenga una acción asociada (ej. cartas de propiedad comunes o cartas de dinero) devuelve None.'''
         return None
 
-    @abstractmethod
     def accion(self) -> None:
         '''Ejecuta la acción que le corresponde a la carta.'''
-        pass
+        self.duenio.sacar_de_mano(self)
     
     def mostrar_carta(self) -> None:
         '''Representación de la carta como cadena.'''

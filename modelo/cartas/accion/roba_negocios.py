@@ -11,12 +11,13 @@ class RobaNegocios(CartaAccion):
             super().accion()
         else:
             if info[0]:
-                set_a_robar: list[Carta] = info[0]
+                set_a_robar: list[CartaAccion] = info[0]
                 for carta in set_a_robar:
                     carta.duenio.get_objeto_propiedad().quitar_propiedad(carta)
                     carta.duenio = self.duenio
                     self.duenio.agregar_a_propiedades(carta)
             self.duenio = None
+        super().accion()
 
     def es_jugable(self, lista_jugadores: list) -> bool:
-        return super().es_jugable(lista_jugadores)
+        return False

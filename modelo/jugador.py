@@ -18,8 +18,17 @@ class Jugador:
 
     def agregar_a_propiedades(self, carta: Carta):
         # Usa el método de la clase Propiedades para agregar la carta
-        self.__listas["Propiedades"].agregar_a_propiedades(carta)
-        
+        self.__listas["Propiedades"].agregar_elemento(carta)
+    
+    def sacar_de_mano(self, carta):
+        self.__listas['Mano'].remove(carta)
+
+    def sacar_de_banco(self, carta):
+        self.__listas['Banco'].remove(carta)
+    
+    def sacar_de_propiedades(self, carta):
+        self.__listas['Propiedades'].quitar_propiedad(carta)
+
     def tomar_carta(self, cartas):
         if isinstance(cartas, (list)):
             for carta in cartas:

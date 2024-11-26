@@ -364,7 +364,7 @@ class Tablero(QMainWindow):
         descarte_button = QPushButton("Descarte")
         propiedades_button.clicked.connect(lambda:self.cargar_cartas("propiedad", self.__controlador.get_jugador_actual()))
         dinero_button.clicked.connect(lambda:self.cargar_cartas("dinero", self.__controlador.get_jugador_actual()))
-        descarte_button.clicked.connect(self.elejir_color)
+        # descarte_button.clicked.connect(self.elejir_color)
         self.botones_layout.addWidget(propiedades_button)
         self.botones_layout.addWidget(dinero_button)
         self.botones_layout.addWidget(descarte_button)    
@@ -607,7 +607,6 @@ class Tablero(QMainWindow):
                 carta_label.mousePressEvent = self.evento_click_carta(carta)
             else:
                 carta_imagen = imagen_vacia
-            print(carta_imagen)
             pixmap = QPixmap(carta_imagen).scaled(100, 150, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
             carta_label.setPixmap(pixmap)
             carta_label.setFixedSize(100, 150)

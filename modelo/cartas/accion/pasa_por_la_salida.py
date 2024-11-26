@@ -22,6 +22,7 @@ class PasaPorLaSalida(CartaAccion):
                 self.duenio = None
             else:
                 raise ValueError('Error ejecutando la acción de PassaPorLaSalida.')
+        super().accion()
 
     def es_jugable(self, jugadores: list) -> bool:
         mano = self.duenio.get_mano()

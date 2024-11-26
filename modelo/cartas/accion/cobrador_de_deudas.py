@@ -17,6 +17,7 @@ class CobradorDeDeuda(CartaAccion):
                     carta.duenio = self.duenio
                     self.duenio.agregar_a_banco(carta)
                 self.duenio = None
+        super().accion()
         
     def es_jugable(self, lista_jugadores: list) -> bool:
         for jugador in lista_jugadores:

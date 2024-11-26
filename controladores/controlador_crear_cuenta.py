@@ -2,7 +2,6 @@ from modelo.base_de_datos.jugador_dao.jugador_dao_impl import JugadorDAOImpl
 from modelo.base_de_datos.jugador_dao.jugador_bdd import JugadorBDD
 from modelo.base_de_datos.jugador_dao.jugador_dao import JugadorDAO
 from modelo.base_de_datos.conexion.monopoly_db import Database
-from controladores.controlador_crear_partida import ControladorCrearPartida
 from vistas.vista_crear_cuenta import CrearCuenta
 
 

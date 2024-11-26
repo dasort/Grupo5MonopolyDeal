@@ -20,6 +20,7 @@ class TratoForzoso(CartaAccion):
                 propiedad_otro.duenio.agregar_a_propiedades(propiedad_otro)
                 propiedad_propia.duenio.agregar_a_propiedades(propiedad_propia)
                 self.duenio = None
+        super().accion()
 
     def es_jugable(self, lista_jugadores: list) -> bool:
-        
+        return False
