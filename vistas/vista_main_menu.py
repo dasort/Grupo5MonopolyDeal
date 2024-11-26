@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QSpacerItem, QSizePolicy, QHBoxLayout
-from PyQt6.QtGui import QIcon, QPixmap, QGuiApplication
+from PyQt6.QtGui import QIcon, QPixmap, QGuiApplication, QShortcut, QKeySequence
 from PyQt6.QtCore import Qt
 
 
@@ -16,6 +16,19 @@ class MainMenu(QMainWindow):
         self.main_widget = QWidget()
         self.setCentralWidget(self.main_widget)
         self.layout = QVBoxLayout(self.main_widget)
+        
+        # Shortcuts:
+        shortcut1 = QShortcut(QKeySequence("1"), self)
+        shortcut1.activated.connect(self.__controlador.mostrar_crear_partida)
+        
+        shortcut2 = QShortcut(QKeySequence("2"), self)
+        shortcut2.activated.connect(self.__controlador.mostrar_opciones)
+        
+        shortcut3 = QShortcut(QKeySequence("3"), self)
+        shortcut3.activated.connect(self.__controlador.mostrar_como_juego)
+        
+        shortcut4 = QShortcut(QKeySequence("4"), self)
+        shortcut4.activated.connect(self.__controlador.mostrar_estadisticas_inicio_sesion)
 
         # (1):
         # Espaciador superior:

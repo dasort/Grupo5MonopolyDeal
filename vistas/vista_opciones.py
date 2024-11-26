@@ -41,12 +41,15 @@ class Opciones(QDialog):
 
         # Botones centrales:
         boton_a = self.crear_boton_central("Version prémium")
+        boton_a.setToolTip("Disponible en la v2.0.")
         self.layout_botones_centrales.addWidget(boton_a)
 
         boton_b = self.crear_boton_central("Recompensa diaria")
+        boton_b.setToolTip("Disponible solo en la versión prémium.")
         self.layout_botones_centrales.addWidget(boton_b)
 
         boton_c = self.crear_boton_central("Activar cheats")
+        boton_c.setToolTip("Disponible en una recompensa diaria.")
         self.layout_botones_centrales.addWidget(boton_c)
 
         self.main_layout.addLayout(self.layout_botones_centrales)
@@ -60,11 +63,13 @@ class Opciones(QDialog):
         # Botón Créditos:
         self.boton_creditos = self.crear_boton("Créditos")
         self.boton_creditos.clicked.connect(self.mostrar_creditos)
+        self.boton_creditos.setToolTip("Visualizá los desarrolladores de este juego.")
         self.main_layout.addWidget(self.boton_creditos)
 
         # Botón Volver:
         self.boton_volver = self.crear_boton("Volver al Menú Principal")
         self.boton_volver.clicked.connect(self.__controlador.volver)
+        self.boton_volver.setToolTip("Volvé al Menú Principal.")
         self.main_layout.addWidget(self.boton_volver)
 
     def crear_boton(self, texto):
@@ -102,7 +107,7 @@ class Opciones(QDialog):
     def mostrar_creditos(self):
         mensaje = QMessageBox(self)
         mensaje.setWindowTitle("Créditos")
-        mensaje.setText("Nosotros desarrollamos este juego:")
+        mensaje.setText("Nosotros desarrollamos este juego:  ")
         mensaje.setInformativeText(
             "\n\nBonifacio, Lucas\n"
             "Cárdenas, Franco\n"

@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, QGridLayout, QMessageBox, QSizePolicy, QSpacerItem
-from PyQt6.QtGui import QIcon, QPixmap, QIntValidator 
+from PyQt6.QtGui import QIcon, QPixmap, QShortcut, QKeySequence
 from PyQt6.QtCore import Qt
 
 
@@ -13,7 +13,7 @@ class CrearPartida(QMainWindow):
         self.maximo_jugadores = 5
         self.jugadores = []
         
-        #Ventana inicio
+        # Ventana inicio:
         self.setWindowTitle("Crear Partida")
         self.setGeometry(370, 185, 875, 517)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
@@ -25,7 +25,6 @@ class CrearPartida(QMainWindow):
         self.central_widget = QWidget(self)
         self.central_widget.setLayout(self.main_layout)
         self.setCentralWidget(self.central_widget)
-
 
         self.layout_derecha = QVBoxLayout()
         self.layout_derecha.setContentsMargins(0, 0, 0, 0)
@@ -71,7 +70,7 @@ class CrearPartida(QMainWindow):
         
         self.layout_derecha_abajo.addSpacerItem(QSpacerItem(20, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding))
 
-        #Boton agregar Jugador
+        # Botón agregar jugador:
         self.agregar_jugador_boton = QPushButton("Agregar Jugador", self)
         self.agregar_jugador_boton.setStyleSheet("""
             QPushButton {
@@ -97,7 +96,10 @@ class CrearPartida(QMainWindow):
         self.agregar_jugador_boton.clicked.connect(self.agregar_jugador)
         self.layout_izquierda.addWidget(self.agregar_jugador_boton)
 
-        #Boton quitar jugador
+        self.shortcut1 = QShortcut(QKeySequence("+"), self)
+        self.shortcut1.activated.connect(self.agregar_jugador)
+
+        # Botón quitar jugador:
         self.quitar_jugador_boton = QPushButton("Quitar Jugador", self)
         self.quitar_jugador_boton.setStyleSheet("""
             QPushButton {
@@ -122,6 +124,9 @@ class CrearPartida(QMainWindow):
         self.quitar_jugador_boton.setEnabled(False)
         self.quitar_jugador_boton.clicked.connect(self.__controlador.quitar_jugador)
         self.layout_izquierda.addWidget(self.quitar_jugador_boton)
+        
+        self.shortcut2 = QShortcut(QKeySequence("-"), self)
+        self.shortcut2.activated.connect(self.__controlador.quitar_jugador)
 
         texto_en_qss = (
             "(Opcional): Inicia sesión para<br>"
@@ -155,7 +160,7 @@ class CrearPartida(QMainWindow):
         """)
         self.layout_izquierda.addWidget(self.aviso_label)
 
-        #Boton crear partida
+        # Botón crear partida:
         self.crear_partida_boton = QPushButton("Crear Partida", self)
         self.crear_partida_boton.setStyleSheet("""
             QPushButton {
@@ -180,7 +185,7 @@ class CrearPartida(QMainWindow):
         self.crear_partida_boton.clicked.connect(self.__controlador.crear_partida)
         self.layout_izquierda.addWidget(self.crear_partida_boton)
 
-        #Boton Volver 
+        # Botón volver:
         self.boton_volver = QPushButton("Volver al Menú Principal", self)
         self.boton_volver.setStyleSheet("""
             QPushButton {
@@ -200,7 +205,7 @@ class CrearPartida(QMainWindow):
         self.boton_volver.clicked.connect(self.__controlador.volver)
         self.layout_izquierda.addWidget(self.boton_volver)
 
-        #Layout
+        # Layout:
         self.main_layout.addWidget(self.widget_izquierda)
         self.layout_derecha.addWidget(self.widget_derecha_arriba)
         self.layout_derecha.addWidget(self.widget_derecha_abajo)

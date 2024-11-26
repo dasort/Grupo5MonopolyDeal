@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QDialog, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QScrollArea, QFrame, QMessageBox, QGridLayout
-from PyQt6.QtGui import QIcon, QPixmap, QGuiApplication
+from PyQt6.QtGui import QIcon, QPixmap, QGuiApplication, QShortcut, QKeySequence
 from PyQt6.QtCore import Qt
 
 
@@ -71,7 +71,19 @@ class ComoJuego(QDialog):
         
         # ---
         
-        # Volver:
+        # Shortcuts:
+        shortcut1 = QShortcut(QKeySequence("1"), self)
+        shortcut1.activated.connect(self.mostrar_reglas_generales)
+        
+        shortcut2 = QShortcut(QKeySequence("2"), self)
+        shortcut2.activated.connect(self.mostrar_ver_cartas)
+        
+        shortcut3 = QShortcut(QKeySequence("3"), self)
+        shortcut3.activated.connect(self.mostrar_a_cerca_interfaz)
+        
+        # ---
+        
+        # Botón Volver:
         self.boton_volver = self.crear_boton_volver("Volver", "imagenes/ui/casa.png")
         self.boton_volver.clicked.connect(self.__controlador.volver)
         tooltip_volver = ("Volvé al Menú Principal.")
