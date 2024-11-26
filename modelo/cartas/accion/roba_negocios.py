@@ -1,7 +1,7 @@
-from modelo.cartas.carta import Carta
+from modelo.cartas.accion.carta_accion import CartaAccion
 
 
-class RobaNegocios(Carta):
+class RobaNegocios(CartaAccion):
     
     def informacion_para_accion(self) -> str | None:
         return 'RobaNegocios'

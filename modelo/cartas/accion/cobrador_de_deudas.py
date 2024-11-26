@@ -1,7 +1,7 @@
-from modelo.cartas.carta import Carta
+from modelo.cartas.accion.carta_accion import CartaAccion
 
 
-class CobradorDeDeuda(Carta):
+class CobradorDeDeuda(CartaAccion):
     
     def informacion_para_accion(self) -> str | None:
         return 'CobradordDeDeuda'
@@ -18,3 +18,9 @@ class CobradorDeDeuda(Carta):
                     self.duenio.agregar_a_banco(carta)
                 self.duenio = None
         
+    def es_jugable(self, lista_jugadores: list) -> bool:
+        for jugador in lista_jugadores:
+            if jugador != carta.duenio:
+                if jugador.calcular_valor_banco_propiedades() >= 5:
+                    return True
+        return False

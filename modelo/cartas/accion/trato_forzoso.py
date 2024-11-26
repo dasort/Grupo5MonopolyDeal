@@ -1,7 +1,7 @@
-from modelo.cartas.carta import Carta
+from modelo.cartas.accion.carta_accion import CartaAccion
 
 
-class TratoForzoso(Carta):
+class TratoForzoso(CartaAccion):
     
     def informacion_para_accion(self) -> str | None:
         return 'TratoForzoso'
@@ -20,3 +20,6 @@ class TratoForzoso(Carta):
                 propiedad_otro.duenio.agregar_a_propiedades(propiedad_otro)
                 propiedad_propia.duenio.agregar_a_propiedades(propiedad_propia)
                 self.duenio = None
+
+    def es_jugable(self, lista_jugadores: list) -> bool:
+        

@@ -36,6 +36,13 @@ class ControladorPartida:
     def get_turno_actual(self):
         return self.__turno_actual
     
+    def jugadores_sin_actual(self) -> list[Jugador]:
+        sin_actual= []
+        for jugador in self.__jugadores:
+            if jugador is not self.__jugador_actual:
+                sin_actual.append(jugador)
+        return sin_actual
+    
     # Reparte 5 cartas a cada jugador
     def repartir_cartas(self):
         for jugador in self.__jugadores:
@@ -134,7 +141,7 @@ class ControladorPartida:
         return cartas_para_pago
     
     def jugadores_validos_para_cobro(self, valor_minimo: int):
-        return [jugador for jugador in self.__jugadores if jugador.calcular_valor_banco_propiedades() > valor_minimo]
+        return [jugador for jugador in self.jugadores_sin_actual() if jugador.calcular_valor_banco_propiedades() > valor_minimo]
 
     def elegir_jugador(self, jugador_excluido: Jugador, jugadores_validos: list[Jugador]) -> Jugador:
         jugadores = []
@@ -189,10 +196,12 @@ class ControladorPartida:
         partida_dao = PartidaDaoImpl(conexion)
         partida = PartidaBDD()
         partida.id_partida = partida_dao.obtener_id_partida()
-        if isinstance(self.__ganador, Jugador):
-            partida.id_ganador = self.__ganador.datos_bdd.get_id_jugador()
-        else:
+        if isinstance(self.__ganador, list):
             partida.id_ganador = None
+        elif isinstance(self.__ganador, Jugador) and self.__ganador.datos_bdd is None:
+            partida.id_ganador = None
+        else:
+            partida.id_ganador = self.__ganador.datos_bdd.get_id_jugador()
         partida_dao.agregar_partida(partida)
         for jugador in self.__jugadores:
             if jugador.datos_bdd is not None:

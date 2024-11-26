@@ -279,7 +279,7 @@ class Tablero(QMainWindow):
         
         #endregion update
     
-    def cargar_cartas(self,tipo,jugador: Jugador):
+    def cargar_cartas(self,tipo,jugador):
         self.limpiar_layout(self.cartas_layouts)
         filas = 0
         columnas = 0
@@ -362,8 +362,8 @@ class Tablero(QMainWindow):
         propiedades_button = QPushButton("Propiedades")
         dinero_button = QPushButton("Dinero")
         descarte_button = QPushButton("Descarte")
-        propiedades_button.clicked.connect(lambda:self.cargar_cartas("propiedad",self.jugadores[self.turno_actual]))
-        dinero_button.clicked.connect(lambda:self.cargar_cartas("dinero",self.jugadores[self.turno_actual]))
+        propiedades_button.clicked.connect(lambda:self.cargar_cartas("propiedad", self.__controlador.get_jugador_actual()))
+        dinero_button.clicked.connect(lambda:self.cargar_cartas("dinero", self.__controlador.get_jugador_actual()))
         descarte_button.clicked.connect(self.elejir_color)
         self.botones_layout.addWidget(propiedades_button)
         self.botones_layout.addWidget(dinero_button)

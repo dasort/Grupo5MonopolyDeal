@@ -15,6 +15,9 @@ class Controlador_iniciar_sesion:
         self.__vista = IniciarSesion(self)  
         self.__vista.show()
     
+    def get_vista(self):
+        return self.__vista
+        
     def volver(self):
         self.__vista.hide()
         var = self.__main_menu()
@@ -25,7 +28,7 @@ class Controlador_iniciar_sesion:
 
     def abrir_crear_cuenta(self):
         self.__vista.hide()
-        var = Controlador_crear_cuenta()
+        var = Controlador_crear_cuenta(self.__main_menu)
         
     def iniciar_sesion(self):
         usuario = self.__vista.username_input.text()

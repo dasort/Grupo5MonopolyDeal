@@ -32,10 +32,15 @@ class Jugador:
     def calcular_valor_banco_propiedades(self) -> int:
         '''Calcula el valor de las cartas en el banco y la lista de propiedades del jugador.\n
         Necesario porque un jugador no puede pagarle a otro si no tiene el valor necesario.'''
-        propiedades = self.get_propiedades().get_cartas_propiedades()
+        cartas_con_valor = []
+        propiedades = self.get_objeto_propiedad().get_cartas_propiedades()
         banco = self.get_banco()
+        if propiedades:
+            cartas_con_valor.extend(propiedades)
+        if banco:
+            cartas_con_valor.extend(banco)
         valor_total = 0
-        for carta in propiedades + banco:
+        for carta in cartas_con_valor:
             valor_total += carta.valor
         return valor_total
     

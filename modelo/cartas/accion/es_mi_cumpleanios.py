@@ -1,7 +1,7 @@
-from modelo.cartas.carta import Carta
+from modelo.cartas.accion.carta_accion import CartaAccion
 
 
-class EsMiCumpleanios(Carta):
+class EsMiCumpleanios(CartaAccion):
     
     def informacion_para_accion(self) -> str | None:
         return 'EsMiCumpleaños'
@@ -17,3 +17,9 @@ class EsMiCumpleanios(Carta):
                     carta.duenio = self.duenio
                     self.duenio.agregar_a_banco(carta)
             self.duenio = None
+
+    def es_jugable(self, lista_jugadores: list) -> bool:
+        for jugador in lista_jugadores:
+            if jugador.calcular_valor_banco_propiedades() >= 2:
+                return True
+        return False

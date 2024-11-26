@@ -1,6 +1,6 @@
 import psycopg2 as psy
-from .jugador_bdd import JugadorBDD
-from .jugador_dao import JugadorDAO
+from modelo.base_de_datos.jugador_dao.jugador_bdd import JugadorBDD
+from modelo.base_de_datos.jugador_dao.jugador_dao import JugadorDAO
 
 
 class JugadorDAOImpl(JugadorDAO):
@@ -36,12 +36,6 @@ class JugadorDAOImpl(JugadorDAO):
                     jugador.get_salt()
                 )
             )     
-            try: 
-                buscando: None
-                if buscando.obtener_jugador() == jugador.get_nombre():
-                    print("")
-            except (Exception)as es: 
-                    print(f"el jugador ya existe")
             self.__conexion.commit()
             cursor.close()
         except (Exception, psy.DatabaseError)as e:
