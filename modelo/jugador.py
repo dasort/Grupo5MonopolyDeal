@@ -1,5 +1,6 @@
 from modelo.propiedades import Propiedades
 from modelo.cartas.carta import Carta
+from modelo.base_de_datos.jugador_dao.jugador_bdd import JugadorBDD
 
 
 class Jugador:
@@ -7,6 +8,7 @@ class Jugador:
         self.__avatar = avatar
         self.__nombre = nombre
         self.__listas = {"Mano":[],"Banco":[],"Propiedades":Propiedades()}
+        self.__datos_bdd: JugadorBDD = None
         
     def agregar_a_mano(self, cartas: Carta):
         self.__listas["Mano"].append(cartas)
@@ -70,4 +72,10 @@ class Jugador:
     def get_objeto_propiedad(self) -> Propiedades:
         return self.__listas["Propiedades"]
 
-    # def tiene_propiedades()
+    @property
+    def datos_bdd(self) -> JugadorBDD:
+        return self.datos_bdd
+    
+    @datos_bdd.setter
+    def datos_bdd(self, datos: JugadorBDD):
+        self.__datos_bdd = datos

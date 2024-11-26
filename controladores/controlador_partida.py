@@ -11,7 +11,7 @@ class ControladorPartida:
         self.__mazo = MazoDeCartas()
         self.__mesa = None
         self.__cartas_descarte = MazoDeDescarte()  # Pila de descarte
-        self.__turno_actual = 0  
+        self.__turno_actual = 0
         self.repartir_cartas()
 
     # Reparte 5 cartas a cada jugador
@@ -23,47 +23,84 @@ class ControladorPartida:
     def tomar_carta_mazo(self,jugador: Jugador):
         jugador.tomar_carta(self.__mazo.__dar_carta())
     
+############################################################################################################################
+######################################## Código para jugar las cartas ######################################################
+############################################################################################################################
+
     def jugar_carta(self, carta: Carta) -> None:
         # Verificar si la carta puede ser jugada
         pedido = carta.informacion_para_accion()
         if pedido is not None:
             datos_para_accion = self.procesa_pedido(pedido, carta)
-        carta.accion(datos_para_accion)
+            carta.accion(datos_para_accion)
+        else:
+            carta.accion()
     
     def procesa_pedido(self, pedido, carta: Carta) -> list:
         if pedido == 'EsMiCumpleaños':
-            cartas_para_pago = []
-            jugadores_validos = self.jugadores_validos_para_cobro(2)
-            for jugador in self.__jugadores:
-                if jugador is not carta.duenio:
-                    cartas_para_pago.extend(self.elegir_dinero(jugador, 2))
-            return cartas_para_pago
+            return self.pedido_es_mi_cumpleanios(carta)
         elif pedido == 'CobradordDeDeuda':
-            cartas_para_pago = []
-            jugadores_validos = self.jugadores_validos_para_cobro(5)
-            jugador_seleccionado = self.elegir_jugador(carta.duenio, jugadores_validos)
-            cartas_para_pago = self.elegir_dinero(jugador_seleccionado, 5)
-            return cartas_para_pago
+            return self.pedido_cobrador_de_deuda(carta)
         elif pedido == 'NegocioFurtivo':
-            propiedad_seleccionada = []
-            jugador_seleccionado = self.elegir_jugador(carta.duenio, self.__jugadores)
-            propiedad_seleccionada = self.elegir_propiedad(jugador_seleccionado) # hay que verificar que no esté en un set
-            return [propiedad_seleccionada]
+            return self.pedido_negocio_furtivo(carta)
         elif pedido == 'PasaPorLaSalida':
             return [self.__mazo]
         elif pedido == 'TratoForzoso':
-            propiedad_propia = self.elegir_propiedad(carta.duenio) # se podría mandar una cadena que se muestre en el dialog
-            jugador_seleccionado = self.elegir_jugador(carta.duenio) # ej. 'Elija una de sus propiedades para intercambiar con otro jugador'
-            propiedad_otro = self.elegir_propiedad(jugador_seleccionado) # Esta cadena se mostraría en el dialog en la interfaz
-            return [propiedad_propia, propiedad_otro]
-        elif pedido == 'RentaDoble':
-            pass
+            return self.pedido_trato_forzoso(carta)
+        elif pedido == 'Renta':
+            return self.pedido_renta(carta)
         elif pedido == 'RentaMulticolor':
-            pass
+            return self.pedido_renta_multicolor(carta)
         elif pedido == 'PropiedadComodin':
-            return [self.elegir_color(carta.color)] # metodo en la vista que le permite al jugador elegir entre los colores de la carta
+            return [self.elegir_color(carta)]
         else:
             raise ValueError
+    
+    def pedido_es_mi_cumpleanios(self, carta: Carta) -> list[Carta]:
+        cartas_para_pago = []
+        jugadores_validos = self.jugadores_validos_para_cobro(2)
+        for jugador in jugadores_validos:
+            if jugador is not carta.duenio:
+                cartas_para_pago.extend(self.elegir_dinero(jugador, 2))
+        return cartas_para_pago
+    
+    def pedido_cobrador_de_deuda(self, carta: Carta) -> list[Carta]:
+        cartas_para_pago = []
+        jugadores_validos = self.jugadores_validos_para_cobro(5)
+        jugador_seleccionado = self.elegir_jugador(carta.duenio, jugadores_validos)
+        cartas_para_pago = self.elegir_dinero(jugador_seleccionado, 5)
+        return cartas_para_pago
+    
+    def pedido_negocio_furtivo(self, carta: Carta) -> list[Carta]:
+        propiedad_seleccionada = []
+        jugador_seleccionado = self.elegir_jugador(carta.duenio, self.__jugadores)
+        propiedad_seleccionada = self.elegir_propiedad(jugador_seleccionado) # hay que verificar que no esté en un set
+        return [propiedad_seleccionada]
+
+    def pedido_trato_forzoso(self, carta: Carta) -> list[Carta]:
+        propiedad_propia = self.elegir_propiedad(carta.duenio) # se podría mandar una cadena que se muestre en el dialog
+        jugador_seleccionado = self.elegir_jugador(carta.duenio) # ej. 'Elija una de sus propiedades para intercambiar con otro jugador'
+        propiedad_otro = self.elegir_propiedad(jugador_seleccionado) # Esta cadena se mostraría en el dialog en la interfaz
+        return [propiedad_propia, propiedad_otro]
+
+    def pedido_renta(self, carta: Carta) -> list[Carta]:
+        cartas_para_pago = []
+        color = self.elegir_color(carta.color)
+        cantidad_a_cobrar = carta.duenio.get_objeto_propiedad().get_valor_alquiler(color)
+        jugadores_validos = self.jugadores_validos_para_cobro(cantidad_a_cobrar)
+        for jugador in jugadores_validos:
+            if jugador is not carta.duenio:
+                cartas_para_pago.extend(self.elegir_dinero(jugador, cantidad_a_cobrar))
+        return cartas_para_pago
+
+    def pedido_renta_multicolor(self, carta: Carta) -> list[Carta]:
+        cartas_para_pago = []
+        color = self.elegir_color(carta.color)
+        cantidad_a_cobrar = carta.duenio.get_objeto_propiedad().get_valor_alquiler(color)
+        jugadores_validos = self.jugadores_validos_para_cobro(cantidad_a_cobrar)
+        jugador_elegido = self.elegir_jugador(carta.duenio, jugadores_validos)
+        cartas_para_pago.extend(self.elegir_dinero(jugador_elegido, cantidad_a_cobrar))
+        return cartas_para_pago
     
     def jugadores_validos_para_cobro(self, valor_minimo: int):
         return [jugador for jugador in self.__jugadores if jugador.calcular_valor_banco_propiedades() > valor_minimo]
@@ -88,7 +125,8 @@ class ControladorPartida:
         dialogo.exec()
         return dialogo.propiedad_seleccionada
     
-    def elegir_color(self, lista_colores: list[str]) -> str:
+    def elegir_color(self, carta: Carta) -> str:
+        lista_colores = carta.color
         dialogo = self.__vista.dialog_pedir_color(lista_colores)
         dialogo.exec()
         return dialogo.color_seleccionado
