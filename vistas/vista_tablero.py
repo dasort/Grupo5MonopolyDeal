@@ -280,7 +280,6 @@ class Tablero(QMainWindow):
         #endregion update
     
     def cargar_cartas(self,tipo,jugador):
-    def cargar_cartas(self,tipo,jugador: jugador):
         self.limpiar_layout(self.cartas_layouts)
         filas = 0
         columnas = 0
