@@ -1,27 +1,35 @@
+from random import choice
 from modelo.jugador import Jugador
 from modelo.mazo_de_cartas import MazoDeCartas
 from modelo.mazo_de_descarte import MazoDeDescarte
 from modelo.cartas.carta import Carta
+from modelo.base_de_datos.conexion.monopoly_db import Database
+from modelo.base_de_datos.partida_dao.partida_bdd import PartidaBDD
+from modelo.base_de_datos.partida_dao.partida_dao_imp import PartidaDaoImpl
+# from vistas. #tiene que ir la vista de la partida
 
 
 class ControladorPartida:
     def __init__(self, jugadores: list[Jugador]):
         self.__vista = Vista(self) # poner el nombre de la vista correcto
         self.__jugadores = jugadores  # Instancias de la clase Jugador
+        self.__jugador_actual = choice(self.__jugadores)
+        self.__cartas_jugadas_en_turno = 0
         self.__mazo = MazoDeCartas()
-        self.__mesa = None
         self.__cartas_descarte = MazoDeDescarte()  # Pila de descarte
         self.__turno_actual = 0
+        self.__ganador: Jugador = None
         self.repartir_cartas()
+        self.__vista.show()
 
     # Reparte 5 cartas a cada jugador
     def repartir_cartas(self):
-        for jugador in self.__jugadores: # Obtiene una lista de 5 cartas
+        for jugador in self.__jugadores:
             jugador.tomar_carta(self.__mazo.dar_cartas(5))
     
     # Toma una carta aleartoria del mazo eliminandola
     def tomar_carta_mazo(self,jugador: Jugador):
-        jugador.tomar_carta(self.__mazo.__dar_carta())
+        jugador.tomar_carta(self.__mazo.dar_cartas(1))
     
 ############################################################################################################################
 ######################################## Código para jugar las cartas ######################################################
@@ -35,6 +43,11 @@ class ControladorPartida:
             carta.accion(datos_para_accion)
         else:
             carta.accion()
+        if self.chequea_ganador():
+            self.fin_de_partida()
+        self.__cartas_jugadas_en_turno += 1
+        if self.__cartas_jugadas_en_turno == 3:
+            self.terminar_turno()
     
     def procesa_pedido(self, pedido, carta: Carta) -> list:
         if pedido == 'EsMiCumpleaños':
@@ -131,20 +144,50 @@ class ControladorPartida:
         dialogo.exec()
         return dialogo.color_seleccionado
 
-    # Elije la una carta de la mano esta funcion necesita cambios pero es la idea de lo que hay que hacer
-    def  elijir_carta(self,jugador: Jugador) -> Carta:
-        print("Elije la Carta")
-        jugador.mostrar_mano()
-        # Implementacion sin interfaz
-        carta_id = int(input("Dame el ID de la carta a Jugar: "))
-        return jugador.jugar_carta(carta_id)
+############################################################################################################################
+######################################## Termina código para jugar las cartas ##############################################
+############################################################################################################################
+
+############################################################################################################################
+############################################# Código para terminar la partida ##############################################
+############################################################################################################################
+
+    def chequea_ganador(self) -> bool:
+        for jugador in self.__jugadores:
+            sets_jugador = jugador.get_objeto_propiedad().get_sets_completos()
+            if len(sets_jugador) == 3:
+                if self.__ganador is None:
+                    self.__ganador = jugador
+                elif isinstance(self.__ganador, Jugador):
+                    self.__ganador = [self.__ganador]
+                    self.__ganador.append(jugador)
+                    break
+        if self.__ganador is not None:
+            return True
+        return False
     
-    # Saca una cantidad esacta de cartas del mazo
-    def sacar_cartas(self, cantidad: int):
-        #self.__mazo = random.shuffle(self.__mazo)
-        cartas = self.__mazo[:cantidad]
-        self.__mazo = self.__mazo[cantidad:]
-        return cartas
+    def fin_de_partida(self):
+        conexion = Database().conexion()
+        partida_dao = PartidaDaoImpl(conexion)
+        partida = PartidaBDD()
+        partida.id_partida = partida_dao.obtener_id_partida()
+        if isinstance(self.__ganador, Jugador):
+            partida.id_ganador = self.__ganador.datos_bdd.get_id_jugador()
+        else:
+            partida.id_ganador = None
+        partida_dao.agregar_partida(partida)
+        for jugador in self.__jugadores:
+            if jugador.datos_bdd is not None:
+                partida_dao.registrar_jugador_en_partida(partida, jugador)
+        conexion.close()
+        self.__vista.finalizar_partida()
+                
+############################################################################################################################
+########################################### Termina código para ganar la partida ###########################################
+############################################################################################################################
+
+    def terminar_turno(self):
+        pass
     
     #devulve el jugador actual segun el turno actual
     def jugador_actual(self):
@@ -155,9 +198,3 @@ class ControladorPartida:
         if self.turno_actual + 1 >= len(self.__jugadores): 
             self.turno_actual = 0
         else: self.turno_actual += 1
-        
-    # devuelve el mazo de jugador en su turno
-    def cargar_mazo_del_jugador_actual(self, cartas):
-        jugador_actual = self.jugador_actual()
-        jugador_actual.cargar_mazo(cartas)
-        print(f"Mazo del jugador {jugador_actual.nombre()}: {jugador_actual.mostrar_mazo()}")

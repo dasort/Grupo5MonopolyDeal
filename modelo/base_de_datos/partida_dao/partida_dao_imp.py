@@ -10,11 +10,15 @@ class PartidaDaoImpl(PartidaDAO):
         self.__conexion = conexion
     
     def agregar_partida(self, partida: PartidaBDD) -> None:
-        query = "INSERT INTO partida (ganador) VALUES (%s)"
+        query = "INSERT INTO partida (id_partida, ganador) VALUES (%s, %s)"
         try:
             cursor= self.__conexion.cursor()
-            cursor.execute(query, (str(partida.id_ganador), )) 
+            if partida.id_ganador is None:
+                cursor.execute(query, (str(partida.id_partida), 'null')) 
+            else:
+                cursor.execute(query, (str(partida.id_partida), str(partida.id_ganador))) 
             self.__conexion.commit()
+            cursor.close()
         except (Exception, psy.DatabaseError) as e:
             print(f"Error al guardar partida: {e}")
         
@@ -26,6 +30,7 @@ class PartidaDaoImpl(PartidaDAO):
             row = cursor.fetchone()
             if row:
                 return PartidaBDD(row[0], row[1])
+            cursor.close()
         except (Exception, psy.DatabaseError) as e:
             print(f"Error al obtener partida: {e}")
         
@@ -35,6 +40,7 @@ class PartidaDaoImpl(PartidaDAO):
             cursor=self.__conexion.cursor()
             cursor.execute(query, (str(id_partida),))
             self.__conexion.commit()
+            cursor.close()
         except (Exception, psy.DatabaseError) as e:
             print(f"Error al eliminar partida: {e}")
         
@@ -44,15 +50,32 @@ class PartidaDaoImpl(PartidaDAO):
             cursor=self.__conexion.cursor()
             cursor.execute(query, (str(partida.id_ganador), str(partida.id_partida)))
             self.__conexion.commit()
+            cursor.close()
         except (Exception, psy.DatabaseError) as e:
             print(f"Error al actualizar ganador: {e}")
     
-    def registrar_jugadores_en_partida(self, partida: PartidaBDD, jugadores: list[JugadorBDD]):
+    def registrar_jugador_en_partida(self, partida: PartidaBDD, jugador: JugadorBDD):
         query = "INSERT INTO juega (id_partida, id_jugador) VALUES (%s, %s)"
         try:
             cursor= self.__conexion.cursor()
-            for jugador in jugadores:
-                cursor.execute(query, (str(partida.id_partida), str(jugador.get_id_jugador()))) 
+            cursor.execute(query, (str(partida.id_partida), str(jugador.get_id_jugador()))) 
             self.__conexion.commit()
+            cursor.close()
         except (Exception, psy.DatabaseError) as e:
             print(f"Error al guardar partida: {e}")
+
+    def obtener_id_partida(self) -> int:
+        query = '''select id_partida
+        from partida
+        order by id_partida desc'''
+        try:
+            cursor = self.__conexion.cursor()
+            cursor.execute(query)
+            row = cursor.fetchone()
+            cursor.close()
+            if row:
+                return row[0]
+            else:
+                return 1
+        except (Exception, psy.DatabaseError) as e:
+            print(f"Error al obtener partida: {e}")

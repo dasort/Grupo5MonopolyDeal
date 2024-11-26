@@ -19,10 +19,14 @@ class Jugador:
     def agregar_a_propiedades(self, carta: Carta):
         # Usa el método de la clase Propiedades para agregar la carta
         self.__listas["Propiedades"].agregar_a_propiedades(carta)
+        
     def tomar_carta(self, cartas):
         if isinstance(cartas, (list)):
+            for carta in cartas:
+                carta.duenio = self
             self.__listas["Mano"].extend(cartas)
         else:
+            carta.duenio = self
             self.__listas["Mano"].extend([cartas])
     
     def calcular_valor_banco_propiedades(self) -> int:
