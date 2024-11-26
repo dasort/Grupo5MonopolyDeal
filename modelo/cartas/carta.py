@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from modelo.jugador import Jugador
 
 
 class Carta(ABC):
@@ -68,11 +67,11 @@ class Carta(ABC):
         self._path_a_queHace = path_a_queHace
     
     @property
-    def duenio(self) -> Jugador:
+    def duenio(self):
         return self._duenio
     
     @duenio.setter
-    def duenio(self, duenio: Jugador):
+    def duenio(self, duenio):
         self._duenio = duenio
 
     # sobrecargar en clases hijas que lo requieran (accion, propiedad de más de un color)

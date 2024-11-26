@@ -6,21 +6,29 @@ from modelo.cartas.carta import Carta
 from modelo.base_de_datos.conexion.monopoly_db import Database
 from modelo.base_de_datos.partida_dao.partida_bdd import PartidaBDD
 from modelo.base_de_datos.partida_dao.partida_dao_imp import PartidaDaoImpl
-# from vistas. #tiene que ir la vista de la partida
+from vistas.vista_tablero import Tablero
 
 
 class ControladorPartida:
-    def __init__(self, jugadores: list[Jugador]):
-        self.__vista = Vista(self) # poner el nombre de la vista correcto
+    def __init__(self, main_menu, jugadores: list[Jugador]):
+        self.__vista = Tablero(self) # poner el nombre de la vista correcto
         self.__jugadores = jugadores  # Instancias de la clase Jugador
         self.__jugador_actual = choice(self.__jugadores)
         self.__cartas_jugadas_en_turno = 0
         self.__mazo = MazoDeCartas()
         self.__cartas_descarte = MazoDeDescarte()  # Pila de descarte
-        self.__turno_actual = 0
+        self.__turno_actual = self.__jugadores.index(self.__jugador_actual)
         self.__ganador: Jugador = None
-        self.repartir_cartas()
         self.__vista.show()
+        self.empezar_partida()
+
+    def get_jugador_actual(self) -> Jugador:
+        return self.__jugador_actual
+
+    def empezar_partida(self):
+        self.repartir_cartas()
+        self.__vista.mostrar_jugadores(self.__jugadores)
+        self.__vista.mostrar_mano_jugador()
 
     # Reparte 5 cartas a cada jugador
     def repartir_cartas(self):
@@ -28,7 +36,7 @@ class ControladorPartida:
             jugador.tomar_carta(self.__mazo.dar_cartas(5))
     
     # Toma una carta aleartoria del mazo eliminandola
-    def tomar_carta_mazo(self,jugador: Jugador):
+    def tomar_carta_mazo(self, jugador: Jugador):
         jugador.tomar_carta(self.__mazo.dar_cartas(1))
     
 ############################################################################################################################
@@ -187,7 +195,12 @@ class ControladorPartida:
 ############################################################################################################################
 
     def terminar_turno(self):
-        pass
+        if self.__turno_actual == len(self.__jugadores) - 1:
+            self.__turno_actual = 0
+        else:
+            self.__turno_actual += self.__turno_actual + 1
+        self.__jugador_actual = self.__jugadores[self.__turno_actual]
+        self.__vista.mostrar_mano_jugador()
     
     #devulve el jugador actual segun el turno actual
     def jugador_actual(self):
