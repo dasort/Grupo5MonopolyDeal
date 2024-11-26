@@ -1,4 +1,5 @@
 from random import choice
+from typing import Callable
 from modelo.jugador import Jugador
 from modelo.mazo_de_cartas import MazoDeCartas
 from modelo.mazo_de_descarte import MazoDeDescarte
@@ -10,7 +11,8 @@ from vistas.vista_tablero import Tablero
 
 
 class ControladorPartida:
-    def __init__(self, main_menu, jugadores: list[Jugador]):
+    def __init__(self, main_menu: Callable, jugadores: list[Jugador]):
+        self.__main_menu = main_menu
         self.__vista = Tablero(self) # poner el nombre de la vista correcto
         self.__jugadores = jugadores  # Instancias de la clase Jugador
         self.__jugador_actual = choice(self.__jugadores)
@@ -19,12 +21,21 @@ class ControladorPartida:
         self.__cartas_descarte = MazoDeDescarte()  # Pila de descarte
         self.__turno_actual = self.__jugadores.index(self.__jugador_actual)
         self.__ganador: Jugador = None
-        self.__vista.show()
         self.empezar_partida()
+        self.__vista.show()
+
+    def get_mazo(self):
+        return self.__mazo
 
     def get_jugador_actual(self) -> Jugador:
         return self.__jugador_actual
 
+    def get_jugadores(self):
+        return self.__jugadores
+    
+    def get_turno_actual(self):
+        return self.__turno_actual
+    
     def empezar_partida(self):
         self.repartir_cartas()
         self.__vista.mostrar_jugadores(self.__jugadores)
@@ -39,6 +50,10 @@ class ControladorPartida:
     def tomar_carta_mazo(self, jugador: Jugador):
         jugador.tomar_carta(self.__mazo.dar_cartas(1))
     
+    def dar_dos_cartas(self):
+        mazo = self.__mazo
+        self.__jugador_actual.tomar_carta(mazo.dar_cartas(2))
+
 ############################################################################################################################
 ######################################## Código para jugar las cartas ######################################################
 ############################################################################################################################
@@ -52,7 +67,7 @@ class ControladorPartida:
         else:
             carta.accion()
         if self.chequea_ganador():
-            self.fin_de_partida()
+            self.registrar_partida()
         self.__cartas_jugadas_en_turno += 1
         if self.__cartas_jugadas_en_turno == 3:
             self.terminar_turno()
@@ -174,7 +189,7 @@ class ControladorPartida:
             return True
         return False
     
-    def fin_de_partida(self):
+    def registrar_partida(self):
         conexion = Database().conexion()
         partida_dao = PartidaDaoImpl(conexion)
         partida = PartidaBDD()
@@ -188,8 +203,10 @@ class ControladorPartida:
             if jugador.datos_bdd is not None:
                 partida_dao.registrar_jugador_en_partida(partida, jugador)
         conexion.close()
+    
+    def terminar_partida(self):
         self.__vista.finalizar_partida()
-                
+        
 ############################################################################################################################
 ########################################### Termina código para ganar la partida ###########################################
 ############################################################################################################################
@@ -202,12 +219,6 @@ class ControladorPartida:
         self.__jugador_actual = self.__jugadores[self.__turno_actual]
         self.__vista.mostrar_mano_jugador()
     
-    #devulve el jugador actual segun el turno actual
-    def jugador_actual(self):
-        return self.__jugadores[self.__turno_actual]
-    
-    #devuelve el turno actual segun la posicion de la lista de jugadores
-    def pasar_turno(self):
-        if self.turno_actual + 1 >= len(self.__jugadores): 
-            self.turno_actual = 0
-        else: self.turno_actual += 1
+    def volver_al_menu_principal(self):
+        self.__vista.close()
+        self.__main_menu()

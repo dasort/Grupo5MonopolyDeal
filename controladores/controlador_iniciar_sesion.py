@@ -16,7 +16,7 @@ class Controlador_iniciar_sesion():
         if jugador.datos_bdd is None: 
             self.show_error_dialog("Usuario no encontrado.")
             return 
-        contrasena_guardada = jugador.datos_bdd['contrasenia'] 
+        contrasena_guardada = jugador.datos_bdd['contrasenia']
         salt = jugador.datos_bdd['salt'] 
         
         if compara_contrasenia(contrasena_ingresada, contrasena_guardada, salt): 
@@ -29,7 +29,7 @@ class Controlador_iniciar_sesion():
         msg_box = QMessageBox() 
         msg_box.setIcon(QMessageBox.Icon.Critical) 
         msg_box.setText(message) 
-        msg_box.setWindowTitle("Error") 
+        msg_box.setWindowTitle("Error")
         msg_box.exec()
         
     def show_info_dialog(self, message): 

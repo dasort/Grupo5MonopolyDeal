@@ -70,14 +70,13 @@ class Propiedades(Carta):
 
     def quitar_propiedad(self, carta: Carta):
         if carta.color in self.__propiedades:
-            for encontrar in self.__propiedades[carta.color]:
-                if carta in encontrar["sublista"]:
-                    encontrar["sublista"].remove(carta)
-                    encontrar["numero"] -= 1
-                    self.__propiedades[carta.color] = self.ordenar_listas(self.__propiedades[carta.color]["lista"])
-                    self.__propiedades[carta.color]["grupos"] = self.contar_grupos(self.__propiedades[carta.color]["lista"])
-                else:
-                    print(f"La carta {carta.id_carta} no está en la lista de color {carta.color}")
+            lista = self.__propiedades[carta.color]['lista']
+            lista["sublista"].remove(carta)
+            lista["numero"] -= 1
+            self.__propiedades[carta.color] = self.ordenar_listas(self.__propiedades[carta.color]["lista"])
+            self.__propiedades[carta.color]["grupos"] = self.contar_grupos(self.__propiedades[carta.color]["lista"])
+        else:
+            raise IndexError('Error en quitar_propiedad')
 
     def ordenar_listas(self, listas):
         elementos_faltantes = []

@@ -1,6 +1,6 @@
 import psycopg2
-from conexion.singleton import SingletonMeta
-from conexion.config import config
+from modelo.base_de_datos.conexion.singleton import SingletonMeta
+from modelo.base_de_datos.conexion.config import config
 
 
 class Database(metaclass=SingletonMeta):

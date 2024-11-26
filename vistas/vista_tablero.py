@@ -2,23 +2,17 @@ from PyQt6.QtWidgets import QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButt
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QPixmap, QIcon
 from datetime import datetime
-from modelo.cartas.carta import Carta
-from modelo.jugador import Jugador
-from modelo.controlador_partida import ControladorPartida
-#from carta_boton import CartaBoton <-- (Yo no lo puse, tampoco se que haría)
+from pathlib import Path
+
 
 class Tablero(QMainWindow):
-    def __init__(self, main_menu, jugadores: Jugador, parent=None):
-        super().__init__(parent)
-        self.control = ControladorPartida(jugadores)
-        self.main_menu = main_menu
+    def __init__(self, controlador, parent=None):
+        super().__init__()
+        self.__controlador = controlador
         self.setWindowTitle("Tablero de Juego")
         self.setGeometry(20, 30, 1500, 750)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
 
-        self.dinero_inicial = 0 # <-- No le veo mucho sentido a esto así.
-        self.jugadores = jugadores
-        self.turno_actual = 0
         self.tiempo_restante = 60
         
         self.carta_seleccionada = None
@@ -73,7 +67,7 @@ class Tablero(QMainWindow):
         # Zona superior izquierda:
         self.zona_superior_izquierda_layout = QVBoxLayout()
         self.zona_superior_layout.addLayout(self.zona_superior_izquierda_layout, 1) # <-- El 1 es que tiene proporción 1.
-        self.mostrar_jugadores(jugadores)                                           # Si tienen ambos el mismo, van a
+        # self.mostrar_jugadores(jugadores)                                           # Si tienen ambos el mismo, van a
         #                                                                             ocupar el mismo ancho.
         # Zona superior derecha:
         self.zona_superior_derecha_layout = QVBoxLayout()
@@ -117,7 +111,7 @@ class Tablero(QMainWindow):
         turno_icon.setFixedSize(50, 50) # <-- Hace que QLabel sea del mismo tamaño para que coincida con el del QPixmap.
         turno_layout.addWidget(turno_icon)
 
-        self.turno_label = QLabel(f"Turno de: {self.jugadores[self.turno_actual].nombre}", self)
+        self.turno_label = QLabel(f"Turno de: {self.__controlador.get_jugador_actual().nombre}", self)
         turno_layout.addWidget(self.turno_label)
 
         self.zona_inferior_izquierda_layout.addLayout(turno_layout)
@@ -142,49 +136,8 @@ class Tablero(QMainWindow):
         self.zona_inferior_izquierda_layout.addWidget(self.espacio_vacio_label)
         
         # (4):
-        self.btn_tomar_carta = QPushButton("Tomar 2 Cartas", self)
-        self.btn_tomar_carta.clicked.connect(lambda: (self.control.tomar_carta_mazo(self.jugadores[self.turno_actual]), self.update_interfaz()))
-        self.zona_inferior_izquierda_layout.addWidget(self.btn_tomar_carta)
-        self.btn_tomar_carta.setStyleSheet("""
-            QPushButton {
-                background-color: rgba(194, 78, 27, 0.2);
-                color: white;
-                border: 2px solid rgba(43, 22, 11, 1);
-                border-radius: 10px;
-                padding: 8px;
-                font-size: 20px;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: rgba(194, 137, 48, 0.9);
-            }
-            QPushButton:pressed {
-                background-color: rgba(125, 72, 34, 1);
-            }
-        """)
-        self.btn_jugar_carta = QPushButton("Tomar 2 Cartas", self)
-        #self.btn_jugar_carta.clicked.connect(lambda: (self.control.tomar_carta_mazo(self.jugadores[self.turno_actual]), self.update_interfaz()))
-        self.zona_inferior_izquierda_layout.addWidget(self.btn_jugar_carta)
-        self.btn_jugar_carta.setStyleSheet("""
-            QPushButton {
-                background-color: rgba(194, 78, 27, 0.2);
-                color: white;
-                border: 2px solid rgba(43, 22, 11, 1);
-                border-radius: 10px;
-                padding: 8px;
-                font-size: 20px;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: rgba(194, 137, 48, 0.9);
-            }
-            QPushButton:pressed {
-                background-color: rgba(125, 72, 34, 1);
-            }
-        """)
-        # (4):
         self.btn_finalizar_turno = QPushButton("Finalizar Turno", self)
-        self.btn_finalizar_turno.clicked.connect(self.finalizar_turno)
+        self.btn_finalizar_turno.clicked.connect(self.__controlador.terminar_turno)
         self.zona_inferior_izquierda_layout.addWidget(self.btn_finalizar_turno)
         self.btn_finalizar_turno.setStyleSheet("""
             QPushButton {
@@ -206,7 +159,7 @@ class Tablero(QMainWindow):
         
         # (5):
         self.btn_finalizar_partida = QPushButton("Finalizar Partida", self)
-        self.btn_finalizar_partida.clicked.connect(self.finalizar_partida)
+        self.btn_finalizar_partida.clicked.connect(self.__controlador.terminar_partida)
         self.zona_inferior_izquierda_layout.addWidget(self.btn_finalizar_partida)
         self.btn_finalizar_partida.setStyleSheet("""
             QPushButton {
@@ -243,7 +196,10 @@ class Tablero(QMainWindow):
 
         # Descripción de carta
         self.descripcion_carta_label = QLabel(self)
-        pixmap_fondo = QPixmap("imagenes/ui/queHaceVacio.png").scaled(400, 300, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        path_script = Path(__file__).resolve()
+        self.path_proyecto = path_script.parent.parent
+        self.path_queHaceVacio = self.path_proyecto / "imagenes/ui/queHaceVacio.png"
+        pixmap_fondo = QPixmap(self.path_queHaceVacio).scaled(400, 300, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
         self.descripcion_carta_label.setPixmap(pixmap_fondo) #                  |                                   | Estos dos dos Qt solucionan la vida.
         self.descripcion_carta_label.setFixedSize(400, 300)
         # Agregar el QLabel al layout:
@@ -308,7 +264,7 @@ class Tablero(QMainWindow):
         filas = 2
         columnas = 5
         maximo = filas * columnas
-        cantidad = self.contar_propiedades(self.jugadores[self.turno_actual].get_propiedades)
+        cantidad = self.contar_propiedades(self.__controlador.get_jugador_actual().get_propiedades)
         
         for index in range(maximo):
             fila = index // columnas
@@ -316,7 +272,7 @@ class Tablero(QMainWindow):
             if index < cantidad:
                 print(f"------------------ ENTRANDO A FOR -----------------")
                 grupos = QWidget()  # Crear un nuevo QWidget para cada grupo
-                self.agregar_cartas(self.jugadores[self.turno_actual].propiedades, grupos)
+                self.agregar_cartas(self.__controlador.get_jugador_actual().propiedades, grupos)
             
                 # Añadir el grupo al layout
                 self.cartas_layouts.addWidget(grupos, fila, columna)
@@ -355,12 +311,14 @@ class Tablero(QMainWindow):
         else:
             print("No hay suficiente espacio para mover la carta.")
         #print("Agregar termina")
+
     #endregion
     def update_interfaz(self):
         self.cargar_cartas()
-        self.mostrar_jugadores(self.jugadores)
+        self.mostrar_jugadores(self.__controlador.get_jugadores())
         self.mostrar_mano_jugador()
         self.repaint()
+        
     def limpiar_layout(self, layout):
         """Elimina todos los widgets de un layout."""
         while layout.count():
@@ -370,6 +328,7 @@ class Tablero(QMainWindow):
                 widget.deleteLater()
             elif item.layout():
                 self.limpiar_layout(item.layout())
+                
     def mostrar_jugadores(self, jugadores):
         """Muestra la información de los jugadores."""
         self.limpiar_layout(self.zona_superior_izquierda_layout)
@@ -481,6 +440,7 @@ class Tablero(QMainWindow):
             
             # Agregar el layout jugador al layout de la zona superior izquierda:
             self.zona_superior_izquierda_layout.addLayout(jugador_layout)
+            
     def contar_propiedades(self, propiedades: dict):
         contador = 0
         for color, propiedad in propiedades.items():
@@ -490,6 +450,7 @@ class Tablero(QMainWindow):
             contador += len(lista_propiedades)
 
         return contador
+    
     def mostrar_cartas_en_cuadricula(self, grid_layout, cartas, tipo=None):
         
         """
@@ -578,10 +539,10 @@ class Tablero(QMainWindow):
             if widget:
                 widget.deleteLater()
 
-        jugador_actual = self.jugadores[self.turno_actual]
-        cartas = jugador_actual.get_mano
+        jugador_actual = self.__controlador.get_jugador_actual()
+        cartas = jugador_actual.get_mano()
         
-        imagen_vacia = "imagenes/cartas/cartaVacia.png"
+        imagen_vacia = self.path_proyecto / "imagenes/cartas/cartaVacia.png"
 
         # Lógica para mostrar hasta 7 cartas:
         for i in range(7):      # <-- (No se va a exceder, pero igual tengo que usarlo).
@@ -592,6 +553,7 @@ class Tablero(QMainWindow):
             if i < len(cartas):
                 carta = cartas[i]
                 carta_imagen = carta.path_a_imagen
+                print(carta_imagen)
                 # Actualizar al clickear:
                 carta_label.mousePressEvent = self.evento_click_carta(carta)
             else:
@@ -611,7 +573,7 @@ class Tablero(QMainWindow):
             if carta == self.carta_seleccionada:
                 #print("Doble click detectado.")
                 
-                self.control.jugar_carta(self.jugadores[self.turno_actual],carta)
+                self.__controlador.jugar_carta(carta)
                 
                 
                 self.carta_seleccionada = None
@@ -623,7 +585,7 @@ class Tablero(QMainWindow):
                     pixmap_descripcion = QPixmap(descripcion_imagen).scaled(400, 300, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
                     self.descripcion_carta_label.setPixmap(pixmap_descripcion)
                 else:                  # <-- En caso de que sea Null porque no hay carta, usa la imagen vacía. (Igual ya no va a pasar)
-                    pixmap_descripcion = QPixmap("imagenes/ui/queHaceVacio.png").scaled(400, 300, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+                    pixmap_descripcion = QPixmap(self.path_queHaceVacio).scaled(400, 300, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
                     self.descripcion_carta_label.setPixmap(pixmap_descripcion)
                 #self.update_interfaz()    
                 
@@ -656,9 +618,9 @@ class Tablero(QMainWindow):
         Acá va la lógica que se maneja cuando finaliza el tiempo.
         """
         self.jugadores[self.turno_actual].todas_propiedades
-        pro2 = self.jugadores[self.turno_actual].get_propiedades
-        self.turno_actual = (self.turno_actual + 1) % len(self.jugadores)
-        self.turno_label.setText(f"Turno de: {self.jugadores[self.turno_actual].nombre}")
+        pro2 = self.__controlador.get_jugador_actual().get_propiedades
+        self.turno_actual = (self.turno_actual + 1) % len(self.__controlador.get_jugadores())
+        self.turno_label.setText(f"Turno de: {self.__controlador.get_jugador_actual().nombre}")
         self.tiempo_restante = 60
         self.timer_label.setText(f"Tiempo restante: {self.tiempo_restante}s")
 
@@ -689,7 +651,7 @@ class Tablero(QMainWindow):
             # Cálculo del resumen de la partida:
             resumen = "Resumen de la partida jugada:\n\n"
             resumen += f"Tiempo total jugado: {tiempo_formateado}\n\n"
-            for jugador in self.jugadores:
+            for jugador in self.__controlador.get_jugadores():
                 resumen += (
                     f"Jugador: {jugador['nombre']}\n"
                     f"Dinero final: $Son pobres\n"
@@ -706,8 +668,7 @@ class Tablero(QMainWindow):
                 QMessageBox.StandardButton.Ok
         )
             
-            self.close()
-            self.main_menu.show()
+            self.__controlador.volver_al_menu_principal()
         else:
             pass
     

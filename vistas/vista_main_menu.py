@@ -1,19 +1,16 @@
 from PyQt6.QtWidgets import QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QSpacerItem, QSizePolicy, QHBoxLayout
 from PyQt6.QtGui import QIcon, QPixmap, QGuiApplication
 from PyQt6.QtCore import Qt
-from controladores.controlador_main_menu import ControladorMainMenu
-from controladores.controlador_opciones import ControladorOpciones
+
 
 class MainMenu(QMainWindow):
-    def __init__(self):
+    def __init__(self, controlador):
         super().__init__()
+        self.__controlador = controlador
         self.setWindowTitle("Monopoly Deal")
         self.setGeometry(480, 200, 600, 450)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
         self.centrar_ventana()
-
-        # Controlador del menu:
-        self.controlador= ControladorMainMenu()
         
         # Widget principal y layout:
         self.main_widget = QWidget()
@@ -46,7 +43,7 @@ class MainMenu(QMainWindow):
         # (4.1):
         # Botón "Crear una Partida":
         self.boton_crear_partida = self.crear_boton("Crear una Partida", "imagenes/ui/menu_boton_1.png")
-        self.boton_crear_partida.clicked.connect(self.controlador.mostrar_crear_partida)
+        self.boton_crear_partida.clicked.connect(self.__controlador.mostrar_crear_partida)
         botones_layout.addWidget(self.boton_crear_partida)
 
         botones_layout.addSpacerItem(QSpacerItem(20, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed))
@@ -54,16 +51,16 @@ class MainMenu(QMainWindow):
         # (4.2):
         # Botón "Opciones":
         self.boton_opciones = self.crear_boton("Opciones", "imagenes/ui/menu_boton_2.png")
-        self.boton_opciones.clicked.connect(self.controlador.mostrar_opciones)
+        self.boton_opciones.clicked.connect(self.__controlador.mostrar_opciones)
         botones_layout.addWidget(self.boton_opciones)
 
         botones_layout.addSpacerItem(QSpacerItem(20, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed))
 
         # (4.3):
-        # Botón "Iniciar Sesión o Crear Usuario":
-        self.boton_iniciar_sesion = self.crear_boton("¿Cómo Juego?", "imagenes/ui/emoji.png")
-        self.boton_iniciar_sesion.clicked.connect(self.controlador.mostrar_como_juego)
-        botones_layout.addWidget(self.boton_iniciar_sesion)
+        # Botón "Mostrar Como Juego":
+        self.boton_mostrar_como_juego = self.crear_boton("¿Cómo Juego?", "imagenes/ui/emoji.png")
+        self.boton_mostrar_como_juego.clicked.connect(self.__controlador.mostrar_como_juego)
+        botones_layout.addWidget(self.boton_mostrar_como_juego)
 
         # Agregar los 3 botones al layout principal:
         self.layout.addLayout(botones_layout)
@@ -74,7 +71,7 @@ class MainMenu(QMainWindow):
         
         # Botón estadísticas en el footer:
         self.estadisticas_boton = self.crear_boton_estadisticas("Ver mis Estadísticas", "imagenes/ui/grafico.png")
-        self.estadisticas_boton.clicked.connect(self.controlador.mostrar_estadisticas_inicio_sesion)
+        self.estadisticas_boton.clicked.connect(self.__controlador.mostrar_estadisticas_inicio_sesion)
         tooltip_estadisticas = ("Iniciá sesión para ver tus Estadísticas.")
         self.estadisticas_boton.setToolTip(tooltip_estadisticas)
         layout_footer.addWidget(self.estadisticas_boton)

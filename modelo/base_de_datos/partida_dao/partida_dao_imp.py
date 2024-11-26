@@ -1,8 +1,7 @@
 import psycopg2 as psy #motor base datos
-from partida_dao.partida_bdd import PartidaBDD
-from partida_dao.partida_dao import PartidaDAO
-if __name__ != '__main__':
-    from jugador_dao.jugador_bdd import JugadorBDD
+from modelo.base_de_datos.partida_dao.partida_bdd import PartidaBDD
+from modelo.base_de_datos.partida_dao.partida_dao import PartidaDAO
+from modelo.base_de_datos.jugador_dao.jugador_bdd import JugadorBDD
 
 
 class PartidaDaoImpl(PartidaDAO):

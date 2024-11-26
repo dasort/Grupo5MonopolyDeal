@@ -1,4 +1,4 @@
-from Grupo5MonopolyDeck.modelo.cartas.accion.renta.carta_renta import CartaRenta
+from modelo.cartas.accion.renta.carta_renta import CartaRenta
 
 
 class CartaRentaMulticolor(CartaRenta):

@@ -78,8 +78,11 @@ class Jugador:
 
     @property
     def datos_bdd(self) -> JugadorBDD:
-        return self.datos_bdd
+        return self.__datos_bdd
     
     @datos_bdd.setter
     def datos_bdd(self, datos: JugadorBDD):
         self.__datos_bdd = datos
+
+    def remover_propiedad(self, carta: Carta):
+        self.get_objeto_propiedad().quitar_propiedad(carta)
