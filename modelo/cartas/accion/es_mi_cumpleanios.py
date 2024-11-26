@@ -20,6 +20,7 @@ class EsMiCumpleanios(CartaAccion):
 
     def es_jugable(self, lista_jugadores: list) -> bool:
         for jugador in lista_jugadores:
-            if jugador.calcular_valor_banco_propiedades() >= 2:
-                return True
+            if jugador != self.duenio:
+                if jugador.calcular_valor_banco_propiedades() >= 2:
+                    return True
         return False
