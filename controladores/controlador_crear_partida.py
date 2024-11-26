@@ -4,7 +4,6 @@ from controladores.controlador_iniciar_sesion import Controlador_iniciar_sesion
 from modelo.jugador import Jugador
 
 
-
 class ControladorCrearPartida:
     def __init__(self, main_menu):
         self.__main_menu = main_menu
@@ -74,7 +73,7 @@ class ControladorCrearPartida:
         for j in self.__vista.jugadores:
             jugador = j['jugador_objeto']
             jugador.nombre = j['nombre'].text()
-            jugador.set_avatar(j['avatar'].currentData())
+            jugador.avatar = j['avatar'].currentData()
             jugadores.append(jugador)
         self.__vista.close()
         self.start_game(jugadores)

@@ -71,7 +71,7 @@ class Tablero(QMainWindow):
         # Zona superior izquierda:
         self.zona_superior_izquierda_layout = QVBoxLayout()
         self.zona_superior_layout.addLayout(self.zona_superior_izquierda_layout, 1) # <-- El 1 es que tiene proporción 1.
-        # self.mostrar_jugadores(jugadores)                                           # Si tienen ambos el mismo, van a
+        self.mostrar_jugadores(self.__controlador.get_jugadores())                                           # Si tienen ambos el mismo, van a
         #                                                                             ocupar el mismo ancho.
         # Zona superior derecha:
         self.zona_superior_derecha_layout = QVBoxLayout()
@@ -476,7 +476,7 @@ class Tablero(QMainWindow):
             propiedades_widget.setLayout(propiedades_layout)
             propiedades_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
             propiedades_layout.setSpacing(5)
-            self.mostrar_cartas_en_cuadricula(propiedades_layout, jugador.get_propiedades, "propiedad")
+            self.mostrar_cartas_en_cuadricula(propiedades_layout, jugador.get_propiedades(), "propiedad")
             jugador_layout.addWidget(propiedades_widget, 2)
             
             # --- Banco ---
@@ -484,7 +484,7 @@ class Tablero(QMainWindow):
             banco_widget.setLayout(banco_layout)
             banco_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
             propiedades_layout.setSpacing(5) 
-            self.mostrar_cartas_en_cuadricula(banco_layout, jugador.get_banco, "banco")
+            self.mostrar_cartas_en_cuadricula(banco_layout, jugador.get_banco(), "banco")
             jugador_layout.addWidget(banco_widget, 2)
             
             # Agregar el layout jugador al layout de la zona superior izquierda:
@@ -603,7 +603,6 @@ class Tablero(QMainWindow):
             if i < len(cartas):
                 carta = cartas[i]
                 carta_imagen = carta.path_a_imagen
-                print(carta_imagen)
                 # Actualizar al clickear:
                 carta_label.mousePressEvent = self.evento_click_carta(carta)
             else:

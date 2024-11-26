@@ -291,7 +291,7 @@ class CrearPartida(QMainWindow):
         sesion_label.setToolTip(tooltip_text)
 
         boton_cuenta = QPushButton("Inicie", self)
-        boton_cuenta.clicked.connect(lambda: self.__controlador.abre_iniciar_sesion(jugador, self.jugadores))
+        boton_cuenta.clicked.connect(lambda: self.__controlador.abre_iniciar_sesion(jugador, self.get_jugadores()))
         boton_cuenta.setToolTip(tooltip_text)
         boton_cuenta.setStyleSheet("""
             QPushButton {
@@ -341,3 +341,9 @@ class CrearPartida(QMainWindow):
         
         self.__controlador.cambio_cant_jugadores()
         self.cargar_iconos()
+    
+    def get_jugadores(self) -> list:
+        lista_jugadores = []
+        for jugador in self.jugadores:
+            lista_jugadores.append(jugador['jugador_objeto'])
+        return lista_jugadores

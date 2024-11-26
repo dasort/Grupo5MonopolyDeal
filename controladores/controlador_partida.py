@@ -36,11 +36,6 @@ class ControladorPartida:
     def get_turno_actual(self):
         return self.__turno_actual
     
-    def empezar_partida(self):
-        self.repartir_cartas()
-        self.__vista.mostrar_jugadores(self.__jugadores)
-        self.__vista.mostrar_mano_jugador()
-
     # Reparte 5 cartas a cada jugador
     def repartir_cartas(self):
         for jugador in self.__jugadores:
