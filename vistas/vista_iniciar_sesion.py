@@ -5,12 +5,12 @@ from PyQt6.QtCore import Qt, QTimer
 from vistas.vista_crear_partida import CrearPartida
 
 
-
 class IniciarSesion(QDialog):
-    def __init__(self, main_menu, controlador ,parent=None):
+    def __init__(self, controlador, parent=None):
         super().__init__(parent)
-        self.main_menu = main_menu  
-        self.controlador = controlador
+
+        self.__controlador = controlador
+
         self.setWindowTitle("Iniciar Sesión")
         self.setGeometry(480, 200, 600, 450)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
@@ -133,7 +133,7 @@ class IniciarSesion(QDialog):
                 background-color: #4D4D4D;
             }
         """)
-        #self.register_button.clicked.connect(self.registrar_usuario) no hace falta porque esto lo hace el vista_crear_cuenta
+        self.register_button.clicked.connect(self.abrir_crear_cuenta)
         
         
         # ---
@@ -176,17 +176,6 @@ class IniciarSesion(QDialog):
         self.main_layout.addWidget(self.login_button)
         self.main_layout.addWidget(self.register_button)
         self.main_layout.addWidget(self.boton_volver)
-
-
-
-    def volver(self):
-        self.hide()
-        self.main_menu.show()
-
-    def abrir_crear_partida(self):
-        self.hide()
-        self.crear_partida_window = CrearPartida(self)
-        self.crear_partida_window.show()
         
     def alternar_modo_echo(self):
         # Estado anterior antes de cambiarlo:
@@ -216,3 +205,27 @@ class IniciarSesion(QDialog):
         centro_pantalla = forma_pantalla.center()
         forma_ventana.moveCenter(centro_pantalla)
         self.move(forma_ventana.topLeft())
+    
+    def show_error_dialog(self, message): 
+        msg_box = QMessageBox() 
+        msg_box.setIcon(QMessageBox.Icon.Critical) 
+        msg_box.setText(message) 
+        msg_box.setWindowTitle("Error")
+        msg_box.exec()
+        
+    def show_info_dialog(self, message): 
+        msg_box = QMessageBox() 
+        msg_box.setIcon(QMessageBox.Icon.Information) 
+        msg_box.setText(message) 
+        msg_box.setWindowTitle("Información") 
+        msg_box.exec()
+    
+    def show_ya_ingresado_dialog(self):
+        msg_box = QMessageBox() 
+        msg_box.setIcon(QMessageBox.Icon.Critical) 
+        msg_box.setText("El nickname ya está registrado.") 
+        msg_box.setWindowTitle("Error de inicio de sesión") 
+        msg_box.exec() 
+
+    def show_warning_dialog(self):
+        QMessageBox.warning(self, "Campos vacíos", "Por favor, complete todos los campos.")

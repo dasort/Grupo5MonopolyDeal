@@ -114,3 +114,6 @@ class JugadorDAOImpl(JugadorDAO):
             print(f"Error al obtener el historial: {e}")
         cursor.close()
         return partidas_jugadas, partidas_ganadas
+
+    def terminar_conexión(self):
+        self.__conexion.close()

@@ -1,5 +1,8 @@
 from vistas.vista_crear_partida import CrearPartida
 from controladores.controlador_partida import ControladorPartida
+from controladores.controlador_iniciar_sesion import Controlador_iniciar_sesion
+from modelo.jugador import Jugador
+
 
 class ControladorCrearPartida:
     def __init__(self, main_menu):
@@ -10,6 +13,10 @@ class ControladorCrearPartida:
     def volver(self):
         self.__vista.hide()
         var = self.__main_menu()
+
+    def abre_iniciar_sesion(self):
+        self.__vista.hide()
+        var = Controlador_iniciar_sesion(self.__main_menu, self)
 
     def cambio_cant_jugadores(self):
         if len(self.__vista.jugadores) >= self.__vista.minimo_jugadores:
@@ -53,7 +60,7 @@ class ControladorCrearPartida:
             banco = jugador['banco']
             acciones = jugador['acciones']
             jugadores.append({'nombre': nombre, 'avatar': avatar, 'dinero': dinero, 'propiedades': propiedades, 'banco': banco, 'acciones': acciones})
-
+        print(jugadores)
         self.__vista.close()
         self.start_game(jugadores)
 

@@ -51,6 +51,3 @@ class Controlador_crear_cuenta:
                 cursor.close()
             if conexion:
                 conexion.close()
-
-
-
