@@ -219,6 +219,6 @@ class ControladorPartida:
         self.__jugador_actual = self.__jugadores[self.__turno_actual]
         self.__vista.mostrar_mano_jugador()
     
-    def volver_al_menu_principal(self):
+    def volver(self):
         self.__vista.close()
         self.__main_menu()

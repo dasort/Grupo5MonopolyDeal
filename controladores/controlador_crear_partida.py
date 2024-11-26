@@ -5,10 +5,11 @@ class ControladorCrearPartida:
     def __init__(self, main_menu):
         self.__main_menu = main_menu
         self.__vista = CrearPartida(self)
+        self.__vista.show()
 
     def volver(self):
-        self.__vista.close()
-        self.__main_menu.show()
+        self.__vista.hide()
+        var = self.__main_menu()
 
     def cambio_cant_jugadores(self):
         if len(self.__vista.jugadores) >= self.__vista.minimo_jugadores:

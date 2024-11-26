@@ -21,8 +21,10 @@ class CrearPartida(QMainWindow):
         self.main_layout = QHBoxLayout()
         self.main_layout.setContentsMargins(0, 0, 0, 0)
         self.main_layout.setSpacing(0)
-        self.setLayout(self.main_layout)
-        
+        self.central_widget = QWidget(self)
+        self.central_widget.setLayout(self.main_layout)
+        self.setCentralWidget(self.central_widget)
+
 
         self.layout_derecha = QVBoxLayout()
         self.layout_derecha.setContentsMargins(0, 0, 0, 0)
@@ -281,7 +283,7 @@ class CrearPartida(QMainWindow):
         sesion_label.setToolTip(tooltip_text)
 
         boton_cuenta = QPushButton("Inicie", self)
-        boton_cuenta.clicked.connect(self.volver)
+        boton_cuenta.clicked.connect(self.__controlador.volver)
         boton_cuenta.setToolTip(tooltip_text)
         boton_cuenta.setStyleSheet("""
             QPushButton {

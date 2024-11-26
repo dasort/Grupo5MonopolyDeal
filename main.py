@@ -2,7 +2,7 @@ import sys
 from pathlib import Path
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtGui import QFont, QFontDatabase
-from vistas.vista_main_menu import MainMenu
+from controladores.controlador_main_menu import ControladorMainMenu
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
@@ -19,8 +19,7 @@ if __name__ == "__main__":
 
     # Inicializar la ventana principal:
     try:
-        main_window = MainMenu()
-        main_window.show()
+        controlador = ControladorMainMenu()
     except Exception as e:
         print(f"\n(¡Error!): No se pudo inicializar el programa: {e}\n")
         sys.exit(1)

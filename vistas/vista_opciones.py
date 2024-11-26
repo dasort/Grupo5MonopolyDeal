@@ -1,22 +1,18 @@
-from PyQt6.QtWidgets import QDialog, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QSpacerItem, QSizePolicy, QFrame
+from PyQt6.QtWidgets import QDialog, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QSpacerItem, QSizePolicy, QFrame, QMessageBox
+from PyQt6.QtGui import QGuiApplication
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
-from controladores.controlador_opciones import ControladorOpciones
 
 
 class Opciones(QDialog):
-    def __init__(self, main_menu, parent=None):
+    def __init__(self, controlador, parent=None):
         super().__init__(parent)
 
-        self.main_menu = main_menu
+        self.__controlador = controlador
         
         self.setWindowTitle("Opciones")
         self.setGeometry(570, 240, 400, 300)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
-
-        #Controlador
-        self.controlador = ControladorOpciones(self)
-        self.controlador.centrar_ventana()
 
         #Layout
         self.layout = QVBoxLayout()
@@ -68,7 +64,7 @@ class Opciones(QDialog):
 
         # Boton Créditos:
         boton_creditos = QPushButton("Créditos", self)
-        boton_creditos.clicked.connect(self.controlador.mostrar_creditos)
+        boton_creditos.clicked.connect(self.mostrar_creditos)
         self.layout.addWidget(boton_creditos)
 
         self.layout.addSpacing(10)
@@ -83,6 +79,31 @@ class Opciones(QDialog):
 
         # Volver:
         self.boton_volver = QPushButton("Volver al Menú Principal", self)
-        self.boton_volver.clicked.connect(self.controlador.volver)
+        self.boton_volver.clicked.connect(self.__controlador.volver)
         self.layout.addWidget(self.boton_volver)
         self.setLayout(self.layout) 
+
+    def mostrar_creditos(self):
+        mensaje = QMessageBox(self)
+        mensaje.setWindowTitle("Créditos")
+        mensaje.setText("Nosotros desarrollamos este juego:")
+        mensaje.setInformativeText(
+            "\n\nBonifacio, Lucas\n"
+            "Cárdenas, Franco\n"
+            "Lopes, Carlos\n"
+            "Gonzales, Nadin\n"
+            "Cabana, Ricardo (Abandonó)\n"
+            "Williams, Dahiana\n"
+            "Vidal, Maida Diego\n"
+            "Ampuero, Alejandro\n"
+            "Contreras, Joel\n")
+        mensaje.setIcon(QMessageBox.Icon.Information)
+        mensaje.setStandardButtons(QMessageBox.StandardButton.Ignore)
+        mensaje.exec()
+
+    def centrar_ventana(self):
+        forma_pantalla = QGuiApplication.primaryScreen().availableGeometry()
+        forma_ventana = self.frameGeometry()
+        centro_pantalla = forma_pantalla.center()
+        forma_ventana.moveCenter(centro_pantalla)
+        self.move(forma_ventana.topLeft())
