@@ -4,6 +4,7 @@ from vistas.vista_main_menu import MainMenu
 from controladores.controlador_crear_cuenta import Controlador_crear_cuenta
 from modelo.base_de_datos.jugador_dao.hash_contrasenia import hash_contrasenia
 from PyQt6.QtWidgets import QMessageBox
+from modelo.base_de_datos.jugador_dao.jugador_bdd import JugadorBDD
 
 
 class Controlador_iniciar_sesion():
@@ -18,7 +19,8 @@ class Controlador_iniciar_sesion():
             return 
         contrasena_guardada = jugador.datos_bdd['contrasenia'] 
         salt = jugador.datos_bdd['salt'] 
-        if hash_contrasenia.comparar_contrasenias(contrasena_ingresada, contrasena_guardada, salt): 
+        
+        if hash_contrasenia.compara_contrasenias(contrasena_ingresada, contrasena_guardada, salt): 
             self.show_info_dialog("Inicio de sesión exitoso.") 
         else: 
             jugador.datos_bdd = None 

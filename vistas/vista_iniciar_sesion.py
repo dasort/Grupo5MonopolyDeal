@@ -3,14 +3,15 @@ import psycopg2
 from PyQt6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QFrame, QSpacerItem, QSizePolicy
 from PyQt6.QtGui import QIcon, QPixmap, QGuiApplication
 from PyQt6.QtCore import Qt, QTimer
-from crear_partida import CrearPartida
+from vistas.vista_crear_partida import CrearPartida
 from modelo.base_de_datos.jugador_dao import jugador_dao_impl
 from modelo.base_de_datos.jugador_dao import jugador_bdd
 from modelo.base_de_datos.jugador_dao import jugador_dao
+from controladores import controlador_iniciar_sesion
 
 
 class IniciarSesion(QDialog):
-    def __init__(self, main_menu,controlador ,parent=None):
+    def __init__(self, main_menu, controlador ,parent=None):
         super().__init__(parent)
         self.main_menu = main_menu  
         self.controlador = controlador
@@ -172,7 +173,7 @@ class IniciarSesion(QDialog):
         #self.main_layout.addWidget(linea1)
         self.main_layout.addWidget(self.password_label)
         self.main_layout.addLayout(self.layout_contrasenia)
-        #self.main_layout.addWidget(self.password_input) <-- En caso de sacar el layout_contrasenia.
+        self.main_layout.addWidget(self.password_input)# <-- En caso de sacar el layout_contrasenia.
         self.main_layout.addSpacing(25)
         #self.main_layout.addWidget(linea2)
         #self.main_layout.addSpacing(20)
@@ -186,7 +187,7 @@ class IniciarSesion(QDialog):
         usuario = self.username_input.text()
         contraseña = self.password_input.text()
         jugador = jugador_bdd()
-        jugador.datos_bdd= self.ob
+        jugador.datos_bdd= self.obtener_datos_del_usuario(self)
 
         if not usuario or not contraseña:
             QMessageBox.warning(self, "Campos vacíos", "Por favor, complete todos los campos.")
@@ -229,7 +230,7 @@ class IniciarSesion(QDialog):
                 password="1234" ) 
             cursor = conn.cursor() 
             # Ejecutar la consulta para obtener los datos del usuario 
-            query = "SELECT contrasenia, salt FROM usuarios WHERE nombre_usuario = %s" 
+            query = "SELECT contrasenia, salt FROM jugador WHERE nickname = %s" 
             cursor.execute(query, [jugador]) 
             result = cursor.fetchone()
             # Cerrar la conexión 
@@ -243,7 +244,12 @@ class IniciarSesion(QDialog):
             print(f"Error al conectarse a la base de datos: {e}")
             return None
         
-        
+    def buscando_usuario(self): 
+        contrasena_ingresada = self.password_input.text() 
+        jugador = jugador_bdd() 
+        jugador.datos_bdd = self.obtener_datos_del_usuario("nombre_de_usuario") 
+        self.controlador.verificar_usuario(jugador, contrasena_ingresada)(jugador, contrasena_ingresada)   
+
 
     def volver(self):
         self.hide()
