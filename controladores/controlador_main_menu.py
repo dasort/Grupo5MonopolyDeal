@@ -6,6 +6,7 @@ from controladores.controlador_opciones import ControladorOpciones
 # from controladores.controlador_estadistica import ControladorEstadística
 from controladores.controlador_como_juego import ControladorComoJuego
 
+
 class ControladorMainMenu:
     def __init__(self): 
         super().__init__()

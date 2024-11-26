@@ -5,7 +5,6 @@ from PyQt6.QtCore import Qt, QTimer
 from vistas.vista_crear_partida import CrearPartida
 
 
-
 class IniciarSesion(QDialog):
     def __init__(self, main_menu, controlador ,parent=None):
         super().__init__(parent)
@@ -176,8 +175,6 @@ class IniciarSesion(QDialog):
         self.main_layout.addWidget(self.login_button)
         self.main_layout.addWidget(self.register_button)
         self.main_layout.addWidget(self.boton_volver)
-
-
 
     def volver(self):
         self.hide()

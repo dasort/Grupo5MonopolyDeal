@@ -170,4 +170,3 @@ class MainMenu(QMainWindow):
         centro_pantalla = forma_pantalla.center()
         forma_ventana.moveCenter(centro_pantalla)
         self.move(forma_ventana.topLeft())
-    

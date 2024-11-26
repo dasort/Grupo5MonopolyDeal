@@ -3,6 +3,7 @@ from PyQt6.QtGui import QGuiApplication
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
 
+
 class Opciones(QDialog):
     def __init__(self, controlador, parent=None):
         super().__init__(parent)

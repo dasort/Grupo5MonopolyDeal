@@ -1,5 +1,6 @@
 from vistas.vista_como_juego import ComoJuego
 
+
 class ControladorComoJuego:
     
     def __init__(self, main_menu): 
@@ -11,4 +12,3 @@ class ControladorComoJuego:
     def volver(self):
         self.__vista.hide()
         var = self.__main_menu()
-        

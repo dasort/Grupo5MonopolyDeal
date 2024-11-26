@@ -2,11 +2,12 @@ from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLab
 from PyQt6.QtGui import QIcon, QPixmap, QIntValidator 
 from PyQt6.QtCore import Qt
 
+
 class CrearPartida(QMainWindow):
     def __init__(self, controlador, parent=None):
         super().__init__(parent)
         
-        self.__controlador = controlador  #Llamo a todos los metodos desde el controlador 
+        self.__controlador = controlador  # Llamo a todos los metodos desde el controlador 
         
         self.minimo_jugadores = 2
         self.maximo_jugadores = 5
