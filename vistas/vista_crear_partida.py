@@ -289,7 +289,7 @@ class CrearPartida(QMainWindow):
         sesion_label.setToolTip(tooltip_text)
 
         boton_cuenta = QPushButton("Inicie", self)
-        boton_cuenta.clicked.connect(self.__controlador.volver)
+        boton_cuenta.clicked.connect(self.__controlador.abre_iniciar_sesion)
         boton_cuenta.setToolTip(tooltip_text)
         boton_cuenta.setStyleSheet("""
             QPushButton {

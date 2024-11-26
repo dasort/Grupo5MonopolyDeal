@@ -4,7 +4,7 @@ from .hash_contrasenia import hash_contrasenia
 
 class JugadorBDD:
 
-    def __init__(self, id_jugador: int, nombre: str, apellido: str, nickname: str, contrasenia: str, salt: str) -> None:
+    def __init__(self, id_jugador: int = None, nombre: str = None, apellido: str = None, nickname: str = None, contrasenia: str = None, salt: str = None) -> None:
         self.__id_jugador = id_jugador
         self.__nombre = nombre
         self.__apellido = apellido
