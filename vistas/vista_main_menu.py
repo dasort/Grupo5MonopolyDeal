@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget, QSpacerItem, QSizePolicy, QHBoxLayout
 from PyQt6.QtGui import QIcon, QPixmap, QGuiApplication
 from PyQt6.QtCore import Qt
-from controladores.controlador_main_menu import controlador_main_menu
+from controladores.controlador_main_menu import ControladorMainMenu
 from controladores.controlador_opciones import ControladorOpciones
 
 class MainMenu(QMainWindow):
@@ -13,7 +13,7 @@ class MainMenu(QMainWindow):
         self.centrar_ventana()
 
         # Controlador del menu:
-        self.controlador=controlador_main_menu()
+        self.controlador= ControladorMainMenu()
         
         # Widget principal y layout:
         self.main_widget = QWidget()

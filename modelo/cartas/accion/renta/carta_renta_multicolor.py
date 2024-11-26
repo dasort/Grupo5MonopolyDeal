@@ -1,7 +1,7 @@
-from modelo.cartas.accion.renta.carta_renta_doble import CartaRentaDoble
+from Grupo5MonopolyDeck.modelo.cartas.accion.renta.carta_renta import CartaRenta
 
 
-class CartaRentaMulticolor(CartaRentaDoble):
+class CartaRentaMulticolor(CartaRenta):
     
     def informacion_para_accion(self) -> str | None:
         return 'RentaMulticolor'

@@ -1,7 +1,7 @@
 from modelo.cartas.carta import Carta
 
 
-class CartaRentaDoble(Carta):
+class CartaRenta(Carta):
     
     def __init__(self, id_carta: int, nombre: str, tipo: str, valor: int, path_a_imagen: str, path_a_queHace: str, color: str) -> None:
         super().__init__(id_carta, nombre, tipo, valor, path_a_imagen, path_a_queHace)
@@ -15,7 +15,7 @@ class CartaRentaDoble(Carta):
         return self._color_elegido
 
     def informacion_para_accion(self) -> str | None:
-        return 'RentaDoble'
+        return 'Renta'
     
     def accion(self, info) -> None:
         cartas = info[0]
