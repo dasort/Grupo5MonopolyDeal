@@ -24,6 +24,7 @@ class Tablero(QMainWindow):
         self.label_propiedad = None
         self.label_dinero = None
         self.deuda = 0
+        self.labels_dinero = []
         # Registro del tiempo de inicio de la partida:
         self.tiempo_inicio = datetime.now()
         
@@ -294,8 +295,8 @@ class Tablero(QMainWindow):
         columnas = 0
         if tipo == "propiedad":
             
-            clase = jugador.propiedades
-            listas =  clase.lista_grupos()
+            clase = jugador.et_objeto_propiedad()
+            listas =  clase.get_sets_completos()
             if len(listas) < 11:
                 for diccionarios in listas:
                     if isinstance(diccionarios, dict):
@@ -469,6 +470,13 @@ class Tablero(QMainWindow):
         self.repaint()
     #endregion UPDATE_INTERFAZ
     
+    #region UPDATE_LABEL_DINERO
+    def actualizar_dinero_jugadores(self):
+        jugadores = self.__controlador.get_jugadores()
+        for i, jugador in enumerate(jugadores):
+            self.labels_dinero[i].setText(f"Dinero: ${jugador.calcular_valor_banco()}")
+    #endregion UPDATE_LABEL_DINERO
+    
     #region PESTAÑA_CARTAS
     def pestaña_cartas(self):
         self.limpiar_layout(self.botones_layout)
@@ -488,11 +496,11 @@ class Tablero(QMainWindow):
     def mostrar_jugadores(self, jugadores):
         """Muestra la información de los jugadores."""
         self.limpiar_layout(self.zona_superior_izquierda_layout)
+        self.labels_dinero.clear()
         for jugador in jugadores:
-            jugador_layout = QHBoxLayout()                 # Perfil | Propiedades | Banco | Acciones
+            jugador_layout = QHBoxLayout()      # <--   (Perfil) | (Propiedades) | (Banco)
             propiedades_layout = QGridLayout()
             banco_layout = QGridLayout()
-            acciones_layout = QGridLayout()
 
             # --- Perfil ---
 
@@ -548,7 +556,7 @@ class Tablero(QMainWindow):
             texto_layout.addWidget(nombre_label)
 
             # Dinero:
-            dinero_label = QLabel(f"Son pobres")
+            dinero_label = QLabel(f"Actualizando...")
             dinero_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
             dinero_label.setStyleSheet("""
                 font-size: 14px;
@@ -559,8 +567,10 @@ class Tablero(QMainWindow):
                 border-radius: 5px;
             """)
             texto_layout.addWidget(dinero_label)
+            self.labels_dinero.append(dinero_label)
+            
             # Dinero:
-            grupos_label = QLabel(f"No hay aun")
+            grupos_label = QLabel(f"No tiene aún")
             grupos_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
             grupos_label.setStyleSheet("""
                 font-size: 14px;
@@ -766,6 +776,8 @@ class Tablero(QMainWindow):
             
             self.turno_icon.setToolTip(f"Este es el turno actual ({self.__controlador.get_jugador_actual().nombre}), o sea tú.")
             self.turno_label.setToolTip(f"Este es el turno actual ({self.__controlador.get_jugador_actual().nombre}), o sea tú.")
+            
+            self.actualizar_dinero_jugadores()
             
         # Iniciar el titileo cuando queden 5, o 10, o 15, segundos. <-- (A gusto como quieran, me parece que 15 está bien)
             if self.tiempo_restante <= 15:
