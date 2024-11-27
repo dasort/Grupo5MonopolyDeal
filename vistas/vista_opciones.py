@@ -11,7 +11,7 @@ class Opciones(QDialog):
         self.__controlador = controlador
         
         self.setWindowTitle("Opciones")
-        self.setGeometry(570, 240, 400, 428)
+        self.setGeometry(570, 240, 400, 426)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
 
         # Layouts:

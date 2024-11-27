@@ -289,7 +289,7 @@ class Tablero(QMainWindow):
         columnas = 0
         maximo = filas * columnas
         if tipo == "propiedad":
-            cantidad = self.contar_propiedades(jugador.get_propiedades)
+            #cantidad = self.contar_propiedades(jugador.get_propiedades)
             clase = jugador.propiedades
             listas =  clase.lista_grupos()
             if len(listas) < 11:
@@ -306,7 +306,7 @@ class Tablero(QMainWindow):
                         print("No es un diccionario")
         elif tipo == "dinero":
             
-            lista = jugador.get_banco  # Llamas al método para obtener la lista
+            lista = jugador.get_banco()  # Llamas al método para obtener la lista
             sublistas = [lista[i:i + 5] for i in range(0, len(lista), 5)]
             if len(sublistas) < 11:
                 for cartas in sublistas:
@@ -532,18 +532,6 @@ class Tablero(QMainWindow):
             # Agregar el layout jugador al layout de la zona superior izquierda:
             self.zona_superior_izquierda_layout.addLayout(jugador_layout)
     #endregion MOSTRAR_JUGADORES
-
-    #region CONTAR_PROPIEDADES
-    def contar_propiedades(self, propiedades: dict):
-        contador = 0
-        for color, propiedad in propiedades.items():
-            # Accedemos a la lista dentro del diccionario para este color
-            lista_propiedades = propiedad["lista"]
-            # Sumamos la cantidad de elementos en la lista
-            contador += len(lista_propiedades)
-
-        return contador
-    #endregion CONTAR_PROPIEDADES
     
     #region MOSTRAR_CARTAS_EN_CUADRICULA
     def mostrar_cartas_en_cuadricula(self, grid_layout, cartas, tipo=None):

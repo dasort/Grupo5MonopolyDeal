@@ -220,7 +220,7 @@ class ControladorPartida:
         if self.__turno_actual == len(self.__jugadores) - 1:
             self.__turno_actual = 0
         else:
-            self.__turno_actual += self.__turno_actual + 1
+            self.__turno_actual += 1
         self.__jugador_actual = self.__jugadores[self.__turno_actual]
         self.__cartas_jugadas_en_turno = 0
         tamanio_mano = len(self.__jugador_actual.get_mano())
