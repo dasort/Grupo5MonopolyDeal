@@ -13,14 +13,17 @@ class Tablero(QMainWindow):
         self.setWindowTitle("Tablero de Juego")
         self.setGeometry(20, 30, 1500, 750)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
-
         path_script = Path(__file__).resolve()
         self.path_proyecto = path_script.parent.parent
         
         self.tiempo_restante = 60
-        
+        self.dinero_selecionado = []
+        self.propiedad_selecionada = []
         self.carta_seleccionada = None
         self.jugador_seleccionado = None
+        self.label_propiedad = None
+        self.label_dinero = None
+        self.deuda = 0
         # Registro del tiempo de inicio de la partida:
         self.tiempo_inicio = datetime.now()
         
@@ -284,36 +287,35 @@ class Tablero(QMainWindow):
     #endregion DISEÑO MINI ZOOM
     
     #region CARGAR_CARTAS
-    def cargar_cartas(self,tipo,jugador):
+    def cargar_cartas(self,tipo,jugador: Jugador):
         self.limpiar_layout(self.cartas_layouts)
+        #self.carta_seleccionada = None
         filas = 0
         columnas = 0
-        maximo = filas * columnas
         if tipo == "propiedad":
-            #cantidad = self.contar_propiedades(jugador.get_propiedades)
+            
             clase = jugador.propiedades
             listas =  clase.lista_grupos()
             if len(listas) < 11:
                 for diccionarios in listas:
                     if isinstance(diccionarios, dict):
                         columnas += 1
-                        grupo =  self.agregar_cartas(diccionarios["sublista"])
+                        grupo =  self.agregar_cartas(diccionarios["sublista"],tipo)
                         self.cartas_layouts.addWidget(grupo, filas, columnas)
                         if columnas == 5:
                             filas +=1
                             columnas = 0
-                            print("llego al for de diccionarios")
                     else:
                         print("No es un diccionario")
         elif tipo == "dinero":
             
-            lista = jugador.get_banco()  # Llamas al método para obtener la lista
+            lista = jugador.get_banco  # Llamas al método para obtener la lista
             sublistas = [lista[i:i + 5] for i in range(0, len(lista), 5)]
             if len(sublistas) < 11:
                 for cartas in sublistas:
                     
                     columnas += 1
-                    grupo =  self.agregar_cartas(cartas)
+                    grupo =  self.agregar_cartas(cartas,tipo)
                     self.cartas_layouts.addWidget(grupo, filas, columnas)
                     if columnas == 5:
                         filas +=1
@@ -321,20 +323,19 @@ class Tablero(QMainWindow):
     #endregion CARGAR_CARTAS
                 
     #region AGREGAR_CARTAS
-    def agregar_cartas(self, sublista):
+     def agregar_cartas(self, sublista,tipo):   
         grupos = QWidget()
-        for index, lista in enumerate(sublista):
-            print("llego al for de sublistas")
-            #propiedad = lista[index]
-            carta = QLabel(self)
-            #carta.mousePressEvent = self.evento_click_carta(carta)# Crea un QLabel para cada carta
-            carta.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-            carta.setScaledContents(True)
-            carta.setMinimumSize(60, 100)  # Tamaño mínimo de la carta
-            carta.setMaximumSize(80, 120)  # Tamaño máximo de la carta
-            pixmap = QPixmap(lista.path_a_imagen)
-            carta.setPixmap(pixmap)  # Establece la imagen en el QLabel
-            self.agregar_carta(carta, grupos, offset=index * 20)
+        for index, carta in enumerate(sublista):
+            label_carta = QLabel(self)
+            label_carta.mousePressEvent = lambda _, label=label_carta, carta_actual=carta: self.resaltar_carta(label, tipo, carta_actual)
+            label_carta.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+            label_carta.setScaledContents(True)
+            label_carta.setMinimumSize(60, 100)  # Tamaño mínimo de la carta
+            label_carta.setMaximumSize(80, 120)  # Tamaño máximo de la carta
+            pixmap = QPixmap(carta.path_a_imagen)
+            label_carta.setPixmap(pixmap)  # Establece la imagen en el QLabel
+            self.agregar_carta(label_carta, grupos, offset=index * 20)
+            
         return grupos
     #endregion AGREGAR_CARTAS
     
@@ -351,7 +352,47 @@ class Tablero(QMainWindow):
         else:
             print("No hay suficiente espacio para mover la carta.")
     #endregion AGREGAR_CARTA
-    
+    #region RESALTAR_CARTA
+    def resaltar_carta(self, label, tipo,carta):
+        
+        # Si es una carta de dinero
+        if tipo == "dinero":
+            # Si ya hay una carta de dinero seleccionada, quita su borde
+            if hasattr(self, 'label_dinero') and self.label_dinero is not None:
+                self.label_dinero.setStyleSheet("border: 2px solid transparent;")
+
+            # Asigna la nueva carta de dinero seleccionada
+            self.label_dinero = label
+            
+            self.carta_seleccionada = carta
+            self.carta_seleccionada.mostrar_carta()
+            
+            # Agrega el borde rojo a la carta de dinero seleccionada
+            self.label_dinero.setStyleSheet("border: 2px solid red;")
+
+            # Limpiar la carta de propiedad seleccionada
+            self.label_propiedad = None
+
+        # Si es una carta de propiedad
+        elif tipo == "propiedad":
+            # Si ya hay una carta de propiedad seleccionada, quita su borde
+            if hasattr(self, 'label_propiedad') and self.label_propiedad is not None:
+                self.label_propiedad.setStyleSheet("border: 2px solid transparent;")
+
+            # Asigna la nueva carta de propiedad seleccionada
+            self.label_propiedad = label
+            
+            self.carta_seleccionada = carta
+            self.carta_seleccionada.mostrar_carta()
+            # Agrega el borde rojo a la carta de propiedad seleccionada
+            self.label_propiedad.setStyleSheet("border: 2px solid red;")
+
+            # Limpiar la carta de dinero seleccionada
+            self.label_dinero = None
+
+        else:
+            print("Carta Vacia")
+    #endregion RESALTAR_CARTA
     # ---------------------------------- MINI ZOOM --------------------------------------
     
     #region LIMPIAR_LAYOUT
@@ -374,7 +415,30 @@ class Tablero(QMainWindow):
         # Guarda el jugador seleccionado
         self.jugador_seleccionado = jugador
         self.layout_selecionado = avatar
-    
+    def seleccionar_dinero(self, dinero,jugador):
+        self.dinero_selecionado.append(dinero)
+        self.deuda -= dinero.valor
+        if self.deuda < 0:
+            jugador.pagar_banco(dinero)
+            self.deuda = 0
+            self.pestaña_cartas()
+        else:
+            jugador.pagar_banco(dinero)
+            self.carta_seleccionada = None
+            if hasattr(self, 'label_dinero') and self.label_dinero is not None:
+                self.label_dinero.deleteLater()
+                self.label_dinero = None
+            self.elejir_dinero(jugador,self.deuda)
+    def elejir_dinero(self, jugador, monto):
+        self.deuda = monto
+        self.limpiar_layout(self.botones_layout)
+        self.cargar_cartas("dinero", jugador)
+        # Mostrar el monto a cobrar
+        total_pago = QLabel(f"Deuda: {self.deuda}")
+        self.botones_layout.addWidget(total_pago)
+        elejir_dinero_button = QPushButton("Cobrar")
+        elejir_dinero_button.clicked.connect(lambda: self.seleccionar_dinero(self.carta_seleccionada, jugador))
+        self.botones_layout.addWidget(elejir_dinero_button)
     def elejir_jugador(self, jugadores_totales, jugador_actual):
         # Quita al jugador que esta eligiendo de la lista
         jugadores = [jugador for jugador in jugadores_totales if jugador != jugador_actual]
