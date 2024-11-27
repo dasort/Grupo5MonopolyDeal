@@ -287,7 +287,7 @@ class Tablero(QMainWindow):
     #endregion DISEÑO MINI ZOOM
     
     #region CARGAR_CARTAS
-    def cargar_cartas(self,tipo,jugador: Jugador):
+    def cargar_cartas(self,tipo,jugador):
         self.limpiar_layout(self.cartas_layouts)
         #self.carta_seleccionada = None
         filas = 0
@@ -309,7 +309,7 @@ class Tablero(QMainWindow):
                         print("No es un diccionario")
         elif tipo == "dinero":
             
-            lista = jugador.get_banco  # Llamas al método para obtener la lista
+            lista = jugador.get_banco()  # Llamas al método para obtener la lista
             sublistas = [lista[i:i + 5] for i in range(0, len(lista), 5)]
             if len(sublistas) < 11:
                 for cartas in sublistas:
