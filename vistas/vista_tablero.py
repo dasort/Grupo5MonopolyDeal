@@ -534,158 +534,158 @@ class Tablero(QMainWindow):
         return dialogo
     
     #region PEDIDO DINERO
-    def seleccionar_dinero():
-            if self.carta_seleccionada:  # Verifica que haya una carta seleccionada
-                dialogo.dinero_seleccionada.append(self.carta_seleccionada)  # Añade la carta seleccionada
-                self.deuda -= int(self.carta_seleccionada.valor)  # Actualiza la deuda
+    # def seleccionar_dinero():
+    #         if self.carta_seleccionada:  # Verifica que haya una carta seleccionada
+    #             dialogo.dinero_seleccionada.append(self.carta_seleccionada)  # Añade la carta seleccionada
+    #             self.deuda -= int(self.carta_seleccionada.valor)  # Actualiza la deuda
         
-                # Si la deuda es menor o igual a 0, paga la deuda al banco
-                if self.deuda <= 0:
-                    self.deuda = 0  # Se asegura de que la deuda no sea negativa
-                    jugador.pagar_banco(self.carta_seleccionada)  # Pagamos al banco
-                    self.pestaña_cartas()  # Actualiza la interfaz de cartas
-                    dialogo.accept()  # Cierra el diálogo
-                else:
-                    # Si la deuda no se ha saldado, reinicia la carta seleccionada y vuelve a mostrar el diálogo
-                    self.carta_seleccionada = None  # Reinicia la carta seleccionada
-                    if hasattr(self, 'label_dinero') and self.label_dinero is not None:
-                        self.label_dinero.deleteLater()  # Elimina la etiqueta de dinero si existe
-                        self.label_dinero = None
-                    # Llamamos nuevamente al diálogo solo si queda deuda
-                    self.pedido_elegir_dinero(jugador, self.deuda)  # Vuelve a pedir dinero si hay deuda
+    #             # Si la deuda es menor o igual a 0, paga la deuda al banco
+    #             if self.deuda <= 0:
+    #                 self.deuda = 0  # Se asegura de que la deuda no sea negativa
+    #                 jugador.pagar_banco(self.carta_seleccionada)  # Pagamos al banco
+    #                 self.pestaña_cartas()  # Actualiza la interfaz de cartas
+    #                 dialogo.accept()  # Cierra el diálogo
+    #             else:
+    #                 # Si la deuda no se ha saldado, reinicia la carta seleccionada y vuelve a mostrar el diálogo
+    #                 self.carta_seleccionada = None  # Reinicia la carta seleccionada
+    #                 if hasattr(self, 'label_dinero') and self.label_dinero is not None:
+    #                     self.label_dinero.deleteLater()  # Elimina la etiqueta de dinero si existe
+    #                     self.label_dinero = None
+    #                 # Llamamos nuevamente al diálogo solo si queda deuda
+    #                 self.pedido_elegir_dinero(jugador, self.deuda)  # Vuelve a pedir dinero si hay deuda
         
-            else:
-                print("No se ha seleccionado ninguna carta de dinero.")  # Notificar que no se ha seleccionado una carta
+    #         else:
+    #             print("No se ha seleccionado ninguna carta de dinero.")  # Notificar que no se ha seleccionado una carta
         
-        # Botón de "Agarrar" para seleccionar el dinero
-        boton_agarrar = QPushButton("Agarrar")
-        boton_agarrar.clicked.connect(seleccionar_dinero)  # Conecta el botón con la función de selección
+    #     # Botón de "Agarrar" para seleccionar el dinero
+    #     boton_agarrar = QPushButton("Agarrar")
+    #     boton_agarrar.clicked.connect(seleccionar_dinero)  # Conecta el botón con la función de selección
         
-        # Botón de cerrar sin realizar selección
-        cerrar_boton = QPushButton("Cerrar")
-        cerrar_boton.clicked.connect(dialogo.reject)  # Cierra el diálogo sin realizar selección
+    #     # Botón de cerrar sin realizar selección
+    #     cerrar_boton = QPushButton("Cerrar")
+    #     cerrar_boton.clicked.connect(dialogo.reject)  # Cierra el diálogo sin realizar selección
         
-        # Añadir los botones y la etiqueta al layout
-        layout.addWidget(boton_agarrar)
-        layout.addWidget(cerrar_boton)
+    #     # Añadir los botones y la etiqueta al layout
+    #     layout.addWidget(boton_agarrar)
+    #     layout.addWidget(cerrar_boton)
         
-        dialogo.setLayout(layout)
+    #     dialogo.setLayout(layout)
         
-        # Ejecutar el diálogo
-        dialogo.exec()
+    #     # Ejecutar el diálogo
+    #     dialogo.exec()
         
-        # Devolver el diálogo, ya que la lista de dinero seleccionada se maneja dentro del diálogo
-        return dialogo  # Retorna el diálogo para que se pueda manejar fuera de la función
-    #endregion PEDIDO DINERO
+    #     # Devolver el diálogo, ya que la lista de dinero seleccionada se maneja dentro del diálogo
+    #     return dialogo  # Retorna el diálogo para que se pueda manejar fuera de la función
+    # #endregion PEDIDO DINERO
     
-    #region PEDIDO PROPIEDADES
-    def pedido_elegir_propiedades(self, propiedades, jugador):
-        # Limpia layouts
-        self.limpiar_layout(self.cartas_layouts)
-        self.limpiar_layout(self.botones_layout)
-        # Crea un QDialog para usarlo como ventana emergente
-        dialogo = QDialog()
-        dialogo.propiedad_seleccionada = []
-        dialogo.setFixedSize(700, 400)
-        layout = QVBoxLayout(dialogo)
-        grilla = self.cartas_
-        layout.addWidget(grilla)
-        self.cargar_cartas("propiedad", jugador)
-        # Agrega un botón de "agarrar propiedad"
-        agarrar_propiedad = QPushButton("Agarrar Propiedad")
-        def seleccionar_propiedad():
-            if self.carta_seleccionada:  # Verifica que haya una carta seleccionada
-                # Verifica si la propiedad ya está seleccionada para evitar duplicados
-                if self.carta_seleccionada not in dialogo.propiedad_seleccionada:
-                    dialogo.propiedad_seleccionada.append(self.carta_seleccionada)
-                else:
-                    print("Esta propiedad ya ha sido seleccionada.")  # Mensaje si ya fue seleccionada
-            else:
-                print("No se ha seleccionado ninguna carta.")  # Notificar que no hay selección
-        agarrar_propiedad.clicked.connect(seleccionar_propiedad)
-        layout.addWidget(agarrar_propiedad)
-        # Botón de cerrar 
-        cerrar_boton = QPushButton("Cerrar")
-        cerrar_boton.clicked.connect(dialogo.accept)  # Llamamos a accept() directamente aquí
-        layout.addWidget(cerrar_boton)
-        dialogo.setLayout(layout)
-        return dialogo
-    #endregion PEDIDO PROPIEDADES
+    # #region PEDIDO PROPIEDADES
+    # def pedido_elegir_propiedades(self, propiedades, jugador):
+    #     # Limpia layouts
+    #     self.limpiar_layout(self.cartas_layouts)
+    #     self.limpiar_layout(self.botones_layout)
+    #     # Crea un QDialog para usarlo como ventana emergente
+    #     dialogo = QDialog()
+    #     dialogo.propiedad_seleccionada = []
+    #     dialogo.setFixedSize(700, 400)
+    #     layout = QVBoxLayout(dialogo)
+    #     grilla = self.cartas_
+    #     layout.addWidget(grilla)
+    #     self.cargar_cartas("propiedad", jugador)
+    #     # Agrega un botón de "agarrar propiedad"
+    #     agarrar_propiedad = QPushButton("Agarrar Propiedad")
+    #     def seleccionar_propiedad():
+    #         if self.carta_seleccionada:  # Verifica que haya una carta seleccionada
+    #             # Verifica si la propiedad ya está seleccionada para evitar duplicados
+    #             if self.carta_seleccionada not in dialogo.propiedad_seleccionada:
+    #                 dialogo.propiedad_seleccionada.append(self.carta_seleccionada)
+    #             else:
+    #                 print("Esta propiedad ya ha sido seleccionada.")  # Mensaje si ya fue seleccionada
+    #         else:
+    #             print("No se ha seleccionado ninguna carta.")  # Notificar que no hay selección
+    #     agarrar_propiedad.clicked.connect(seleccionar_propiedad)
+    #     layout.addWidget(agarrar_propiedad)
+    #     # Botón de cerrar 
+    #     cerrar_boton = QPushButton("Cerrar")
+    #     cerrar_boton.clicked.connect(dialogo.accept)  # Llamamos a accept() directamente aquí
+    #     layout.addWidget(cerrar_boton)
+    #     dialogo.setLayout(layout)
+    #     return dialogo
+    # #endregion PEDIDO PROPIEDADES
     
-    #region PEDIDO COLOR
-    def pedido_elegir_color(self,colores,carta):
-        # Limpia layouts
-        self.limpiar_layout(self.cartas_layouts)
-        self.limpiar_layout(self.botones_layout)
-        # Crea un QDialog para usarlo como ventana emergente
-        dialogo = QDialog()
-        dialogo.color_seleccionado = None
-        dialogo.setWindowTitle("Elegir Color")
-        layout = QVBoxLayout(dialogo)
-        carta_img = QLabel() 
-        pixmap = QPixmap(carta.path_a_imagen)
-        carta_img.setFixedSize(150, 200)
-        carta_img.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        carta_img.setScaledContents(True)
-        carta_img.setPixmap(pixmap)
-        layout.addWidget(carta_img)
-        for color  in colores:
-            boton_color = QPushButton(f"{color}")
-            def seleccionar_color():
-                dialogo.color_seleccionado = color
-                dialogo.accept()
-            boton_color.clicked.connect(seleccionar_color)
-            layout.addWidget(boton_color)
-        cerrar_boton = QPushButton("Cerrar")
-        cerrar_boton.clicked.connect(dialogo.reject)  # Cierra el diálogo cuando se presiona
-        layout.addWidget(cerrar_boton)
-        dialogo.setLayout(layout)
-        return dialogo
-    #endregion PEDIDO COLOR
+    # #region PEDIDO COLOR
+    # def pedido_elegir_color(self,colores,carta):
+    #     # Limpia layouts
+    #     self.limpiar_layout(self.cartas_layouts)
+    #     self.limpiar_layout(self.botones_layout)
+    #     # Crea un QDialog para usarlo como ventana emergente
+    #     dialogo = QDialog()
+    #     dialogo.color_seleccionado = None
+    #     dialogo.setWindowTitle("Elegir Color")
+    #     layout = QVBoxLayout(dialogo)
+    #     carta_img = QLabel() 
+    #     pixmap = QPixmap(carta.path_a_imagen)
+    #     carta_img.setFixedSize(150, 200)
+    #     carta_img.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+    #     carta_img.setScaledContents(True)
+    #     carta_img.setPixmap(pixmap)
+    #     layout.addWidget(carta_img)
+    #     for color  in colores:
+    #         boton_color = QPushButton(f"{color}")
+    #         def seleccionar_color():
+    #             dialogo.color_seleccionado = color
+    #             dialogo.accept()
+    #         boton_color.clicked.connect(seleccionar_color)
+    #         layout.addWidget(boton_color)
+    #     cerrar_boton = QPushButton("Cerrar")
+    #     cerrar_boton.clicked.connect(dialogo.reject)  # Cierra el diálogo cuando se presiona
+    #     layout.addWidget(cerrar_boton)
+    #     dialogo.setLayout(layout)
+    #     return dialogo
+    # #endregion PEDIDO COLOR
     
-    #region SELECC JUGADOR
-    def seleccionar_jugador(self, event, jugador, avatar):
-        # Si ya hay un avatar seleccionado, le quitamos el borde rojo
-        if self.avatar_seleccionado is not None:
-            self.avatar_seleccionado.setStyleSheet("""border: 2px solid black; border-radius: 10px;""")
+    # #region SELECC JUGADOR
+    # def seleccionar_jugador(self, event, jugador, avatar):
+    #     # Si ya hay un avatar seleccionado, le quitamos el borde rojo
+    #     if self.avatar_seleccionado is not None:
+    #         self.avatar_seleccionado.setStyleSheet("""border: 2px solid black; border-radius: 10px;""")
         
-        # Cambiar el borde del avatar seleccionado
-        avatar.setStyleSheet("""border: 2px solid red; border-radius: 10px;""")
+    #     # Cambiar el borde del avatar seleccionado
+    #     avatar.setStyleSheet("""border: 2px solid red; border-radius: 10px;""")
         
-        # Actualizamos la referencia al avatar seleccionado
-        self.avatar_seleccionado = avatar
-        self.jugador_seleccionado = jugador
-    #endregion SELECC JUGADOR
+    #     # Actualizamos la referencia al avatar seleccionado
+    #     self.avatar_seleccionado = avatar
+    #     self.jugador_seleccionado = jugador
+    # #endregion SELECC JUGADOR
     
-    #region SELECC COLOR
-    def seleccionar_color(self,color):
-        self.color_seleccionado = color
-        print(self.color_seleccionado)
-    #endregion SELECC COLOR
+    # #region SELECC COLOR
+    # def seleccionar_color(self,color):
+    #     self.color_seleccionado = color
+    #     print(self.color_seleccionado)
+    # #endregion SELECC COLOR
     
-    #region SELECC PROPIEDAD
-    def seleccionar_propiedad(self,jugador):
-        self.propiedad_seleccionada.append(self.carta_seleccionada)
-        # clase_propiedad = jugador.get_objeto_propiedad()
-        # clase_propiedad.quitar_propiedad(self.carta_seleccionada)
-    #endregion SELECC PROPIEDAD
+    # #region SELECC PROPIEDAD
+    # def seleccionar_propiedad(self,jugador):
+    #     self.propiedad_seleccionada.append(self.carta_seleccionada)
+    #     # clase_propiedad = jugador.get_objeto_propiedad()
+    #     # clase_propiedad.quitar_propiedad(self.carta_seleccionada)
+    # #endregion SELECC PROPIEDAD
     
-    #region SELECC DINERO
-    def seleccionar_dinero(self, dinero,jugador):
-        self.dinero_selecionado.append(dinero)
-        self.deuda -= dinero.valor
-        if self.deuda < 0:
-            jugador.agregar_a_banco(dinero)
-            self.deuda = 0
-            self.pestaña_cartas()
-        else:
-            jugador.agregar_a_banco(dinero)
-            self.carta_seleccionada = None
-            if hasattr(self, 'label_dinero') and self.label_dinero is not None:
-                self.label_dinero.deleteLater()
-                self.label_dinero = None
-            self.pedido_elegir_dinero(jugador,self.deuda)
-    #endregion SELECC DINERO
+    # #region SELECC DINERO
+    # def seleccionar_dinero(self, dinero,jugador):
+    #     self.dinero_selecionado.append(dinero)
+    #     self.deuda -= dinero.valor
+    #     if self.deuda < 0:
+    #         jugador.agregar_a_banco(dinero)
+    #         self.deuda = 0
+    #         self.pestaña_cartas()
+    #     else:
+    #         jugador.agregar_a_banco(dinero)
+    #         self.carta_seleccionada = None
+    #         if hasattr(self, 'label_dinero') and self.label_dinero is not None:
+    #             self.label_dinero.deleteLater()
+    #             self.label_dinero = None
+    #         self.pedido_elegir_dinero(jugador,self.deuda)
+    # #endregion SELECC DINERO
     
     #region UPDATE_LABEL_CONJUNTOS
     def actualizar_conjuntos_jugadores(self):
