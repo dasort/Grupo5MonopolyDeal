@@ -137,3 +137,6 @@ class Jugador:
     
     def get_cantidad_sets_completos_jugador(self):
         return self.get_objeto_propiedad().cantidad_de_sets_completos()
+
+    def get_sets_jugador(self):
+        return self.get_objeto_propiedad().get_sets()

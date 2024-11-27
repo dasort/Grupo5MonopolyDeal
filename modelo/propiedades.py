@@ -203,6 +203,16 @@ class Propiedades(Carta):
                     sets_completos.append(set_propiedades)
         return sets_completos
     
+    def get_sets(self):
+        sets = list()
+
+        for color in self.__propiedades.keys():
+            lista = self.__propiedades[color]['lista'] # lista de diccionarios
+            for dicc in lista:
+                set_propiedades = dicc['sublista']
+                sets.append(set_propiedades)
+        return sets
+    
     def cantidad_de_sets_completos(self) -> int:
         sets_completos = self.get_sets_completos()
         return len(sets_completos)

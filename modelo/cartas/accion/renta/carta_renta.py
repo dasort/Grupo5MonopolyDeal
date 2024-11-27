@@ -34,7 +34,7 @@ class CartaRenta(CartaAccion):
         colores = self._color
         colores_que_tiene = []
         for color in colores:
-            if self.duenio.tiene_propiedades_color(self, color):
+            if self.duenio.tiene_propiedades_color(color):
                 colores_que_tiene.append(color)
         if not colores_que_tiene:
             return False

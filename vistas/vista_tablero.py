@@ -295,7 +295,7 @@ class Tablero(QMainWindow):
         columnas = 0
         if tipo == "propiedad":
             
-            listas = jugador.get_sets_completos_jugador()
+            listas = jugador.get_sets_jugador()
             if len(listas) < 11:
                 for diccionarios in listas:
                     if isinstance(diccionarios, dict):
@@ -417,7 +417,7 @@ class Tablero(QMainWindow):
         self.layout_selecionado = avatar
 
     def get_jugador_seleccionado(self):
-        jugador = self.jugador_seleccionado
+        jugador = self.jugador_seleccionado[0]
         self.jugador_seleccionado = None
         return jugador
 
