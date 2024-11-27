@@ -70,9 +70,13 @@ class ControladorCrearPartida:
         # self.start_game(jugadores)
 
         jugadores = []
+        anonimos = 0
         for j in self.__vista.jugadores:
             jugador = j['jugador_objeto']
             jugador.nombre = j['nombre'].text()
+            if j['nombre'].text() == "":
+                anonimos += 1
+                jugador.nombre = f"Anónimo {anonimos}"
             jugador.avatar = j['avatar'].currentData()
             jugadores.append(jugador)
         self.__vista.close()
