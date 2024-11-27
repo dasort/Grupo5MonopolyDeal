@@ -184,6 +184,7 @@ class Tablero(QMainWindow):
                 background-color: rgba(125, 72, 34, 1);
             }
         """)
+        self.btn_finalizar_partida.setToolTip("Finaliza la partida para todos.")
         #endregion
         # ----------------------------------------------------------------------
         
