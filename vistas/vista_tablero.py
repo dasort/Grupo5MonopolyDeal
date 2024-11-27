@@ -496,6 +496,7 @@ class Tablero(QMainWindow):
     def mostrar_jugadores(self, jugadores):
         """Muestra la información de los jugadores."""
         self.limpiar_layout(self.zona_superior_izquierda_layout)
+        self.labels_dinero.clear()
         for jugador in jugadores:
             jugador_layout = QHBoxLayout()      # <--   (Perfil) | (Propiedades) | (Banco)
             propiedades_layout = QGridLayout()
@@ -555,7 +556,7 @@ class Tablero(QMainWindow):
             texto_layout.addWidget(nombre_label)
 
             # Dinero:
-            dinero_label = QLabel(f"Es pobre")
+            dinero_label = QLabel(f"Actualizando...")
             dinero_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
             dinero_label.setStyleSheet("""
                 font-size: 14px;
