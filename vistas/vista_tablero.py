@@ -245,10 +245,6 @@ class Tablero(QMainWindow):
         self.cartas_layouts = QGridLayout(self.cartas_)  # Layout interno de "cartas"
         self.cartas_layouts.setContentsMargins(0, 0, 0, 0)
         # .setStyleSheet("background-color: transparent;")
-    
-
-        
-
         
         #self.cartas_layout.addWidget(QLabel("a"), 0, 3)
         # Crear el widget con los botones
@@ -256,15 +252,14 @@ class Tablero(QMainWindow):
         self.botones_layout = QHBoxLayout(botones)  # Layout interno de "botones"
         self.pestaña_cartas()
         
-        
         botones.setStyleSheet("""
             QPushButton {
                 background-color: rgba(194, 78, 27, 0.2);
                 color: white;
-                border: 2px solid rgba(43, 22, 11, 1);
+                border: 3px solid rgba(43, 22, 11, 1);
                 border-radius: 10px;
                 padding: 8px;
-                font-size: 16px;
+                font-size: 18px;
                 font-weight: bold;
             }
             QPushButton:hover {
@@ -295,7 +290,8 @@ class Tablero(QMainWindow):
         columnas = 0
         if tipo == "propiedad":
             
-            listas = jugador.get_sets_jugador()
+            clase = jugador.get_objeto_propiedad()
+            listas = clase.lista_grupos()
             if listas:
                 if len(listas) < 11:
                     for diccionarios in listas:
@@ -353,6 +349,7 @@ class Tablero(QMainWindow):
         else:
             print("No hay suficiente espacio para mover la carta.")
     #endregion AGREGAR_CARTA
+    
     #region RESALTAR_CARTA
     def resaltar_carta(self, label, tipo,carta):
         
@@ -571,56 +568,56 @@ class Tablero(QMainWindow):
     
     #region PEDIDO PROPIEDADES
     def pedido_elegir_propiedades(self,propiedades,jugador):
-            # Limpia layouts
-            self.limpiar_layout(self.cartas_layouts)
-            self.limpiar_layout(self.botones_layout)
-            # Crea un QDialog para usarlo como ventana emergente
-            dialogo = QDialog()
-            dialogo.setFixedSize(700, 400)
-            layout = QVBoxLayout(dialogo)
-            grilla  = self.cartas_
-            layout.addWidget(grilla)
-            self.cargar_cartas("propiedad",jugador)
-            # Agrega un botón de cerrar
-            agarrar_propiedad = QPushButton("Agarrar Propiedad")
-            agarrar_propiedad.clicked.connect(partial(self.seleccionar_propiedad(jugador)))
-            layout.addWidget(agarrar_propiedad)
-            cerrar_boton = QPushButton("Cerrar")
-            cerrar_boton.clicked.connect(dialogo.accept)  # Cierra el diálogo cuando se presiona
-            layout.addWidget(cerrar_boton)
-            dialogo.setLayout(layout)
-            return dialogo
+        # Limpia layouts
+        self.limpiar_layout(self.cartas_layouts)
+        self.limpiar_layout(self.botones_layout)
+        # Crea un QDialog para usarlo como ventana emergente
+        dialogo = QDialog()
+        dialogo.setFixedSize(700, 400)
+        layout = QVBoxLayout(dialogo)
+        grilla  = self.cartas_
+        layout.addWidget(grilla)
+        self.cargar_cartas("propiedad",jugador)
+        # Agrega un botón de cerrar
+        agarrar_propiedad = QPushButton("Agarrar Propiedad")
+        agarrar_propiedad.clicked.connect(partial(self.seleccionar_propiedad(jugador)))
+        layout.addWidget(agarrar_propiedad)
+        cerrar_boton = QPushButton("Cerrar")
+        cerrar_boton.clicked.connect(dialogo.accept)  # Cierra el diálogo cuando se presiona
+        layout.addWidget(cerrar_boton)
+        dialogo.setLayout(layout)
+        return dialogo
     #endregion PEDIDO PROPIEDADES
     
     #region PEDIDO COLOR
     def pedido_elegir_color(self,colores,carta):
-            # Limpia layouts
-            self.limpiar_layout(self.cartas_layouts)
-            self.limpiar_layout(self.botones_layout)
-            # Crea un QDialog para usarlo como ventana emergente
-            dialogo = QDialog()
-            dialogo.color_seleccionado = None
-            dialogo.setWindowTitle("Elegir Color")
-            layout = QVBoxLayout(dialogo)
-            carta_img = QLabel() 
-            pixmap = QPixmap(carta.path_a_imagen)
-            carta_img.setFixedSize(150, 200)
-            carta_img.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-            carta_img.setScaledContents(True)
-            carta_img.setPixmap(pixmap)
-            layout.addWidget(carta_img)
-            for color  in colores:
-                boton_color = QPushButton(f"{color}")
-                def seleccionar_color():
-                    dialogo.color_seleccionado = color
-                    dialogo.accept()
-                boton_color.clicked.connect(seleccionar_color)
-                layout.addWidget(boton_color)
-            cerrar_boton = QPushButton("Cerrar")
-            cerrar_boton.clicked.connect(dialogo.reject)  # Cierra el diálogo cuando se presiona
-            layout.addWidget(cerrar_boton)
-            dialogo.setLayout(layout)
-            return dialogo
+        # Limpia layouts
+        self.limpiar_layout(self.cartas_layouts)
+        self.limpiar_layout(self.botones_layout)
+        # Crea un QDialog para usarlo como ventana emergente
+        dialogo = QDialog()
+        dialogo.color_seleccionado = None
+        dialogo.setWindowTitle("Elegir Color")
+        layout = QVBoxLayout(dialogo)
+        carta_img = QLabel() 
+        pixmap = QPixmap(carta.path_a_imagen)
+        carta_img.setFixedSize(150, 200)
+        carta_img.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        carta_img.setScaledContents(True)
+        carta_img.setPixmap(pixmap)
+        layout.addWidget(carta_img)
+        for color  in colores:
+            boton_color = QPushButton(f"{color}")
+            def seleccionar_color():
+                dialogo.color_seleccionado = color
+                dialogo.accept()
+            boton_color.clicked.connect(seleccionar_color)
+            layout.addWidget(boton_color)
+        cerrar_boton = QPushButton("Cerrar")
+        cerrar_boton.clicked.connect(dialogo.reject)  # Cierra el diálogo cuando se presiona
+        layout.addWidget(cerrar_boton)
+        dialogo.setLayout(layout)
+        return dialogo
     #endregion PEDIDO COLOR
     
     #region SELECC JUGADOR
