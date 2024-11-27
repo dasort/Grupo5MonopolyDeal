@@ -296,17 +296,18 @@ class Tablero(QMainWindow):
         if tipo == "propiedad":
             
             listas = jugador.get_sets_jugador()
-            if len(listas) < 11:
-                for diccionarios in listas:
-                    if isinstance(diccionarios, dict):
-                        columnas += 1
-                        grupo =  self.agregar_cartas(diccionarios["sublista"],tipo)
-                        self.cartas_layouts.addWidget(grupo, filas, columnas)
-                        if columnas == 5:
-                            filas +=1
-                            columnas = 0
-                    else:
-                        print("No es un diccionario")
+            if listas:
+                if len(listas) < 11:
+                    for diccionarios in listas:
+                        if isinstance(diccionarios, dict):
+                            columnas += 1
+                            grupo =  self.agregar_cartas(diccionarios["sublista"],tipo)
+                            self.cartas_layouts.addWidget(grupo, filas, columnas)
+                            if columnas == 5:
+                                filas +=1
+                                columnas = 0
+                        else:
+                            print("No es un diccionario")
         elif tipo == "dinero":
             
             lista = jugador.get_banco()  # Llamas al método para obtener la lista
