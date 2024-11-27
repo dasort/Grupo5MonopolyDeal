@@ -290,7 +290,8 @@ class Tablero(QMainWindow):
         columnas = 0
         if tipo == "propiedad":
             
-            listas = jugador.get_sets_jugador()
+            clase = jugador.get_objeto_propiedad()
+            listas = clase.lista_grupos()
             if listas:
                 if len(listas) < 11:
                     for diccionarios in listas:
