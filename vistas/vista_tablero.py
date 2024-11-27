@@ -290,19 +290,19 @@ class Tablero(QMainWindow):
         columnas = 0
         if tipo == "propiedad":
             
-            clase = jugador.get_objeto_propiedad()
-            listas = clase.lista_grupos()
-            if len(listas) < 11:
-                for diccionarios in listas:
-                    if isinstance(diccionarios, dict):
-                        columnas += 1
-                        grupo =  self.agregar_cartas(diccionarios["sublista"],tipo)
-                        self.cartas_layouts.addWidget(grupo, filas, columnas)
-                        if columnas == 5:
-                            filas +=1
-                            columnas = 0
-                    else:
-                        print("No es un diccionario")
+            listas = jugador.get_sets_jugador()
+            if listas:
+                if len(listas) < 11:
+                    for diccionarios in listas:
+                        if isinstance(diccionarios, dict):
+                            columnas += 1
+                            grupo =  self.agregar_cartas(diccionarios["sublista"],tipo)
+                            self.cartas_layouts.addWidget(grupo, filas, columnas)
+                            if columnas == 5:
+                                filas +=1
+                                columnas = 0
+                        else:
+                            print("No es un diccionario")
         elif tipo == "dinero":
             
             lista = jugador.get_banco()  # Llamas al método para obtener la lista
@@ -414,7 +414,7 @@ class Tablero(QMainWindow):
         self.layout_selecionado = avatar
 
     def get_jugador_seleccionado(self):
-        jugador = self.jugador_seleccionado
+        jugador = self.jugador_seleccionado[0]
         self.jugador_seleccionado = None
         return jugador
 

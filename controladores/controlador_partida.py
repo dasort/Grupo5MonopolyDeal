@@ -82,7 +82,7 @@ class ControladorPartida:
                 if self.__cartas_jugadas_en_turno == 3:
                     self.terminar_turno()
             except Exception as e:
-                print(e)
+                print(f'{carta} {e}')
         else:
             self.__vista.carta_no_es_jugable()
     
