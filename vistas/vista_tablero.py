@@ -667,6 +667,7 @@ class Tablero(QMainWindow):
                     pixmap = QPixmap(carta.path_a_imagen)#.scaled(23, 40, Qt.AspectRatioMode.KeepAspectRatio)
                     #carta.mostrar_carta()
                     carta_label.setPixmap(pixmap)
+                    carta_label.setToolTip(carta.nombre)
                     grid_layout.addWidget(carta_label, fila, columna)
                 else:
                     
@@ -678,6 +679,7 @@ class Tablero(QMainWindow):
                     placeholder.setMinimumSize(35, 60)  # Puedes ajustar el tamaño mínimo según el diseño
                     placeholder.setMaximumSize(35, 65)
                     placeholder.setStyleSheet("background-color: transparent; border: 1px solid gray;")
+                    placeholder.setToolTip("No hay carta aquí.")
                     grid_layout.addWidget(placeholder, fila, columna)
         else:
             
@@ -694,6 +696,7 @@ class Tablero(QMainWindow):
                     carta_label.setMaximumSize(35, 65)
                     pixmap = QPixmap(carta.path_a_imagen) #.scaled(23, 40, Qt.AspectRatioMode.KeepAspectRatio)
                     carta_label.setPixmap(pixmap)
+                    carta_label.setToolTip(carta.nombre)
                     grid_layout.addWidget(carta_label, fila, columna)
                 else:
                     # Si no hay carta, agrega un QLabel vacío como placeholder:
@@ -703,6 +706,7 @@ class Tablero(QMainWindow):
                     placeholder.setMinimumSize(35, 60)  # Puedes ajustar el tamaño mínimo según el diseño
                     placeholder.setMaximumSize(35, 65)
                     placeholder.setStyleSheet("background-color: transparent; border: 1px solid gray;")
+                    placeholder.setToolTip("No hay carta aquí.")
                     grid_layout.addWidget(placeholder, fila, columna)
     #endregion MOSTRAR_CARTAS_EN_CUADRICULA
 
