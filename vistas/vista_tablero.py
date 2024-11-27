@@ -522,7 +522,7 @@ class Tablero(QMainWindow):
         boton_confirmar.clicked.connect(dialogo.accept)
         layout_V.addWidget(boton_confirmar)
         return dialogo
-    def pedido_elegir_dinero(self,jugador,monto):
+   def pedido_elegir_dinero(self,jugador,monto):
         # Limpia layouts
         self.limpiar_layout(self.cartas_layouts)
         self.limpiar_layout(self.botones_layout)
@@ -534,9 +534,14 @@ class Tablero(QMainWindow):
         layout.addWidget(grilla)
         self.cargar_cartas("dinero",jugador)
         # Agrega un botón de cerrar
+        deuda =  QLabel(f"Deuda: {self.deuda}")
+        boton_agarrar = QPushButton("Agarrar")
+        boton_agarrar.clicked.connect(partial(self.seleccionar_dinero(self.carta_seleccionada,jugador)))
         cerrar_boton = QPushButton("Cerrar")
         cerrar_boton.clicked.connect(dialogo.accept)  # Cierra el diálogo cuando se presiona
         layout.addWidget(cerrar_boton)
+        layout.addWidget(boton_agarrar)
+        layout.addWidget(deuda)
         dialogo.setLayout(layout)
         return dialogo
     def pedido_elegir_propiedades(self,propiedades,jugador):
@@ -551,6 +556,9 @@ class Tablero(QMainWindow):
             layout.addWidget(grilla)
             self.cargar_cartas("propiedad",jugador)
             # Agrega un botón de cerrar
+            agarrar_propiedad = QPushButton("Agarrar Propiedad")
+            agarrar_propiedad.clicked.connect(partial(self.seleccionar_propiedad(jugador)))
+            layout.addWidget(agarrar_propiedad)
             cerrar_boton = QPushButton("Cerrar")
             cerrar_boton.clicked.connect(dialogo.accept)  # Cierra el diálogo cuando se presiona
             layout.addWidget(cerrar_boton)
@@ -600,6 +608,24 @@ class Tablero(QMainWindow):
     def seleccionar_color(self,color):
         self.color_seleccionado = color
         print(self.color_seleccionado)
+    def seleccionar_propiedad(self,jugador):
+        self.propiedad_seleciconada.append(self.carta_seleccionada)
+        clase_propiedad = jugador.get_objeto_propiedad()
+        clase_propiedad.quitar_propiedad(self.carta_seleccionada)
+    def seleccionar_dinero(self, dinero,jugador):
+        self.dinero_selecionado.append(dinero)
+        self.deuda -= dinero.valor
+        if self.deuda < 0:
+            jugador.pagar_banco(dinero)
+            self.deuda = 0
+            self.pestaña_cartas()
+        else:
+            jugador.pagar_banco(dinero)
+            self.carta_seleccionada = None
+            if hasattr(self, 'label_dinero') and self.label_dinero is not None:
+                self.label_dinero.deleteLater()
+                self.label_dinero = None
+            self.pedido_elegir_dinero(jugador,self.deuda)
     #endregion
     #region UPDATE_LABEL_CONJUNTOS
     def actualizar_conjuntos_jugadores(self):
