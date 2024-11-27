@@ -558,23 +558,34 @@ class Tablero(QMainWindow):
     #endregion PEDIDO DINERO
     
     #region PEDIDO PROPIEDADES
-    def pedido_elegir_propiedades(self,propiedades,jugador):
+    def pedido_elegir_propiedades(self, propiedades, jugador):
         # Limpia layouts
         self.limpiar_layout(self.cartas_layouts)
         self.limpiar_layout(self.botones_layout)
         # Crea un QDialog para usarlo como ventana emergente
         dialogo = QDialog()
+        dialogo.propiedad_seleccionada = []
         dialogo.setFixedSize(700, 400)
         layout = QVBoxLayout(dialogo)
-        grilla  = self.cartas_
+        grilla = self.cartas_
         layout.addWidget(grilla)
-        self.cargar_cartas("propiedad",jugador)
-        # Agrega un botón de cerrar
+        self.cargar_cartas("propiedad", jugador)
+        # Agrega un botón de "agarrar propiedad"
         agarrar_propiedad = QPushButton("Agarrar Propiedad")
-        agarrar_propiedad.clicked.connect(partial(self.seleccionar_propiedad(jugador)))
+        def seleccionar_propiedad():
+            if self.carta_seleccionada:  # Verifica que haya una carta seleccionada
+                # Verifica si la propiedad ya está seleccionada para evitar duplicados
+                if self.carta_seleccionada not in dialogo.propiedad_seleccionada:
+                    dialogo.propiedad_seleccionada.append(self.carta_seleccionada)
+                else:
+                    print("Esta propiedad ya ha sido seleccionada.")  # Mensaje si ya fue seleccionada
+            else:
+                print("No se ha seleccionado ninguna carta.")  # Notificar que no hay selección
+        agarrar_propiedad.clicked.connect(seleccionar_propiedad)
         layout.addWidget(agarrar_propiedad)
+        # Botón de cerrar 
         cerrar_boton = QPushButton("Cerrar")
-        cerrar_boton.clicked.connect(dialogo.accept)  # Cierra el diálogo cuando se presiona
+        cerrar_boton.clicked.connect(dialogo.accept)  # Llamamos a accept() directamente aquí
         layout.addWidget(cerrar_boton)
         dialogo.setLayout(layout)
         return dialogo
