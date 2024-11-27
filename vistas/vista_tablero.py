@@ -1,8 +1,9 @@
-from PyQt6.QtWidgets import QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButton, QHBoxLayout, QScrollArea, QGridLayout, QSizePolicy, QFrame, QSpacerItem, QMessageBox
+from PyQt6.QtWidgets import QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButton, QHBoxLayout, QScrollArea, QGridLayout, QSizePolicy, QFrame, QSpacerItem, QMessageBox, QDialog
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QPixmap, QIcon
 from datetime import datetime
 from pathlib import Path
+from functools import partial
 
 
 class Tablero(QMainWindow):
@@ -241,7 +242,7 @@ class Tablero(QMainWindow):
         # Crear el primer widget (cartas)
         self.cartas_ = QWidget()
         #cartas.setFixedSize(100, 150)
-        self.cartas_layouts = QGridLayout(self,cartas_)  # Layout interno de "cartas"
+        self.cartas_layouts = QGridLayout(self.cartas_)  # Layout interno de "cartas"
         self.cartas_layouts.setContentsMargins(0, 0, 0, 0)
         # .setStyleSheet("background-color: transparent;")
     
@@ -274,7 +275,7 @@ class Tablero(QMainWindow):
             }
         """)
         # Añadir los widgets al layout principal
-        contenedor.addWidget(cartas_)  # Primera fila
+        contenedor.addWidget(self.cartas_)  # Primera fila
         contenedor.addWidget(botones)  # Segunda fila # Segunda fila
         contenedor.setStretch(0, 8)  # El primer widget (cartas) ocupa el 80% del espacio
         contenedor.setStretch(1, 2)  # El segundo widget (botones) ocupa el 20% del espacio
@@ -522,7 +523,9 @@ class Tablero(QMainWindow):
         boton_confirmar.clicked.connect(dialogo.accept)
         layout_V.addWidget(boton_confirmar)
         return dialogo
-   def pedido_elegir_dinero(self,jugador,monto):
+    
+    #region PEDIDO DINERO
+    def pedido_elegir_dinero(self,jugador,monto):
         # Limpia layouts
         self.limpiar_layout(self.cartas_layouts)
         self.limpiar_layout(self.botones_layout)
@@ -544,6 +547,9 @@ class Tablero(QMainWindow):
         layout.addWidget(deuda)
         dialogo.setLayout(layout)
         return dialogo
+    #endregion PEDIDO DINERO
+    
+    #region PEDIDO PROPIEDADES
     def pedido_elegir_propiedades(self,propiedades,jugador):
             # Limpia layouts
             self.limpiar_layout(self.cartas_layouts)
@@ -564,36 +570,42 @@ class Tablero(QMainWindow):
             layout.addWidget(cerrar_boton)
             dialogo.setLayout(layout)
             return dialogo
-        def pedido_elegir_color(self,colores,carta):
-            # Limpia layouts
-            self.limpiar_layout(self.cartas_layouts)
-            self.limpiar_layout(self.botones_layout)
+    #endregion PEDIDO PROPIEDADES
+    
+    #region PEDIDO COLOR
+    def pedido_elegir_color(self,colores,carta):
+        # Limpia layouts
+        self.limpiar_layout(self.cartas_layouts)
+        self.limpiar_layout(self.botones_layout)
 
-            # Crea un QDialog para usarlo como ventana emergente
-            dialogo = QDialog()
-            dialogo.setWindowTitle("Elegir Color")
-            layout = QVBoxLayout(dialogo)
-            carta_img = QLabel() 
-            pixmap = QPixmap(carta.path_a_imagen)
-            carta_img.setFixedSize(150, 200)
-            carta_img.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-            carta_img.setScaledContents(True)
-            carta_img.setPixmap(pixmap)
-            layout.addWidget(carta_img)
-            print("Colores de la Carta:")
-            # Agrega un botón de cerrar
-            for color  in colores:
-                print(f" Carta color: {color}")
-                boton_color = QPushButton(f"{color}")
-                boton_color.clicked.connect(partial(self.seleccionar_color, color))
-                #boton_color.clicked.connect(lambda: self.seleccionar_color(color))
-                layout.addWidget(boton_color)
-            cerrar_boton = QPushButton("Cerrar")
-            cerrar_boton.clicked.connect(dialogo.accept)  # Cierra el diálogo cuando se presiona
-            layout.addWidget(cerrar_boton)
+        # Crea un QDialog para usarlo como ventana emergente
+        dialogo = QDialog()
+        dialogo.setWindowTitle("Elegir Color")
+        layout = QVBoxLayout(dialogo)
+        carta_img = QLabel() 
+        pixmap = QPixmap(carta.path_a_imagen)
+        carta_img.setFixedSize(150, 200)
+        carta_img.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        carta_img.setScaledContents(True)
+        carta_img.setPixmap(pixmap)
+        layout.addWidget(carta_img)
+        print("Colores de la Carta:")
+        # Agrega un botón de cerrar
+        for color  in colores:
+            print(f" Carta color: {color}")
+            boton_color = QPushButton(f"{color}")
+            boton_color.clicked.connect(partial(self.seleccionar_color, color))
+            #boton_color.clicked.connect(lambda: self.seleccionar_color(color))
+            layout.addWidget(boton_color)
+        cerrar_boton = QPushButton("Cerrar")
+        cerrar_boton.clicked.connect(dialogo.accept)  # Cierra el diálogo cuando se presiona
+        layout.addWidget(cerrar_boton)
 
-            dialogo.setLayout(layout)
-            return dialogo
+        dialogo.setLayout(layout)
+        return dialogo
+    #endregion PEDIDO COLOR
+    
+    #region SELECC JUGADOR
     def seleccionar_jugador(self, event, jugador, avatar):
         # Si ya hay un avatar seleccionado, le quitamos el borde rojo
         if self.avatar_seleccionado is not None:
@@ -605,13 +617,22 @@ class Tablero(QMainWindow):
         # Actualizamos la referencia al avatar seleccionado
         self.avatar_seleccionado = avatar
         self.jugador_seleccionado = jugador
+    #endregion SELECC JUGADOR
+    
+    #region SELECC COLOR
     def seleccionar_color(self,color):
         self.color_seleccionado = color
         print(self.color_seleccionado)
+    #endregion SELECC COLOR
+    
+    #region SELECC PROPIEDAD
     def seleccionar_propiedad(self,jugador):
         self.propiedad_seleciconada.append(self.carta_seleccionada)
         clase_propiedad = jugador.get_objeto_propiedad()
         clase_propiedad.quitar_propiedad(self.carta_seleccionada)
+    #endregion SELECC PROPIEDAD
+    
+    #region SELECC DINERO
     def seleccionar_dinero(self, dinero,jugador):
         self.dinero_selecionado.append(dinero)
         self.deuda -= dinero.valor
@@ -626,7 +647,8 @@ class Tablero(QMainWindow):
                 self.label_dinero.deleteLater()
                 self.label_dinero = None
             self.pedido_elegir_dinero(jugador,self.deuda)
-    #endregion
+    #endregion SELECC DINERO
+    
     #region UPDATE_LABEL_CONJUNTOS
     def actualizar_conjuntos_jugadores(self):
         jugadores = self.__controlador.get_jugadores()
