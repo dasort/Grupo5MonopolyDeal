@@ -593,35 +593,33 @@ class Tablero(QMainWindow):
     
     #region PEDIDO COLOR
     def pedido_elegir_color(self,colores,carta):
-        # Limpia layouts
-        self.limpiar_layout(self.cartas_layouts)
-        self.limpiar_layout(self.botones_layout)
-
-        # Crea un QDialog para usarlo como ventana emergente
-        dialogo = QDialog()
-        dialogo.setWindowTitle("Elegir Color")
-        layout = QVBoxLayout(dialogo)
-        carta_img = QLabel() 
-        pixmap = QPixmap(carta.path_a_imagen)
-        carta_img.setFixedSize(150, 200)
-        carta_img.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        carta_img.setScaledContents(True)
-        carta_img.setPixmap(pixmap)
-        layout.addWidget(carta_img)
-        print("Colores de la Carta:")
-        # Agrega un botón de cerrar
-        for color  in colores:
-            print(f" Carta color: {color}")
-            boton_color = QPushButton(f"{color}")
-            boton_color.clicked.connect(partial(self.seleccionar_color, color))
-            #boton_color.clicked.connect(lambda: self.seleccionar_color(color))
-            layout.addWidget(boton_color)
-        cerrar_boton = QPushButton("Cerrar")
-        cerrar_boton.clicked.connect(dialogo.accept)  # Cierra el diálogo cuando se presiona
-        layout.addWidget(cerrar_boton)
-
-        dialogo.setLayout(layout)
-        return dialogo
+            # Limpia layouts
+            self.limpiar_layout(self.cartas_layouts)
+            self.limpiar_layout(self.botones_layout)
+            # Crea un QDialog para usarlo como ventana emergente
+            dialogo = QDialog()
+            dialogo.color_seleccionado = None
+            dialogo.setWindowTitle("Elegir Color")
+            layout = QVBoxLayout(dialogo)
+            carta_img = QLabel() 
+            pixmap = QPixmap(carta.path_a_imagen)
+            carta_img.setFixedSize(150, 200)
+            carta_img.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+            carta_img.setScaledContents(True)
+            carta_img.setPixmap(pixmap)
+            layout.addWidget(carta_img)
+            for color  in colores:
+                boton_color = QPushButton(f"{color}")
+                def seleccionar_color():
+                    dialogo.color_seleccionado = color
+                    dialogo.accept()
+                boton_color.clicked.connect(seleccionar_color)
+                layout.addWidget(boton_color)
+            cerrar_boton = QPushButton("Cerrar")
+            cerrar_boton.clicked.connect(dialogo.reject)  # Cierra el diálogo cuando se presiona
+            layout.addWidget(cerrar_boton)
+            dialogo.setLayout(layout)
+            return dialogo
     #endregion PEDIDO COLOR
     
     #region SELECC JUGADOR
