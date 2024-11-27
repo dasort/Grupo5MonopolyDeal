@@ -20,7 +20,7 @@ class Tablero(QMainWindow):
         self.tiempo_restante = 60
         
         self.carta_seleccionada = None
-        
+        self.jugador_seleccionado = None
         # Registro del tiempo de inicio de la partida:
         self.tiempo_inicio = datetime.now()
         
@@ -33,6 +33,8 @@ class Tablero(QMainWindow):
         self.titileo_timer = QTimer(self)
         self.titileo_timer.timeout.connect(self.titilar_reloj)
         self.reloj_titilando = False
+        
+        #region TODO_MENOS_EL_MINI_ZOOM
         
         # Widget principal:
         self.main_widget = QWidget(self)
@@ -211,7 +213,11 @@ class Tablero(QMainWindow):
         descripcion_carta_layout.addWidget(self.descripcion_carta_label)
         # Agregar el layout al área de la zona inferior derecha:
         self.zona_inferior_derecha_layout.addLayout(descripcion_carta_layout)
-    #region -------------------  MINI ZOOM  ------------------------
+    #endregion TODO_MENOS_EL_MINI_ZOOM
+    
+    # ---------------------------------- MINI ZOOM --------------------------------------
+    
+    #region DISEÑO MINI ZOOM
         # Agregar el Mini menu
         ventana = QWidget()
         
@@ -247,22 +253,22 @@ class Tablero(QMainWindow):
         
         
         botones.setStyleSheet("""
-    QPushButton {
-        background-color: rgba(194, 78, 27, 0.2);
-        color: white;
-        border: 2px solid rgba(43, 22, 11, 1);
-        border-radius: 10px;
-        padding: 8px;
-        font-size: 16px;
-        font-weight: bold;
-    }
-    QPushButton:hover {
-        background-color: rgba(194, 137, 48, 0.9);
-    }
-    QPushButton:pressed {
-        background-color: rgba(125, 72, 34, 1);
-    }
-""")
+            QPushButton {
+                background-color: rgba(194, 78, 27, 0.2);
+                color: white;
+                border: 2px solid rgba(43, 22, 11, 1);
+                border-radius: 10px;
+                padding: 8px;
+                font-size: 16px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: rgba(194, 137, 48, 0.9);
+            }
+            QPushButton:pressed {
+                background-color: rgba(125, 72, 34, 1);
+            }
+        """)
         # Añadir los widgets al layout principal
         contenedor.addWidget(cartas_)  # Primera fila
         contenedor.addWidget(botones)  # Segunda fila # Segunda fila
@@ -274,18 +280,16 @@ class Tablero(QMainWindow):
         self.zona_superior_derecha_layout.addWidget(ventana)
         
         #self.agregar_cartas()
-        
-        
-        
-        #endregion update
+    #endregion DISEÑO MINI ZOOM
     
+    #region CARGAR_CARTAS
     def cargar_cartas(self,tipo,jugador):
         self.limpiar_layout(self.cartas_layouts)
         filas = 0
         columnas = 0
         maximo = filas * columnas
         if tipo == "propiedad":
-            cantidad = self.contar_propiedades(jugador.get_propiedades)
+            #cantidad = self.contar_propiedades(jugador.get_propiedades)
             clase = jugador.propiedades
             listas =  clase.lista_grupos()
             if len(listas) < 11:
@@ -302,7 +306,7 @@ class Tablero(QMainWindow):
                         print("No es un diccionario")
         elif tipo == "dinero":
             
-            lista = jugador.get_banco  # Llamas al método para obtener la lista
+            lista = jugador.get_banco()  # Llamas al método para obtener la lista
             sublistas = [lista[i:i + 5] for i in range(0, len(lista), 5)]
             if len(sublistas) < 11:
                 for cartas in sublistas:
@@ -313,8 +317,9 @@ class Tablero(QMainWindow):
                     if columnas == 5:
                         filas +=1
                         columnas = 0
+    #endregion CARGAR_CARTAS
                 
-                
+    #region AGREGAR_CARTAS
     def agregar_cartas(self, sublista):
         grupos = QWidget()
         for index, lista in enumerate(sublista):
@@ -330,6 +335,9 @@ class Tablero(QMainWindow):
             carta.setPixmap(pixmap)  # Establece la imagen en el QLabel
             self.agregar_carta(carta, grupos, offset=index * 20)
         return grupos
+    #endregion AGREGAR_CARTAS
+    
+    #region AGREGAR_CARTA
     def agregar_carta(self, carta, padre, offset):
         """
         Agrega una carta al widget `mano_contenedora` con un desplazamiento para simular superposición.
@@ -341,7 +349,11 @@ class Tablero(QMainWindow):
             carta.show()
         else:
             print("No hay suficiente espacio para mover la carta.")
-    #endregion
+    #endregion AGREGAR_CARTA
+    
+    # ---------------------------------- MINI ZOOM --------------------------------------
+    
+    #region LIMPIAR_LAYOUT
     def limpiar_layout(self, layout):
         """Elimina todos los widgets de un layout."""
         while layout.count():
@@ -351,11 +363,48 @@ class Tablero(QMainWindow):
                 widget.deleteLater()
             elif item.layout():
                 self.limpiar_layout(item.layout())
+    #endregion LIMPIAR_LAYOUT
+    #region SELECCIONAR Y ELEGIR 
+     
+    def seleccionar_jugador(self, event, jugador, avatar):
+        if self.layout_selecionado:  
+            self.layout_selecionado.setStyleSheet("border: none;")
+        avatar.setStyleSheet("border: 2px solid red;")
+        # Guarda el jugador seleccionado
+        self.jugador_seleccionado = jugador
+        self.layout_selecionado = avatar
+    
+    def elejir_jugador(self, jugadores_totales, jugador_actual):
+        # Quita al jugador que esta eligiendo de la lista
+        jugadores = [jugador for jugador in jugadores_totales if jugador != jugador_actual]
+        for index, jugador in enumerate(jugadores):
+            perfil = QHBoxLayout()
+            # Nombre del jugador
+            nombre = QLabel(f"{jugador.nombre}")
+            # Avatar del jugador
+            avatar = QLabel()
+            avatar_img = QPixmap(jugador.avatar)
+            avatar.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+            avatar.setScaledContents(True) 
+            avatar.setFixedSize(150, 150)
+            avatar.setPixmap(avatar_img)
+            avatar.setStyleSheet("border: none;")
+            # Agregar al layout del perfil
+            perfil.addWidget(avatar)
+            perfil.addWidget(nombre)
+            # Añadir el perfil al layout principal
+            self.cartas_layouts.addLayout(perfil, 0, index)
+            # Asignar el evento al avatar (cuidado con el uso de lambda)
+            avatar.mousePressEvent = lambda event, jugador=jugador, avatar=avatar: self.seleccionar_jugador(event, jugador, avatar)
+    #region UPDATE_INTERFAZ
     def update_interfaz(self):
         self.pestaña_cartas()
         self.mostrar_jugadores(self.__controlador.get_jugadores())
         self.mostrar_mano_jugador()
         self.repaint()
+    #endregion UPDATE_INTERFAZ
+    
+    #region PESTAÑA_CARTAS
     def pestaña_cartas(self):
         self.limpiar_layout(self.botones_layout)
         self.limpiar_layout(self.cartas_layouts)
@@ -368,16 +417,9 @@ class Tablero(QMainWindow):
         self.botones_layout.addWidget(propiedades_button)
         self.botones_layout.addWidget(dinero_button)
         self.botones_layout.addWidget(descarte_button)    
-    def limpiar_layout(self, layout):
-        """Elimina todos los widgets de un layout."""
-        while layout.count():
-            item = layout.takeAt(0)
-            widget = item.widget()
-            if widget:
-                widget.deleteLater()
-            elif item.layout():
-                self.limpiar_layout(item.layout())
-                
+    #endregion PESTAÑA_CARTAS
+    
+    #region MOSTRAR_JUGADORES
     def mostrar_jugadores(self, jugadores):
         """Muestra la información de los jugadores."""
         self.limpiar_layout(self.zona_superior_izquierda_layout)
@@ -489,17 +531,9 @@ class Tablero(QMainWindow):
             
             # Agregar el layout jugador al layout de la zona superior izquierda:
             self.zona_superior_izquierda_layout.addLayout(jugador_layout)
-            
-    def contar_propiedades(self, propiedades: dict):
-        contador = 0
-        for color, propiedad in propiedades.items():
-            # Accedemos a la lista dentro del diccionario para este color
-            lista_propiedades = propiedad["lista"]
-            # Sumamos la cantidad de elementos en la lista
-            contador += len(lista_propiedades)
-
-        return contador
+    #endregion MOSTRAR_JUGADORES
     
+    #region MOSTRAR_CARTAS_EN_CUADRICULA
     def mostrar_cartas_en_cuadricula(self, grid_layout, cartas, tipo=None):
         
         """
@@ -578,7 +612,9 @@ class Tablero(QMainWindow):
                     placeholder.setMaximumSize(35, 65)
                     placeholder.setStyleSheet("background-color: transparent; border: 1px solid gray;")
                     grid_layout.addWidget(placeholder, fila, columna)
+    #endregion MOSTRAR_CARTAS_EN_CUADRICULA
 
+    #region MOSTRAR_MANO_JUGADOR
     def mostrar_mano_jugador(self):
         """Muestra las cartas en la mano del jugador actual y actualiza la descripción."""
         
@@ -614,7 +650,9 @@ class Tablero(QMainWindow):
 
             # Agregar carta al layout:
             self.cartas_layout.addWidget(carta_label)
+    #endregion MOSTRAR_MANO_JUGADOR
 
+    #region EVENTO_CLICK_CARTA
     def evento_click_carta(self, carta):
         """Actualizar la imagen de descripción al haber hecho click, por la imagen que se indica."""
         def evento(_):
@@ -639,7 +677,9 @@ class Tablero(QMainWindow):
                 #self.update_interfaz()    
                 
         return evento
+    #endregion EVENTO_CLICK_CARTA
 
+    #region TITILAR_RELOJ
     def titilar_reloj(self):
         """Alterna entre las dos imágenes del reloj para crear el efecto del titileo."""
         if self.reloj_titilando:
@@ -647,7 +687,9 @@ class Tablero(QMainWindow):
         else:
             self.reloj_icon.setPixmap(self.reloj_rojo_pixmap)
         self.reloj_titilando = not self.reloj_titilando
+    #endregion TITILAR_RELOJ
     
+    #region ACTUALIZAR_TIEMPO
     def actualizar_tiempo(self):
         """Actualiza el temporizador."""
         if self.tiempo_restante > 0:
@@ -660,7 +702,9 @@ class Tablero(QMainWindow):
         else:
             self.titileo_timer.stop() # <-- Detiene el titileo cuando el tiempo termine.
             self.__controlador.terminar_turno()
+    #endregion ACTUALIZAR_TIEMPO
 
+    #region FINALIZAR_TURNO
     def finalizar_turno(self):
         """
         Finaliza el turno y pasa al siguiente jugador.
@@ -678,7 +722,9 @@ class Tablero(QMainWindow):
         self.carta_seleccionada = None
         
         self.mostrar_mano_jugador()
+    #endregion FINALIZAR_TURNO
     
+    #region FINALIZAR_PARTIDA
     def finalizar_partida(self):
         """Pregunta al usuario si está seguro de que la quiere finalizar."""
         respuesta = QMessageBox.question(
@@ -699,14 +745,21 @@ class Tablero(QMainWindow):
             # Cálculo del resumen de la partida:
             resumen = "Resumen de la partida jugada:\n\n"
             resumen += f"Tiempo total jugado: {tiempo_formateado}\n\n"
+            
             for jugador in self.__controlador.get_jugadores():
+                propiedades = len(jugador.get_objeto_propiedad().get_cartas_propiedades())
+                dinero_final = jugador.calcular_valor_banco_propiedades()
+
+                acciones_usadas = len(jugador.get_mano()) # <-- Ejemplo (falta implementar).
+                
                 resumen += (
-                    f"Jugador: {jugador['nombre']}\n"
-                    f"Dinero final: $Son pobres\n"
-                    f"Propiedades adquiridas: {len(jugador.get('propiedades', []))}\n"
-                    f"Cartas de acción usadas: {len(jugador.get('acciones', []))}\n\n"
+                    f"Jugador: {jugador.nombre}\n"
+                    f"Dinero final: ${dinero_final}\n"
+                    f"Propiedades adquiridas: {propiedades}\n"
+                    f"Cartas de acción usadas: {acciones_usadas}\n\n"
                 )
-            resumen += "Muchas gracias por jugar!"
+            
+            resumen += "¡Muchas gracias por jugar!"
             
             # Mostrar el cuadro con la información de la partida:
             QMessageBox.information(
@@ -716,20 +769,7 @@ class Tablero(QMainWindow):
                 QMessageBox.StandardButton.Ok
         )
             
-            self.__controlador.volver_al_menu_principal()
+            self.__controlador.volver()
         else:
             pass
-    
-    # ----------------------------------------------------------------------------------------------------
-    # Cosas a implementar:
-    #
-    # 1. (listo) Se debería poder seleccionar la carta y que la imagen "queHace" cambie a su respectivo queHace.
-    #
-    # 2. (listo) Cuando hay menos de 7 cartas no modificar los widget o esas cosas porque rompe los layout,
-    #     sinó más bien reemplazar la imagen de la carta por una imagen transparente vacía (cartaVacia.png).
-    #
-    # 3. Cuando se seleccione la carta que salga un cuadro de diálogo con las opciones que correspondan a
-    #     esa carta, porque si se fijan literalmente cada carta hace cosas re distintas y algunas son muchísimo
-    #     más complejas que otras. (Ej: Alquiler doble, léanla, van a verlo)
-    #
-    # 4. Cuando se juegue la carta que se cambie el turno.
+    #endregion FINALIZAR_PARTIDA

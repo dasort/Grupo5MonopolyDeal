@@ -31,7 +31,8 @@ class Controlador_crear_cuenta:
             self.__vista.campos_vacios_dialog()
             return
         else:
-            conn = JugadorDAOImpl(Database.conexion())
+            dm=Database()
+            conn = JugadorDAOImpl(dm.conexion())
             if self.usuario_repetido(usuario, conn):
                 self.__vista.usuario_ya_existe_dialog()
             else:

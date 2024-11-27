@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QDialog, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QSpacerItem, QSizePolicy, QFrame, QMessageBox, QSlider
-from PyQt6.QtGui import QGuiApplication
+from PyQt6.QtGui import QGuiApplication, QPixmap
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import Qt
 
@@ -11,7 +11,7 @@ class Opciones(QDialog):
         self.__controlador = controlador
         
         self.setWindowTitle("Opciones")
-        self.setGeometry(570, 240, 400, 415)
+        self.setGeometry(570, 240, 400, 426)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
 
         # Layouts:
@@ -64,8 +64,37 @@ class Opciones(QDialog):
         
         # Layout para el volumen:
         self.volumen_widget = QWidget()
-        self.layout_volumen = QHBoxLayout(self.volumen_widget)
         self.volumen_widget.setFixedWidth(320)
+        self.layout_volumen = QHBoxLayout(self.volumen_widget)
+        self.layout_volumen.setSpacing(10)
+        
+        # Icono para el volumen:
+        self.boton = QPushButton(self) # <-- Este es el contenedor principal.
+        self.boton.setStyleSheet("""
+            QPushButton {
+                border: 2px solid #444;
+                border-radius: 10px;
+                background-color: #222; /* <-- Es perfecto no cambiar */
+                font-size: 20px;
+                text-align: left;
+            }
+            QPushButton:hover {
+                background-color: #333; /* <-- Tampoco */
+            }
+        """)
+        self.boton.setMinimumWidth(40)
+        self.boton.setFixedHeight(40)
+        self.boton.clicked.connect(self.__controlador.alternar_volumen)
+
+        self.layout_boton = QHBoxLayout(self.boton)
+
+        self.icono_label = QLabel(self)
+        pixmap = self.obtener_pixmap_inicial_volumen()
+        self.icono_label.setPixmap(pixmap)
+        self.icono_label.setFixedSize(30, 30)
+        self.layout_boton.addWidget(self.icono_label)
+        
+        self.layout_volumen.addWidget(self.boton)
         
         # Label para el volumen:
         self.volumen_label = QLabel("Volumen:", self)
@@ -81,7 +110,7 @@ class Opciones(QDialog):
         self.slider_volumen.setMaximum(100)
         self.slider_volumen.setValue(self.__controlador.obtener_volumen())
         self.slider_volumen.valueChanged.connect(self.__controlador.cambiar_volumen)
-        self.slider_volumen.setFixedWidth(185)
+        self.slider_volumen.setFixedWidth(165)
         self.layout_volumen.addWidget(self.slider_volumen)
         
         self.main_layout.addWidget(self.volumen_widget)
@@ -131,6 +160,35 @@ class Opciones(QDialog):
         boton.setFixedWidth(250)
     
         return boton
+    
+    def cambiar_pixmap_volumen(self):
+        volumen = self.__controlador.obtener_volumen()
+        if volumen >= 50:
+            pixmap = QPixmap("imagenes/ui/volumen_alto.png").scaled(25, 25)
+        elif volumen > 1:
+            pixmap = QPixmap("imagenes/ui/volumen_bajo.png").scaled(25, 25)
+        else:
+            pixmap = QPixmap("imagenes/ui/volumen_apagado.png").scaled(25, 25)
+        self.icono_label.setPixmap(pixmap)
+    
+    def obtener_pixmap_inicial_volumen(self):
+        volumen = self.__controlador.obtener_volumen()
+        if volumen >= 50:
+            pixmap = QPixmap("imagenes/ui/volumen_alto.png").scaled(25, 25)
+        elif volumen > 1:
+            pixmap = QPixmap("imagenes/ui/volumen_bajo.png").scaled(25, 25)
+        else:
+            pixmap = QPixmap("imagenes/ui/volumen_apagado.png").scaled(25, 25)
+        return pixmap
+    
+    def alternar_icono(self, estado):
+        if estado == "apagado":
+            pixmap = QPixmap("imagenes/ui/volumen_apagado.png").scaled(25, 25)
+            self.slider_volumen.setValue(0)
+        else:
+            pixmap = QPixmap("imagenes/ui/volumen_alto.png").scaled(25, 25)
+            self.slider_volumen.setValue(100)
+        self.icono_label.setPixmap(pixmap)
     
     def mostrar_creditos(self):
         mensaje = QMessageBox(self)
