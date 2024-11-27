@@ -229,7 +229,13 @@ class Propiedades(Carta):
         # primero se accede al color correcto en el diccionario valor_alquiler_por_set, luego se accede a la posición de la
         # lista que tiene un índice igual a la cantidad de propiedades en el set. Se le resta uno porque el primer índice
         # es 0 y la mínima cantidad es 1
-
+    def lista_grupos(self) -> list:
+        lista = []  # Creamos una lista vacía para almacenar las sublistas
+        for color, listas in self.__propiedades.items():  # Iteramos sobre cada color y su lista de propiedades
+            for elemento in listas["lista"]:  # Iteramos sobre la lista de cada color
+                
+                lista.append(elemento)  # Añadimos los elementos de la sublista a la lista final
+        return lista  # Retornamos la lista con todas las sublistas agregadas
     def accion(self) -> None:
         pass
 
