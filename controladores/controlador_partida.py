@@ -177,7 +177,7 @@ class ControladorPartida:
         return jugador # tiene que salir un solo jugador de la vista
 
     def elegir_dinero(self, jugador_seleccionado: Jugador, dinero_necesario: int) -> list[Carta]:
-        dialogo = self.__vista.elejir_dinero(jugador_seleccionado.get_banco(), dinero_necesario)
+        self.__vista.elejir_dinero(jugador_seleccionado.get_banco(), dinero_necesario)
         dialogo.exec()
         return dialogo.cartas_seleccionadas
 

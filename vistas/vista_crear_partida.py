@@ -347,3 +347,10 @@ class CrearPartida(QMainWindow):
         for jugador in self.jugadores:
             lista_jugadores.append(jugador['jugador_objeto'])
         return lista_jugadores
+
+    def set_usuario(self, jugador):
+        for j in self.jugadores:
+            if j['jugador_objeto'] is jugador:
+                j['nombre'].setText(jugador.datos_bdd.get_nickname())
+                j['nombre'].setReadOnly(True)
+                break

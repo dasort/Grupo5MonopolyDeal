@@ -17,7 +17,13 @@ class ControladorCrearPartida:
     def abre_iniciar_sesion(self, jugador, jugadores):
         self.__vista.hide()
         var = Controlador_iniciar_sesion(self.__main_menu, jugador, jugadores, self)
-
+    
+    def get_vista(self):
+        return self.__vista
+    
+    def set_nombre_usuario(self, jugador: Jugador):
+        self.__vista.set_usuario(jugador)
+        
     def cambio_cant_jugadores(self):
         if len(self.__vista.jugadores) >= self.__vista.minimo_jugadores:
             if len(self.__vista.jugadores) == self.__vista.maximo_jugadores:

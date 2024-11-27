@@ -17,10 +17,7 @@ class Controlador_iniciar_sesion:
         self.__vista.show()
     
     def get_vista(self):
-        return self.__vista
-    
-    # def inicializar_vista(self): 
-    #     self.__vista =  
+        return self.__vista  
 
     def volver(self):
         self.__vista.hide()
@@ -28,7 +25,8 @@ class Controlador_iniciar_sesion:
 
     def abrir_crear_partida(self):
         self.__vista.hide()
-        var = self.__crear_partida(self.__main_menu)
+        self.__crear_partida.set_nombre_usuario(self.__jugador)
+        var = self.__crear_partida.get_vista().show()
 
     def abrir_crear_cuenta(self):
         self.__vista.hide()
@@ -54,6 +52,7 @@ class Controlador_iniciar_sesion:
                         if compara_contrasenia(contrasenia, jugador_en_base.get_contrasenia(), jugador_en_base.get_salt()):
                             self.__jugador.datos_bdd = jugador_en_base
                             self.__vista.show_info_dialog("Inicio de sesión exitoso.")
+                            self.abrir_crear_partida()
                         else:
                             self.__vista.show_error_dialog("Contraseña incorrecta.")
                     else:
