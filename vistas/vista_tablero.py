@@ -666,8 +666,8 @@ class Tablero(QMainWindow):
         Finaliza el turno y pasa al siguiente jugador.
         Acá va la lógica que se maneja cuando finaliza el tiempo.
         """
-        pro2 = self.__controlador.get_jugador_actual().get_propiedades
-        self.turno_actual = (self.turno_actual + 1) % len(self.__controlador.get_jugadores())
+        # pro2 = self.__controlador.get_jugador_actual().get_propiedades
+        # self.turno_actual = (self.turno_actual + 1) % len(self.__controlador.get_jugadores())
         self.turno_label.setText(f"Turno de: {self.__controlador.get_jugador_actual().nombre}")
         self.tiempo_restante = 60
         self.timer_label.setText(f"Tiempo restante: {self.tiempo_restante}s")

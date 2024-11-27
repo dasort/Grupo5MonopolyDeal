@@ -12,12 +12,12 @@ class EsMiCumpleanios(CartaAccion):
         else:
             if info[0]:
                 cartas = info[0]
+                super().accion()
                 for carta in cartas:
                     carta.duenio.get_objeto_propiedad().quitar_propiedad(carta)
                     carta.duenio = self.duenio
                     self.duenio.agregar_a_banco(carta)
-            super().accion()
-            self.duenio = None
+                self.duenio = None
 
     def es_jugable(self, lista_jugadores: list) -> bool:
         for jugador in lista_jugadores:

@@ -23,4 +23,6 @@ class TratoForzoso(CartaAccion):
                 self.duenio = None
 
     def es_jugable(self, lista_jugadores: list) -> bool:
-        return False
+        if self.duenio.get_objeto_propiedad()
+        for jugador in lista_jugadores:
+            if jugador 

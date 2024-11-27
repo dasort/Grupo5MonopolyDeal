@@ -12,6 +12,7 @@ class PasaPorLaSalida(CartaAccion):
         else:
             if info[0]:
                 mazo = info[0]
+                self.duenio.sacar_de_mano(self)
                 if len(self.duenio.get_mano()) == 6:
                     cartas = mazo.dar_cartas(1)
                 else:
@@ -19,13 +20,12 @@ class PasaPorLaSalida(CartaAccion):
                 for carta in cartas:
                     carta.duenio = self.duenio
                 self.duenio.tomar_carta(cartas)
-                self.duenio.sacar_de_mano(self)
                 self.duenio = None
             else:
                 raise ValueError('Error ejecutando la acción de PassaPorLaSalida.')
 
     def es_jugable(self, jugadores: list) -> bool:
         mano = self.duenio.get_mano()
-        if len(mano) < 7:
+        if len(mano) <= 7:
             return True
         return False

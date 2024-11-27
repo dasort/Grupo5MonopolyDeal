@@ -109,3 +109,5 @@ class Jugador:
 
     def remover_propiedad(self, carta: Carta):
         self.get_objeto_propiedad().quitar_propiedad(carta)
+
+    def get_sets_completos_jugador(self):

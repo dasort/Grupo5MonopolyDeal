@@ -146,10 +146,17 @@ class Propiedades(Carta):
 
     def get_cartas_propiedades(self) -> list[Carta]:
         cartas = []
-        for diccionario_color in self.propiedades.values():
-            for carta in diccionario_color['lista']:
-                cartas.append(carta)
+        for color in self.__propiedades.keys():
+            lista = self.__propiedades[color]['lista'] # lista de diccionarios
+            for dicc in lista:
+                cartas.extend(dicc['sublista']) # lista de cartas
         return cartas
+
+    def hay_propiedad(self) -> bool:
+        propiedades = self.get_cartas_propiedades()
+        if propiedades:
+            return True
+        return False
 
     __maximo_cartas_por_set = {
         "marron": 2,
@@ -177,24 +184,25 @@ class Propiedades(Carta):
         "ferrocarril": [1, 2, 3, 4]
     }
 
-    def get_sets_completos(self) -> list[dict]:
+    def get_sets_completos(self) -> list:
         sets_completos = list()
+        
         for color in self.__propiedades.keys():
-            set_propiedad = dict()
-            set_propiedad['color'] = color
-            set_propiedad['cartas'] = self.__propiedades[color]['lista'][0]
-            sets_completos.append(set_propiedad)
-        for set in sets_completos:
-            if len(set['cartas']) < self.__maximo_cartas_por_set[set['color']]:
-                sets_completos.remove(set)
+            lista = self.__propiedades[color]['lista'] # lista de diccionarios
+            for dicc in lista:
+                set_propiedades = dicc['sublista']
+                if len(set_propiedades) == self.__maximo_cartas_por_set[color]:
+                    sets_completos.append(set_propiedades)
         return sets_completos
     
-    def get_valor_alquiler(self, color: str):
-        cartas_en_set = self.__propiedades[color]['lista']['sublista']
-        cantidad_de_cartas_en_set = len(cartas_en_set) #cuenta las cartas en la lista de propiedades
-        valor_alquiler = 0
-        if cantidad_de_cartas_en_set > 0:
-            valor_alquiler = self.__valor_alquiler_por_set[color][cantidad_de_cartas_en_set - 1]
+    def get_valor_alquiler(self, color: str) -> int:
+        sets_del_color = []
+        lista = self.__propiedades[color]['lista'] # lista de diccionarios
+        for dicc in lista:
+            sets_del_color.append(dicc['sublista']) # lista de cartas
+        sets_del_color.sort(key=lambda x: len(x), reverse=True)
+        mayor_set_del_color = sets_del_color[0]
+        valor_alquiler = self.__valor_alquiler_por_set[color][len(mayor_set_del_color) - 1]
         return valor_alquiler
         # primero se accede al color correcto en el diccionario valor_alquiler_por_set, luego se accede a la posición de la
         # lista que tiene un índice igual a la cantidad de propiedades en el set. Se le resta uno porque el primer índice

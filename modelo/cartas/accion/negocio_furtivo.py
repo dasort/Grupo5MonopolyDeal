@@ -12,10 +12,10 @@ class NegocioFurtivo(CartaAccion):
         else:
             if info[0]:
                 propiedad = info[0]
+                super().accion()
                 propiedad.duenio.get_objeto_propiedad().quitar_propiedad(propiedad)
                 propiedad.duenio = self.duenio
                 self.duenio.agregar_a_propiedades(propiedad)
-                super().accion()
                 self.duenio = None
     
     def es_jugable(self, lista_jugadores: list) -> bool:

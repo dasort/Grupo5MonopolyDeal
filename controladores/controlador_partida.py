@@ -53,8 +53,10 @@ class ControladorPartida:
         jugador.tomar_carta(self.__mazo.dar_cartas(1))
     
     def dar_dos_cartas(self):
-        mazo = self.__mazo
-        self.__jugador_actual.tomar_carta(mazo.dar_cartas(2))
+        self.__jugador_actual.tomar_carta(self.__mazo.dar_cartas(2))
+
+    def dar_cinco_cartas(self):
+        self.__jugador_actual.tomar_carta(self.__mazo.dar_cartas(5))
 
 ############################################################################################################################
 ######################################## Código para jugar las cartas ######################################################
@@ -68,10 +70,11 @@ class ControladorPartida:
             carta.accion(datos_para_accion)
         else:
             carta.accion()
+        self.__cartas_jugadas_en_turno += 1
         self.__vista.update_interfaz()
         if self.chequea_ganador():
             self.registrar_partida()
-        self.__cartas_jugadas_en_turno += 1
+            self.terminar_partida()
         if self.__cartas_jugadas_en_turno == 3:
             self.terminar_turno()
     
@@ -217,10 +220,12 @@ class ControladorPartida:
 ############################################################################################################################
 
     def terminar_turno(self):
-        if self.__turno_actual == len(self.__jugadores) - 1:
-            self.__turno_actual = 0
-        else:
-            self.__turno_actual += self.__turno_actual + 1
+        # if self.__turno_actual == len(self.__jugadores) - 1:
+        #     self.__turno_actual = 0
+        # else:
+        #     self.__turno_actual += self.__turno_actual + 1
+        #     print(self.__turno_actual)
+        self.__turno_actual = (self.__turno_actual + 1) % len(self.get_jugadores())
         self.__jugador_actual = self.__jugadores[self.__turno_actual]
         self.__cartas_jugadas_en_turno = 0
         tamanio_mano = len(self.__jugador_actual.get_mano())
@@ -228,6 +233,9 @@ class ControladorPartida:
             self.dar_dos_cartas()
         elif tamanio_mano == 6:
             self.tomar_carta_mazo(self.__jugador_actual)
+        elif tamanio_mano == 0:
+            self.dar_cinco_cartas()
+        self.__vista.finalizar_turno()
         self.__vista.update_interfaz()
     
     def volver(self):
