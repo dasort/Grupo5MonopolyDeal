@@ -47,6 +47,7 @@ class ControladorPartida:
     def repartir_cartas(self):
         for jugador in self.__jugadores:
             jugador.tomar_carta(self.__mazo.dar_cartas(5))
+        self.dar_dos_cartas()
     
     # Toma una carta aleartoria del mazo eliminandola
     def tomar_carta_mazo(self, jugador: Jugador):
@@ -65,7 +66,7 @@ class ControladorPartida:
     def jugar_carta(self, carta: Carta) -> None:
         # Verificar si la carta puede ser jugada
         if carta.es_jugable(self.__jugadores):
-            try:
+            # try:
                 pedido = carta.informacion_para_accion()
                 if pedido is not None:
                     datos_para_accion = self.procesa_pedido(pedido, carta)
@@ -81,8 +82,8 @@ class ControladorPartida:
                     self.terminar_partida()
                 if self.__cartas_jugadas_en_turno == 3:
                     self.terminar_turno()
-            except Exception as e:
-                print(f'{carta} {e}')
+            # except Exception as e:
+            #     print(f'{carta} {e}')
         else:
             self.__vista.carta_no_es_jugable()
     
@@ -102,7 +103,7 @@ class ControladorPartida:
         elif pedido == 'RentaMulticolor':
             return self.pedido_renta_multicolor(carta)
         elif pedido == 'PropiedadComodin':
-            return [self.elegir_color(carta)]
+            return [self.elegir_color(carta, carta.color)]
         else:
             raise ValueError
     
@@ -154,7 +155,7 @@ class ControladorPartida:
     def colores_disponibles(self, carta: Carta):
         colores_propiedades = []
         for color in carta.color:
-            if self.duenio.tiene_propiedades_color(color):
+            if self.carta.duenio.tiene_propiedades_color(color):
                 colores_propiedades.append(color)
         return colores_propiedades
 
@@ -172,26 +173,23 @@ class ControladorPartida:
         return [jugador for jugador in self.jugadores_sin_actual() if jugador.calcular_valor_banco() > valor_minimo]
 
     def elegir_jugador(self, jugadores_validos: list[Jugador]) -> Jugador:
-        self.__vista.elejir_jugador(jugadores_validos, self.__jugador_actual)
-        jugador = self.__vista.get_jugador_seleccionado()
+        jugador = self.__vista.elegir_jugador(jugadores_validos)
         return jugador # tiene que salir un solo jugador de la vista
 
     def elegir_dinero(self, jugador_seleccionado: Jugador, dinero_necesario: int) -> list[Carta]:
-        self.__vista.elejir_dinero(jugador_seleccionado.get_banco(), dinero_necesario)
-        dialogo.exec()
-        return dialogo.cartas_seleccionadas
+        cartas = self.__vista.elegir_dinero(jugador_seleccionado, dinero_necesario)
+        return cartas
 
     def elegir_propiedad(self, jugador: Jugador):
         propiedades = jugador.get_todas_las_propiedades()
-        dialogo = self.__vista.dialog_pedir_propiedad(propiedades)
-        dialogo.exec()
-        return dialogo.propiedad_seleccionada
+        propiedad_elegida = self.__vista.elegir_propiedad(propiedades)
+        return propiedad_elegida
     
-    def elegir_color(self, carta: Carta) -> str:
-        lista_colores = carta.color
-        dialogo = self.__vista.dialog_pedir_color(lista_colores)
-        dialogo.exec()
-        return dialogo.color_seleccionado
+    def elegir_color(self, carta: Carta, colores) -> str:
+        # color = self.__vista.pedido_elegir_color(colores, carta)
+        print(colores)
+        color = self.__vista.elegir_color(colores)
+        return color
 
 ############################################################################################################################
 ######################################## Termina código para jugar las cartas ##############################################

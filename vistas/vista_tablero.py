@@ -4,6 +4,7 @@ from PyQt6.QtGui import QPixmap, QIcon
 from datetime import datetime
 from pathlib import Path
 from functools import partial
+from vistas.dialogs_para_cartas import *
 
 
 class Tablero(QMainWindow):
@@ -19,7 +20,7 @@ class Tablero(QMainWindow):
         
         self.tiempo_restante = 60
         self.dinero_selecionado = []
-        self.propiedad_selecionada = []
+        self.propiedad_seleccionada = []
         self.carta_seleccionada = None
         self.jugador_seleccionado = None
         self.label_propiedad = None
@@ -642,9 +643,9 @@ class Tablero(QMainWindow):
     
     #region SELECC PROPIEDAD
     def seleccionar_propiedad(self,jugador):
-        self.propiedad_seleciconada.append(self.carta_seleccionada)
-        clase_propiedad = jugador.get_objeto_propiedad()
-        clase_propiedad.quitar_propiedad(self.carta_seleccionada)
+        self.propiedad_seleccionada.append(self.carta_seleccionada)
+        # clase_propiedad = jugador.get_objeto_propiedad()
+        # clase_propiedad.quitar_propiedad(self.carta_seleccionada)
     #endregion SELECC PROPIEDAD
     
     #region SELECC DINERO
@@ -652,11 +653,11 @@ class Tablero(QMainWindow):
         self.dinero_selecionado.append(dinero)
         self.deuda -= dinero.valor
         if self.deuda < 0:
-            jugador.pagar_banco(dinero)
+            jugador.agregar_a_banco(dinero)
             self.deuda = 0
             self.pestaña_cartas()
         else:
-            jugador.pagar_banco(dinero)
+            jugador.agregar_a_banco(dinero)
             self.carta_seleccionada = None
             if hasattr(self, 'label_dinero') and self.label_dinero is not None:
                 self.label_dinero.deleteLater()
@@ -1074,3 +1075,27 @@ class Tablero(QMainWindow):
             
             self.__controlador.volver()
     #endregion RESUMEN SALIR
+
+    def elegir_color(self, colores):
+        dialog = ElegirColorDialog(colores)
+        if dialog.exec():
+            color_seleccionado = dialog.get_valor()
+            return color_seleccionado
+
+    def elegir_propiedad(self, propiedades):
+        dialog = ElegirPropiedadDialog(propiedades)
+        if dialog.exec():
+            propiedad_seleccionada = dialog.get_valor()
+            return propiedad_seleccionada
+        
+    def elegir_jugador(self, jugadores):
+        dialog = ElegirJugadorDialog(jugadores)
+        if dialog.exec():
+            jugador_seleccionado = dialog.get_valor()
+            return jugador_seleccionado
+
+    def elegir_dinero(self, cartas, deuda):
+        dialog = ElegirDineroDialog(cartas, deuda)
+        if dialog.exec():
+            cartas_seleccionadas = dialog.get_valor()
+            return cartas_seleccionadas

@@ -10,7 +10,7 @@ class CartaRenta(CartaAccion):
 
     @property
     def color(self) -> str:
-        if self.color is not str:
+        if self._color_elegido is None:
             return self._color
         return self._color_elegido
 
