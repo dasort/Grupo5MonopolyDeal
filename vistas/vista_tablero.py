@@ -20,7 +20,7 @@ class Tablero(QMainWindow):
         self.tiempo_restante = 60
         
         self.carta_seleccionada = None
-        
+        self.jugador_seleccionado = None
         # Registro del tiempo de inicio de la partida:
         self.tiempo_inicio = datetime.now()
         
@@ -364,7 +364,38 @@ class Tablero(QMainWindow):
             elif item.layout():
                 self.limpiar_layout(item.layout())
     #endregion LIMPIAR_LAYOUT
+    #region SELECCIONAR Y ELEGIR 
+     
+    def seleccionar_jugador(self, event, jugador, avatar):
+        if self.layout_selecionado:  
+            self.layout_selecionado.setStyleSheet("border: none;")
+        avatar.setStyleSheet("border: 2px solid red;")
+        # Guarda el jugador seleccionado
+        self.jugador_seleccionado = jugador
+        self.layout_selecionado = avatar
     
+    def elejir_jugador(self, jugadores_totales, jugador_actual):
+        # Quita al jugador que esta eligiendo de la lista
+        jugadores = [jugador for jugador in jugadores_totales if jugador != jugador_actual]
+        for index, jugador in enumerate(jugadores):
+            perfil = QHBoxLayout()
+            # Nombre del jugador
+            nombre = QLabel(f"{jugador.nombre}")
+            # Avatar del jugador
+            avatar = QLabel()
+            avatar_img = QPixmap(jugador.avatar)
+            avatar.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+            avatar.setScaledContents(True) 
+            avatar.setFixedSize(150, 150)
+            avatar.setPixmap(avatar_img)
+            avatar.setStyleSheet("border: none;")
+            # Agregar al layout del perfil
+            perfil.addWidget(avatar)
+            perfil.addWidget(nombre)
+            # Añadir el perfil al layout principal
+            self.cartas_layouts.addLayout(perfil, 0, index)
+            # Asignar el evento al avatar (cuidado con el uso de lambda)
+            avatar.mousePressEvent = lambda event, jugador=jugador, avatar=avatar: self.seleccionar_jugador(event, jugador, avatar)
     #region UPDATE_INTERFAZ
     def update_interfaz(self):
         self.pestaña_cartas()
