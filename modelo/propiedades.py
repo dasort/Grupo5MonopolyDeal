@@ -222,3 +222,6 @@ class Propiedades(Carta):
 
     def accion(self) -> None:
         pass
+
+    def es_jugable(self):
+        pass
