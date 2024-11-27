@@ -22,6 +22,6 @@ class CartaRenta(Carta):
         for carta in cartas:
             carta.duenio = self.duenio
             self.duenio.agregar_a_banco(carta)
+        super().accion()
         self.duenio = None
         self._color_elegido = None
-        super().accion()

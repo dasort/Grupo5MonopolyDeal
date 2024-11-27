@@ -11,4 +11,4 @@ class ControladorComoJuego:
     
     def volver(self):
         self.__vista.hide()
-        var = self.__main_menu()
+        var = self.__main_menu.get_vista().show()

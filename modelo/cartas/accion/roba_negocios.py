@@ -16,8 +16,8 @@ class RobaNegocios(CartaAccion):
                     carta.duenio.get_objeto_propiedad().quitar_propiedad(carta)
                     carta.duenio = self.duenio
                     self.duenio.agregar_a_propiedades(carta)
+            super().accion()
             self.duenio = None
-        super().accion()
 
     def es_jugable(self, lista_jugadores: list) -> bool:
         return False
