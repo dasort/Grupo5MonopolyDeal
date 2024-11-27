@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButton, QHBoxLayout, QScrollArea, QGridLayout, QSizePolicy, QFrame, QSpacerItem, QMessageBox, QDialog
 from PyQt6.QtCore import Qt, QTimer
-from PyQt6.QtGui import QPixmap, QIcon
+from PyQt6.QtGui import QPixmap, QIcon, QGuiApplication
 from datetime import datetime
 from pathlib import Path
 from functools import partial
@@ -47,18 +47,9 @@ class Tablero(QMainWindow):
         self.main_widget.setObjectName("MainWidget") # <-- Le doy el ID "MainWidget" para que funcione el CSS de abajo.
         self.setCentralWidget(self.main_widget)
         
-        # Imagen de fondo usando CSS:
-        self.main_widget.setStyleSheet("""
-            QWidget#MainWidget {
-                background-image: url("imagenes/ui/fondo_tablero_1650x820.jpg");
-                background-repeat: no-repeat;
-                background-position: center;
-            }
-            QLabel, QPushButton {
-                background: none;
-                border: none;
-            }
-        """)
+        # El fondo del tablero se va a ajustar según el tipo de pantalla que tenga el usuario:
+        self.ajustar_fondo()
+        
         # Layout principal (zona superior e inferior):
         #region Instanciación y seteo de su layout.
         self.main_layout = QVBoxLayout()
@@ -1074,3 +1065,39 @@ class Tablero(QMainWindow):
             
             self.__controlador.volver()
     #endregion RESUMEN SALIR
+
+    def ajustar_fondo(self):
+        # Factor de escala de la pantalla principal:
+        pantalla = QGuiApplication.primaryScreen()
+        factor_escala = pantalla.devicePixelRatio()
+        
+        # Por ejemplo:
+        # 1.0 es 100%
+        # 1.25 es 125%
+
+        # Cambio el estilo según el factor de escala:
+        if factor_escala == 1.0:
+            self.main_widget.setStyleSheet("""
+                QWidget#MainWidget {
+                    background-image: url("imagenes/ui/fondo_tablero_full.jpg");
+                    background-repeat: no-repeat;
+                    background-position: center;
+                }
+                QLabel, QPushButton {
+                    background: none;
+                    border: none;
+                }
+            """)
+        else:
+            # Escala de 125% u otra:
+            self.main_widget.setStyleSheet("""
+                QWidget#MainWidget {
+                    background-image: url("imagenes/ui/fondo_tablero_1650x820.jpg");
+                    background-repeat: no-repeat;
+                    background-position: center;
+                }
+                QLabel, QPushButton {
+                    background: none;
+                    border: none;
+                }
+            """)
