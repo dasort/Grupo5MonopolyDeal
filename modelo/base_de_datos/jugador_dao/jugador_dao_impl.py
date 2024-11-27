@@ -81,7 +81,7 @@ class JugadorDAOImpl(JugadorDAO):
                 select j.id_jugador, count(*)
                 from jugador as j
                 natural join juega
-                where j.id_jugador = %s
+                where j.nickname = %s
                 group by j.id_jugador
                 '''
         query_ganados = '''
@@ -89,24 +89,30 @@ class JugadorDAOImpl(JugadorDAO):
                 from jugador as j
                 natural join juega
                 natural join partida as p
-                where j.id_jugador = %s
+                where j.nickname = %s
                 group by j.id_jugador
                 '''
+        partidas_jugadas = 0
+        partidas_ganadas = 0
         try:
             cursor = self.__conexion.cursor()
             cursor.execute(query_jugados, (str(jugador.get_id_jugador()), ))
             partidas_jugadas = cursor.fetchone()
-            if partidas_jugadas is None:
-                partidas_jugadas = 0
-                partidas_ganadas = 0
-            else:
+            if partidas_jugadas is not None:
                 cursor.execute(query_ganados, (jugador.get_nickname(), ))
                 partidas_ganadas = cursor.fetchone()
                 if partidas_ganadas is None:
                     partidas_ganadas = 0
+            else:
+                partidas_jugadas = 0
+                partidas_ganadas = 0
         except (Exception, psy.DatabaseError)as e:
             print(f"Error al obtener el historial: {e}")
         cursor.close()
+        if isinstance(partidas_jugadas, tuple):
+            partidas_jugadas = partidas_jugadas[1]
+        if isinstance(partidas_ganadas, tuple):
+            partidas_ganadas = partidas_ganadas[1]
         return partidas_jugadas, partidas_ganadas
 
     def terminar_conexión(self):

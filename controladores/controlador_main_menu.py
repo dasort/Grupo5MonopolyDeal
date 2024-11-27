@@ -47,8 +47,7 @@ class ControladorMainMenu:
     def mostrar_estadisticas_inicio_sesion(self):
         self.sonido_click()
         self.__vista.hide()
-        controlador_iniciar_sesion = Controlador_iniciar_sesion(main_menu=self)
-        controlador_iniciar_sesion.inicializar_vista() # <-- 
+        controlador_iniciar_sesion = Controlador_iniciar_sesion(main_menu=self, busca_historial=True)
     
     # Getters:
     def get_volumen(self):

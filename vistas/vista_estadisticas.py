@@ -164,7 +164,14 @@ class Estadisticas(QDialog):
         self.main_layout.addLayout(self.layout_partidas_ganadas)
         self.main_layout.addWidget(self.boton_volver)
 
-        self.__controlador.actualizar_datos()
+        self.__controlador.datos()        
+        
+        # Actualizar los datos en la vista
+        self.nombre_label.setText(self.nombre_label.text() + self.__controlador.get_nombre())
+        self.apellido_label.setText(self.apellido_label.text() + self.__controlador.get_apellido())
+        self.nickname_label.setText(self.nickname_label.text() + self.__controlador.get_nickname())
+        self.partidas_jugadas_label.setText(self.partidas_jugadas_label.text() + self.__controlador.get_partidas_jugadas())
+        self.partidas_ganadas_label.setText(self.partidas_ganadas_label.text() + self.__controlador.get_partidas_ganadas())
 
     def centrar_ventana(self):
         forma_pantalla = QGuiApplication.primaryScreen().availableGeometry()
