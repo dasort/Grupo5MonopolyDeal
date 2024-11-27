@@ -25,6 +25,7 @@ class Tablero(QMainWindow):
         self.label_dinero = None
         self.deuda = 0
         self.labels_dinero = []
+        self.labels_conjuntos_completos = []
         # Registro del tiempo de inicio de la partida:
         self.tiempo_inicio = datetime.now()
         
@@ -477,6 +478,13 @@ class Tablero(QMainWindow):
             self.labels_dinero[i].setText(f"Dinero: ${jugador.calcular_valor_banco()}")
     #endregion UPDATE_LABEL_DINERO
     
+    #region UPDATE_LABEL_CONJUNTOS
+    def actualizar_conjuntos_jugadores(self):
+        jugadores = self.__controlador.get_jugadores()
+        for i, jugador in enumerate(jugadores):
+            self.labels_conjuntos_completos[i].setText(f"CCs: {jugador.get_cantidad_sets_completos_jugador()}")
+    #endregion UPDATE_LABEL_CONJUNTOS
+    
     #region PESTAÑA_CARTAS
     def pestaña_cartas(self):
         self.limpiar_layout(self.botones_layout)
@@ -497,6 +505,7 @@ class Tablero(QMainWindow):
         """Muestra la información de los jugadores."""
         self.limpiar_layout(self.zona_superior_izquierda_layout)
         self.labels_dinero.clear()
+        self.labels_conjuntos_completos.clear()
         for jugador in jugadores:
             jugador_layout = QHBoxLayout()      # <--   (Perfil) | (Propiedades) | (Banco)
             propiedades_layout = QGridLayout()
@@ -569,8 +578,8 @@ class Tablero(QMainWindow):
             texto_layout.addWidget(dinero_label)
             self.labels_dinero.append(dinero_label)
             
-            # Dinero:
-            grupos_label = QLabel(f"No tiene aún")
+            # Conjuntos completos:
+            grupos_label = QLabel(f"Actualizando...")
             grupos_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
             grupos_label.setStyleSheet("""
                 font-size: 14px;
@@ -581,6 +590,9 @@ class Tablero(QMainWindow):
                 border-radius: 5px;
             """)
             texto_layout.addWidget(grupos_label)
+            self.labels_conjuntos_completos.append(grupos_label)
+            grupos_label.setToolTip(f'Estos son los Conjuntos Completos del jugador "{jugador.nombre}".')
+            
             # Agregar el layout del texto al perfil:
             perfil_layout.addLayout(texto_layout)
             dinero_label.setFixedSize(100, 50)
@@ -778,6 +790,7 @@ class Tablero(QMainWindow):
             self.turno_label.setToolTip(f"Este es el turno actual ({self.__controlador.get_jugador_actual().nombre}), o sea tú.")
             
             self.actualizar_dinero_jugadores()
+            self.actualizar_conjuntos_jugadores()
             
         # Iniciar el titileo cuando queden 5, o 10, o 15, segundos. <-- (A gusto como quieran, me parece que 15 está bien)
             if self.tiempo_restante <= 15:
@@ -822,9 +835,10 @@ class Tablero(QMainWindow):
             self.muestra_resumen_y_sale()
         else:
             pass
+    #endregion FINALIZAR_PARTIDA
     
+    #region RESUMEN SALIR
     def muestra_resumen_y_sale(self):
-        
         # Cálculo del tiempo:
             tiempo_fin = datetime.now()
             tiempo_total = tiempo_fin - self.tiempo_inicio # <-- Diferencia entre el inicio y el final.
@@ -859,5 +873,4 @@ class Tablero(QMainWindow):
         )
             
             self.__controlador.volver()
-
-    #endregion FINALIZAR_PARTIDA
+    #endregion RESUMEN SALIR

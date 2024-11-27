@@ -226,7 +226,7 @@ class ComoJuego(QDialog):
         linea5 = QLabel("Cuando sea tu turno <u>agarrá cartas</u> y agregalas a tu mazo:")
         linea6 = QLabel("  -  Caso 1: Agarrá 2 cartas.")
         linea7 = QLabel("  -  Caso 2: No tenés cartas en tu mazo, entonces agarrá 5 en vez de 2.")
-        linea8 = QLabel("Cuando sea tu turno <u>podés jugar cartas</u>, te recomendamos este órden:")
+        linea8 = QLabel("Cuando sea tu turno <u>podés jugar hasta 3 cartas</u>, te recomendamos este órden:")
         linea9 = QLabel("  -  A. Cartas de Dinero.")
         linea10 = QLabel("  -  B. Cartas de Propiedad.")
         linea11 = QLabel("  -  C. Cartas de Acción (<-- Solo podés jugar 1 carta de acción por turno).")
