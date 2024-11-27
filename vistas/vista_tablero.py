@@ -111,11 +111,11 @@ class Tablero(QMainWindow):
         # (2):
         turno_layout = QHBoxLayout()
 
-        turno_icon = QLabel(self)
+        self.turno_icon = QLabel(self)
         turno_pixmap = QPixmap("imagenes/ui/turn.png").scaled(50, 50, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
-        turno_icon.setPixmap(turno_pixmap)
-        turno_icon.setFixedSize(50, 50) # <-- Hace que QLabel sea del mismo tamaño para que coincida con el del QPixmap.
-        turno_layout.addWidget(turno_icon)
+        self.turno_icon.setPixmap(turno_pixmap)
+        self.turno_icon.setFixedSize(50, 50) # <-- Hace que QLabel sea del mismo tamaño para que coincida con el del QPixmap.
+        turno_layout.addWidget(self.turno_icon)
 
         self.turno_label = QLabel(f"Turno de: {self.__controlador.get_jugador_actual().nombre}", self)
         turno_layout.addWidget(self.turno_label)
@@ -695,6 +695,13 @@ class Tablero(QMainWindow):
         if self.tiempo_restante > 0:
             self.tiempo_restante -= 1
             self.timer_label.setText(f"Tiempo restante: {self.tiempo_restante}s")
+            
+            self.reloj_icon.setToolTip(f"Tiempo restante de tu turno (te quedan {self.tiempo_restante}s).")
+            self.timer_label.setToolTip(f"Tiempo restante de tu turno (te quedan {self.tiempo_restante}s).")
+            
+            self.turno_icon.setToolTip(f"Este es el turno actual ({self.__controlador.get_jugador_actual().nombre}), o sea tú.")
+            self.turno_label.setToolTip(f"Este es el turno actual ({self.__controlador.get_jugador_actual().nombre}), o sea tú.")
+            
         # Iniciar el titileo cuando queden 5, o 10, o 15, segundos. <-- (A gusto como quieran, me parece que 15 está bien)
             if self.tiempo_restante <= 15:
                 if not self.titileo_timer.isActive():
