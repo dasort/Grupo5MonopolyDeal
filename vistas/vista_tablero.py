@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QMainWindow, QLabel, QVBoxLayout, QWidget, QPushButton, QHBoxLayout, QScrollArea, QGridLayout, QSizePolicy, QFrame, QSpacerItem, QMessageBox, QDialog
 from PyQt6.QtCore import Qt, QTimer
-from PyQt6.QtGui import QPixmap, QIcon
+from PyQt6.QtGui import QPixmap, QIcon, QGuiApplication
 from datetime import datetime
 from pathlib import Path
 from functools import partial
@@ -48,18 +48,9 @@ class Tablero(QMainWindow):
         self.main_widget.setObjectName("MainWidget") # <-- Le doy el ID "MainWidget" para que funcione el CSS de abajo.
         self.setCentralWidget(self.main_widget)
         
-        # Imagen de fondo usando CSS:
-        self.main_widget.setStyleSheet("""
-            QWidget#MainWidget {
-                background-image: url("imagenes/ui/fondo_tablero_1650x820.jpg");
-                background-repeat: no-repeat;
-                background-position: center;
-            }
-            QLabel, QPushButton {
-                background: none;
-                border: none;
-            }
-        """)
+        # El fondo del tablero se va a ajustar según el tipo de pantalla que tenga el usuario:
+        self.ajustar_fondo()
+        
         # Layout principal (zona superior e inferior):
         #region Instanciación y seteo de su layout.
         self.main_layout = QVBoxLayout()
@@ -543,48 +534,79 @@ class Tablero(QMainWindow):
         return dialogo
     
     #region PEDIDO DINERO
-    def pedido_elegir_dinero(self,jugador,monto):
-        # Limpia layouts
-        self.limpiar_layout(self.cartas_layouts)
-        self.limpiar_layout(self.botones_layout)
-        # Crea un QDialog para usarlo como ventana emergente
-        dialogo = QDialog()
-        dialogo.setFixedSize(700, 400)
-        layout = QVBoxLayout(dialogo)
-        grilla  = self.cartas_
-        layout.addWidget(grilla)
-        self.cargar_cartas("dinero",jugador)
-        # Agrega un botón de cerrar
-        deuda =  QLabel(f"Deuda: {self.deuda}")
+    def seleccionar_dinero():
+            if self.carta_seleccionada:  # Verifica que haya una carta seleccionada
+                dialogo.dinero_seleccionada.append(self.carta_seleccionada)  # Añade la carta seleccionada
+                self.deuda -= int(self.carta_seleccionada.valor)  # Actualiza la deuda
+        
+                # Si la deuda es menor o igual a 0, paga la deuda al banco
+                if self.deuda <= 0:
+                    self.deuda = 0  # Se asegura de que la deuda no sea negativa
+                    jugador.pagar_banco(self.carta_seleccionada)  # Pagamos al banco
+                    self.pestaña_cartas()  # Actualiza la interfaz de cartas
+                    dialogo.accept()  # Cierra el diálogo
+                else:
+                    # Si la deuda no se ha saldado, reinicia la carta seleccionada y vuelve a mostrar el diálogo
+                    self.carta_seleccionada = None  # Reinicia la carta seleccionada
+                    if hasattr(self, 'label_dinero') and self.label_dinero is not None:
+                        self.label_dinero.deleteLater()  # Elimina la etiqueta de dinero si existe
+                        self.label_dinero = None
+                    # Llamamos nuevamente al diálogo solo si queda deuda
+                    self.pedido_elegir_dinero(jugador, self.deuda)  # Vuelve a pedir dinero si hay deuda
+        
+            else:
+                print("No se ha seleccionado ninguna carta de dinero.")  # Notificar que no se ha seleccionado una carta
+        
+        # Botón de "Agarrar" para seleccionar el dinero
         boton_agarrar = QPushButton("Agarrar")
-        boton_agarrar.clicked.connect(partial(self.seleccionar_dinero(self.carta_seleccionada,jugador)))
+        boton_agarrar.clicked.connect(seleccionar_dinero)  # Conecta el botón con la función de selección
+        
+        # Botón de cerrar sin realizar selección
         cerrar_boton = QPushButton("Cerrar")
-        cerrar_boton.clicked.connect(dialogo.accept)  # Cierra el diálogo cuando se presiona
-        layout.addWidget(cerrar_boton)
+        cerrar_boton.clicked.connect(dialogo.reject)  # Cierra el diálogo sin realizar selección
+        
+        # Añadir los botones y la etiqueta al layout
         layout.addWidget(boton_agarrar)
-        layout.addWidget(deuda)
+        layout.addWidget(cerrar_boton)
+        
         dialogo.setLayout(layout)
-        return dialogo
+        
+        # Ejecutar el diálogo
+        dialogo.exec()
+        
+        # Devolver el diálogo, ya que la lista de dinero seleccionada se maneja dentro del diálogo
+        return dialogo  # Retorna el diálogo para que se pueda manejar fuera de la función
     #endregion PEDIDO DINERO
     
     #region PEDIDO PROPIEDADES
-    def pedido_elegir_propiedades(self,propiedades,jugador):
+    def pedido_elegir_propiedades(self, propiedades, jugador):
         # Limpia layouts
         self.limpiar_layout(self.cartas_layouts)
         self.limpiar_layout(self.botones_layout)
         # Crea un QDialog para usarlo como ventana emergente
         dialogo = QDialog()
+        dialogo.propiedad_seleccionada = []
         dialogo.setFixedSize(700, 400)
         layout = QVBoxLayout(dialogo)
-        grilla  = self.cartas_
+        grilla = self.cartas_
         layout.addWidget(grilla)
-        self.cargar_cartas("propiedad",jugador)
-        # Agrega un botón de cerrar
+        self.cargar_cartas("propiedad", jugador)
+        # Agrega un botón de "agarrar propiedad"
         agarrar_propiedad = QPushButton("Agarrar Propiedad")
-        agarrar_propiedad.clicked.connect(partial(self.seleccionar_propiedad(jugador)))
+        def seleccionar_propiedad():
+            if self.carta_seleccionada:  # Verifica que haya una carta seleccionada
+                # Verifica si la propiedad ya está seleccionada para evitar duplicados
+                if self.carta_seleccionada not in dialogo.propiedad_seleccionada:
+                    dialogo.propiedad_seleccionada.append(self.carta_seleccionada)
+                else:
+                    print("Esta propiedad ya ha sido seleccionada.")  # Mensaje si ya fue seleccionada
+            else:
+                print("No se ha seleccionado ninguna carta.")  # Notificar que no hay selección
+        agarrar_propiedad.clicked.connect(seleccionar_propiedad)
         layout.addWidget(agarrar_propiedad)
+        # Botón de cerrar 
         cerrar_boton = QPushButton("Cerrar")
-        cerrar_boton.clicked.connect(dialogo.accept)  # Cierra el diálogo cuando se presiona
+        cerrar_boton.clicked.connect(dialogo.accept)  # Llamamos a accept() directamente aquí
         layout.addWidget(cerrar_boton)
         dialogo.setLayout(layout)
         return dialogo
@@ -1075,6 +1097,78 @@ class Tablero(QMainWindow):
             
             self.__controlador.volver()
     #endregion RESUMEN SALIR
+
+    def ajustar_fondo(self):
+        # Factor de escala de la pantalla principal:
+        pantalla = QGuiApplication.primaryScreen()
+        factor_escala = pantalla.devicePixelRatio()
+        
+        # Por ejemplo:
+        # 1.0 es 100%
+        # 1.25 es 125%
+
+        # Cambio el estilo según el factor de escala:
+        if factor_escala == 1.0:
+            self.main_widget.setStyleSheet("""
+                QWidget#MainWidget {
+                    background-image: url("imagenes/ui/fondo_tablero_full.jpg");
+                    background-repeat: no-repeat;
+                    background-position: center;
+                }
+                QLabel, QPushButton {
+                    background: none;
+                    border: none;
+                }
+            """)
+        else:
+            # Escala de 125% u otra:
+            self.main_widget.setStyleSheet("""
+                QWidget#MainWidget {
+                    background-image: url("imagenes/ui/fondo_tablero_1650x820.jpg");
+                    background-repeat: no-repeat;
+                    background-position: center;
+                }
+                QLabel, QPushButton {
+                    background: none;
+                    border: none;
+                }
+            """)
+
+    def ajustar_fondo(self):
+        # Factor de escala de la pantalla principal:
+        pantalla = QGuiApplication.primaryScreen()
+        factor_escala = pantalla.devicePixelRatio()
+        
+        # Por ejemplo:
+        # 1.0 es 100%
+        # 1.25 es 125%
+
+        # Cambio el estilo según el factor de escala:
+        if factor_escala == 1.0:
+            self.main_widget.setStyleSheet("""
+                QWidget#MainWidget {
+                    background-image: url("imagenes/ui/fondo_tablero_full.jpg");
+                    background-repeat: no-repeat;
+                    background-position: center;
+                }
+                QLabel, QPushButton {
+                    background: none;
+                    border: none;
+                }
+            """)
+        else:
+            # Escala de 125% u otra:
+            self.main_widget.setStyleSheet("""
+                QWidget#MainWidget {
+                    background-image: url("imagenes/ui/fondo_tablero_1650x820.jpg");
+                    background-repeat: no-repeat;
+                    background-position: center;
+                }
+                QLabel, QPushButton {
+                    background: none;
+                    border: none;
+                }
+            """)
 
     def elegir_color(self, colores):
         dialog = ElegirColorDialog(colores)
