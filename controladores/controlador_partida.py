@@ -215,7 +215,7 @@ class ControladorPartida:
         conexion.close()
     
     def terminar_partida(self):
-        self.__vista.finalizar_partida()
+        self.__vista.muestra_resumen_y_sale()
         
 ############################################################################################################################
 ########################################### Termina código para ganar la partida ###########################################

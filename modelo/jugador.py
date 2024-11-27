@@ -134,3 +134,6 @@ class Jugador:
 
     def get_valor_alquiler(self):
         return self.get_objeto_propiedad().get_valor_alquiler()
+    
+    def get_cantidad_sets_completos_jugador(self):
+        return self.get_objeto_propiedad().cantidad_de_sets_completos()

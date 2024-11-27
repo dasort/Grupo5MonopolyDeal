@@ -323,7 +323,7 @@ class Tablero(QMainWindow):
     #endregion CARGAR_CARTAS
                 
     #region AGREGAR_CARTAS
-     def agregar_cartas(self, sublista,tipo):   
+    def agregar_cartas(self, sublista,tipo):   
         grupos = QWidget()
         for index, carta in enumerate(sublista):
             label_carta = QLabel(self)
@@ -407,7 +407,7 @@ class Tablero(QMainWindow):
                 self.limpiar_layout(item.layout())
     #endregion LIMPIAR_LAYOUT
     #region SELECCIONAR Y ELEGIR 
-     
+
     def seleccionar_jugador(self, event, jugador, avatar):
         if self.layout_selecionado:  
             self.layout_selecionado.setStyleSheet("border: none;")
@@ -807,8 +807,13 @@ class Tablero(QMainWindow):
         )
         
         if respuesta == QMessageBox.StandardButton.Yes:
-
-            # Cálculo del tiempo:
+            self.muestra_resumen_y_sale()
+        else:
+            pass
+    
+    def muestra_resumen_y_sale(self):
+        
+        # Cálculo del tiempo:
             tiempo_fin = datetime.now()
             tiempo_total = tiempo_fin - self.tiempo_inicio # <-- Diferencia entre el inicio y el final.
             minutos, segundos = divmod(tiempo_total.total_seconds(), 60)
@@ -842,6 +847,5 @@ class Tablero(QMainWindow):
         )
             
             self.__controlador.volver()
-        else:
-            pass
+
     #endregion FINALIZAR_PARTIDA

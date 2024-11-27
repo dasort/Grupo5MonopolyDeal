@@ -8,7 +8,7 @@ class CartaAccion(Carta):
         self.tipo = 'dinero'
         
     def accion(self) -> None:
-        Carta.accion(self)
+        super().accion()
 
     @abstractmethod
     def es_jugable(self, lista_jugadores: list) -> bool:
