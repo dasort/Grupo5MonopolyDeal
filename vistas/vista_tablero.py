@@ -533,28 +533,48 @@ class Tablero(QMainWindow):
         return dialogo
     
     #region PEDIDO DINERO
-    def pedido_elegir_dinero(self,jugador,monto):
-        # Limpia layouts
-        self.limpiar_layout(self.cartas_layouts)
-        self.limpiar_layout(self.botones_layout)
-        # Crea un QDialog para usarlo como ventana emergente
-        dialogo = QDialog()
-        dialogo.setFixedSize(700, 400)
-        layout = QVBoxLayout(dialogo)
-        grilla  = self.cartas_
-        layout.addWidget(grilla)
-        self.cargar_cartas("dinero",jugador)
-        # Agrega un botón de cerrar
-        deuda =  QLabel(f"Deuda: {self.deuda}")
+    def seleccionar_dinero():
+            if self.carta_seleccionada:  # Verifica que haya una carta seleccionada
+                dialogo.dinero_seleccionada.append(self.carta_seleccionada)  # Añade la carta seleccionada
+                self.deuda -= int(self.carta_seleccionada.valor)  # Actualiza la deuda
+        
+                # Si la deuda es menor o igual a 0, paga la deuda al banco
+                if self.deuda <= 0:
+                    self.deuda = 0  # Se asegura de que la deuda no sea negativa
+                    jugador.pagar_banco(self.carta_seleccionada)  # Pagamos al banco
+                    self.pestaña_cartas()  # Actualiza la interfaz de cartas
+                    dialogo.accept()  # Cierra el diálogo
+                else:
+                    # Si la deuda no se ha saldado, reinicia la carta seleccionada y vuelve a mostrar el diálogo
+                    self.carta_seleccionada = None  # Reinicia la carta seleccionada
+                    if hasattr(self, 'label_dinero') and self.label_dinero is not None:
+                        self.label_dinero.deleteLater()  # Elimina la etiqueta de dinero si existe
+                        self.label_dinero = None
+                    # Llamamos nuevamente al diálogo solo si queda deuda
+                    self.pedido_elegir_dinero(jugador, self.deuda)  # Vuelve a pedir dinero si hay deuda
+        
+            else:
+                print("No se ha seleccionado ninguna carta de dinero.")  # Notificar que no se ha seleccionado una carta
+        
+        # Botón de "Agarrar" para seleccionar el dinero
         boton_agarrar = QPushButton("Agarrar")
-        boton_agarrar.clicked.connect(partial(self.seleccionar_dinero(self.carta_seleccionada,jugador)))
+        boton_agarrar.clicked.connect(seleccionar_dinero)  # Conecta el botón con la función de selección
+        
+        # Botón de cerrar sin realizar selección
         cerrar_boton = QPushButton("Cerrar")
-        cerrar_boton.clicked.connect(dialogo.accept)  # Cierra el diálogo cuando se presiona
-        layout.addWidget(cerrar_boton)
+        cerrar_boton.clicked.connect(dialogo.reject)  # Cierra el diálogo sin realizar selección
+        
+        # Añadir los botones y la etiqueta al layout
         layout.addWidget(boton_agarrar)
-        layout.addWidget(deuda)
+        layout.addWidget(cerrar_boton)
+        
         dialogo.setLayout(layout)
-        return dialogo
+        
+        # Ejecutar el diálogo
+        dialogo.exec()
+        
+        # Devolver el diálogo, ya que la lista de dinero seleccionada se maneja dentro del diálogo
+        return dialogo  # Retorna el diálogo para que se pueda manejar fuera de la función
     #endregion PEDIDO DINERO
     
     #region PEDIDO PROPIEDADES
