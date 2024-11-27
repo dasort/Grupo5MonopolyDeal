@@ -141,6 +141,7 @@ class Propiedades(Carta):
     @property
     def propiedades(self):
         return self.__propiedades
+    
     def get_grupos(self):
         return self.__cantidad_grupos
 
@@ -158,6 +159,13 @@ class Propiedades(Carta):
             return True
         return False
 
+    def hay_propiedad_color(self, color: str) -> bool:
+        cartas = self.get_cartas_propiedades()
+        colores = [carta.color for carta in cartas]
+        if color in colores:
+            return True
+        return False
+        
     __maximo_cartas_por_set = {
         "marron": 2,
         "azul": 2,

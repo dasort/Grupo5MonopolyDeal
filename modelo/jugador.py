@@ -38,6 +38,16 @@ class Jugador:
             carta.duenio = self
             self.__listas["Mano"].extend([cartas])
     
+    def calcular_valor_banco(self) -> int:
+        cartas_con_valor = []
+        banco = self.get_banco()
+        if banco:
+            cartas_con_valor.extend(banco)
+        valor_total = 0
+        for carta in cartas_con_valor:
+            valor_total += carta.valor
+        return valor_total
+
     def calcular_valor_banco_propiedades(self) -> int:
         '''Calcula el valor de las cartas en el banco y la lista de propiedades del jugador.\n
         Necesario porque un jugador no puede pagarle a otro si no tiene el valor necesario.'''
@@ -111,3 +121,16 @@ class Jugador:
         self.get_objeto_propiedad().quitar_propiedad(carta)
 
     def get_sets_completos_jugador(self):
+        self.get_objeto_propiedad().get_sets_completos()
+    
+    def get_todas_las_propiedades(self):
+        return self.get_objeto_propiedad().get_cartas_propiedades()
+    
+    def tiene_propiedades(self):
+        return self.get_objeto_propiedad().hay_propiedad()
+    
+    def tiene_propiedades_color(self, color):
+        return self.get_objeto_propiedad().hay_propiedad_color(color)
+
+    def get_valor_alquiler(self):
+        return self.get_objeto_propiedad().get_valor_alquiler()

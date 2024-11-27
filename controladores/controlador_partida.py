@@ -70,6 +70,8 @@ class ControladorPartida:
             carta.accion(datos_para_accion)
         else:
             carta.accion()
+        if carta.tipo == 'accion':
+            self.__cartas_descarte.aniade_carta(carta)
         self.__cartas_jugadas_en_turno += 1
         self.__vista.update_interfaz()
         if self.chequea_ganador():
@@ -128,7 +130,7 @@ class ControladorPartida:
     def pedido_renta(self, carta: Carta) -> list[Carta]:
         cartas_para_pago = []
         color = self.elegir_color(carta.color)
-        cantidad_a_cobrar = carta.duenio.get_objeto_propiedad().get_valor_alquiler(color)
+        cantidad_a_cobrar = carta.duenio.get_valor_alquiler(color)
         jugadores_validos = self.jugadores_validos_para_cobro(cantidad_a_cobrar)
         for jugador in jugadores_validos:
             if jugador is not carta.duenio:
