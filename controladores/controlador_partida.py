@@ -232,4 +232,4 @@ class ControladorPartida:
     
     def volver(self):
         self.__vista.close()
-        self.__main_menu()
+        self.__main_menu.get_vista().show()

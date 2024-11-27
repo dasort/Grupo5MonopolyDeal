@@ -745,14 +745,21 @@ class Tablero(QMainWindow):
             # Cálculo del resumen de la partida:
             resumen = "Resumen de la partida jugada:\n\n"
             resumen += f"Tiempo total jugado: {tiempo_formateado}\n\n"
+            
             for jugador in self.__controlador.get_jugadores():
+                propiedades = len(jugador.get_objeto_propiedad().get_cartas_propiedades())
+                dinero_final = jugador.calcular_valor_banco_propiedades()
+
+                acciones_usadas = len(jugador.get_mano()) # <-- Ejemplo (falta implementar).
+                
                 resumen += (
-                    f"Jugador: {jugador['nombre']}\n"
-                    f"Dinero final: $Son pobres\n"
-                    f"Propiedades adquiridas: {len(jugador.get('propiedades', []))}\n"
-                    f"Cartas de acción usadas: {len(jugador.get('acciones', []))}\n\n"
+                    f"Jugador: {jugador.nombre}\n"
+                    f"Dinero final: ${dinero_final}\n"
+                    f"Propiedades adquiridas: {propiedades}\n"
+                    f"Cartas de acción usadas: {acciones_usadas}\n\n"
                 )
-            resumen += "Muchas gracias por jugar!"
+            
+            resumen += "¡Muchas gracias por jugar!"
             
             # Mostrar el cuadro con la información de la partida:
             QMessageBox.information(
@@ -762,7 +769,7 @@ class Tablero(QMainWindow):
                 QMessageBox.StandardButton.Ok
         )
             
-            self.__controlador.volver_al_menu_principal()
+            self.__controlador.volver()
         else:
             pass
     #endregion FINALIZAR_PARTIDA
