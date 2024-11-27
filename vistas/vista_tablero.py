@@ -765,6 +765,11 @@ class Tablero(QMainWindow):
                 
         return evento
     #endregion EVENTO_CLICK_CARTA
+    
+    #region CARTA_NO_JUGABLE
+    def carta_no_es_jugable(self):
+        QMessageBox.warning(self, "Carta No Jugable", "Esta carta no se puede jugar en este momento.", QMessageBox.StandardButton.Ok)
+    #endregion CARTA_NO_JUGABLE
 
     #region TITILAR_RELOJ
     def titilar_reloj(self):
