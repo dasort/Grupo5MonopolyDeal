@@ -22,8 +22,8 @@ class ControladorOpciones:
     
     def alternar_volumen(self):
         if self.obtener_volumen() >= 50:
-            self.__vista.cambiar_icono("apagado")
+            self.__vista.alternar_icono("apagado")
             self.cambiar_volumen(0)
         else:
-            self.__vista.cambiar_icono("alto")
+            self.__vista.alternar_icono("alto")
             self.cambiar_volumen(100)

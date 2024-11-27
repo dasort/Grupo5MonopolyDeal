@@ -11,7 +11,7 @@ class Opciones(QDialog):
         self.__controlador = controlador
         
         self.setWindowTitle("Opciones")
-        self.setGeometry(570, 240, 400, 415)
+        self.setGeometry(570, 240, 400, 428)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
 
         # Layouts:
@@ -89,7 +89,7 @@ class Opciones(QDialog):
         self.layout_boton = QHBoxLayout(self.boton)
 
         self.icono_label = QLabel(self)
-        pixmap = self.obtener_pixmap_volumen()
+        pixmap = self.obtener_pixmap_inicial_volumen()
         self.icono_label.setPixmap(pixmap)
         self.icono_label.setFixedSize(30, 30)
         self.layout_boton.addWidget(self.icono_label)
@@ -171,7 +171,7 @@ class Opciones(QDialog):
             pixmap = QPixmap("imagenes/ui/volumen_apagado.png").scaled(25, 25)
         self.icono_label.setPixmap(pixmap)
     
-    def obtener_pixmap_volumen(self):
+    def obtener_pixmap_inicial_volumen(self):
         volumen = self.__controlador.obtener_volumen()
         if volumen >= 50:
             pixmap = QPixmap("imagenes/ui/volumen_alto.png").scaled(25, 25)
@@ -181,7 +181,7 @@ class Opciones(QDialog):
             pixmap = QPixmap("imagenes/ui/volumen_apagado.png").scaled(25, 25)
         return pixmap
     
-    def cambiar_icono(self, estado):
+    def alternar_icono(self, estado):
         if estado == "apagado":
             pixmap = QPixmap("imagenes/ui/volumen_apagado.png").scaled(25, 25)
             self.slider_volumen.setValue(0)
