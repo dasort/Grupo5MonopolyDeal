@@ -407,8 +407,8 @@ class Tablero(QMainWindow):
             elif item.layout():
                 self.limpiar_layout(item.layout())
     #endregion LIMPIAR_LAYOUT
-    #region SELECCIONAR Y ELEGIR 
-
+    
+    #region SELECCIONAR Y ELEGIR
     def seleccionar_jugador(self, event, jugador, avatar):
         if self.layout_selecionado:  
             self.layout_selecionado.setStyleSheet("border: none;")
@@ -416,6 +416,7 @@ class Tablero(QMainWindow):
         # Guarda el jugador seleccionado
         self.jugador_seleccionado = jugador
         self.layout_selecionado = avatar
+
     def seleccionar_dinero(self, dinero,jugador):
         self.dinero_selecionado.append(dinero)
         self.deuda -= dinero.valor
@@ -430,6 +431,7 @@ class Tablero(QMainWindow):
                 self.label_dinero.deleteLater()
                 self.label_dinero = None
             self.elejir_dinero(jugador,self.deuda)
+    
     def elejir_dinero(self, jugador, monto):
         self.deuda = monto
         self.limpiar_layout(self.botones_layout)
@@ -440,6 +442,7 @@ class Tablero(QMainWindow):
         elejir_dinero_button = QPushButton("Cobrar")
         elejir_dinero_button.clicked.connect(lambda: self.seleccionar_dinero(self.carta_seleccionada, jugador))
         self.botones_layout.addWidget(elejir_dinero_button)
+    
     def elejir_jugador(self, jugadores_totales, jugador_actual):
         # Quita al jugador que esta eligiendo de la lista
         jugadores = [jugador for jugador in jugadores_totales if jugador != jugador_actual]
@@ -462,6 +465,8 @@ class Tablero(QMainWindow):
             self.cartas_layouts.addLayout(perfil, 0, index)
             # Asignar el evento al avatar (cuidado con el uso de lambda)
             avatar.mousePressEvent = lambda event, jugador=jugador, avatar=avatar: self.seleccionar_jugador(event, jugador, avatar)
+    #endregion SELECCIONAR Y ELEGIR
+    
     #region UPDATE_INTERFAZ
     def update_interfaz(self):
         self.pestaña_cartas()
@@ -469,6 +474,7 @@ class Tablero(QMainWindow):
         self.mostrar_mano_jugador()
         self.repaint()
     #endregion UPDATE_INTERFAZ
+    
     #region NUEVOS ELEGIR Y SELECCIONAR
     #region UPDATE_LABEL_DINERO
     def actualizar_dinero_jugadores(self):
