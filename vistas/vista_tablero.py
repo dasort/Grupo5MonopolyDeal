@@ -25,6 +25,7 @@ class Tablero(QMainWindow):
         self.label_dinero = None
         self.deuda = 0
         self.labels_dinero = []
+        self.labels_conjuntos_completos = []
         # Registro del tiempo de inicio de la partida:
         self.tiempo_inicio = datetime.now()
         
@@ -477,6 +478,13 @@ class Tablero(QMainWindow):
             self.labels_dinero[i].setText(f"Dinero: ${jugador.calcular_valor_banco()}")
     #endregion UPDATE_LABEL_DINERO
     
+    #region UPDATE_LABEL_CONJUNTOS
+    def actualizar_conjuntos_jugadores(self):
+        jugadores = self.__controlador.get_jugadores()
+        for i, jugador in enumerate(jugadores):
+            self.labels_conjuntos_completos[i].setText(f"SCs: {jugador.get_cantidad_sets_completos_jugador()}")
+    #endregion UPDATE_LABEL_CONJUNTOS
+    
     #region PESTAÑA_CARTAS
     def pestaña_cartas(self):
         self.limpiar_layout(self.botones_layout)
@@ -497,6 +505,7 @@ class Tablero(QMainWindow):
         """Muestra la información de los jugadores."""
         self.limpiar_layout(self.zona_superior_izquierda_layout)
         self.labels_dinero.clear()
+        self.labels_conjuntos_completos.clear()
         for jugador in jugadores:
             jugador_layout = QHBoxLayout()      # <--   (Perfil) | (Propiedades) | (Banco)
             propiedades_layout = QGridLayout()
@@ -526,6 +535,7 @@ class Tablero(QMainWindow):
                 print(f"Error! No se pudo cargar este avatar: {jugador.avatar}")
             avatar_label = QLabel(self)
             avatar_label.setPixmap(avatar)
+            avatar_label.setToolTip(f'Este es el avatar del jugador "{jugador.nombre}".')
 
             # Configuración para escalar el avatar adentro del espacio disponible:
             avatar_label.setScaledContents(True)   # <-- (Muy opcional) Permite que la imagen se escale dentro del QLabel.
@@ -544,6 +554,7 @@ class Tablero(QMainWindow):
 
             # Nombre:
             nombre_label = QLabel(f"{jugador.nombre}")
+            nombre_label.setFixedSize(100, 33)
             nombre_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
             nombre_label.setStyleSheet("""
                 font-size: 14px; 
@@ -554,12 +565,14 @@ class Tablero(QMainWindow):
                 border-radius: 5px;
             """)
             texto_layout.addWidget(nombre_label)
+            nombre_label.setToolTip(f'"{jugador.nombre}" es uno de los jugadores de esta partida.')
 
             # Dinero:
             dinero_label = QLabel(f"Actualizando...")
+            dinero_label.setFixedSize(100, 33)
             dinero_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
             dinero_label.setStyleSheet("""
-                font-size: 14px;
+                font-size: 13px;
                 font-weight: bold;
                 color: white;
                 background-color: rgba(46, 21, 8, 0.7);
@@ -568,11 +581,13 @@ class Tablero(QMainWindow):
             """)
             texto_layout.addWidget(dinero_label)
             self.labels_dinero.append(dinero_label)
+            dinero_label.setToolTip(f'Este es el dinero del jugador "{jugador.nombre}".')
             
-            # Dinero:
-            grupos_label = QLabel(f"No tiene aún")
-            grupos_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
-            grupos_label.setStyleSheet("""
+            # Conjuntos completos:
+            scs_label = QLabel(f"Actualizando...")
+            scs_label.setFixedSize(100, 33)
+            scs_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
+            scs_label.setStyleSheet("""
                 font-size: 14px;
                 font-weight: bold;
                 color: white;
@@ -580,10 +595,12 @@ class Tablero(QMainWindow):
                 padding: 5px;
                 border-radius: 5px;
             """)
-            texto_layout.addWidget(grupos_label)
+            texto_layout.addWidget(scs_label)
+            self.labels_conjuntos_completos.append(scs_label)
+            scs_label.setToolTip(f'Estos son los Sets Completos del jugador "{jugador.nombre}".')
+            
             # Agregar el layout del texto al perfil:
             perfil_layout.addLayout(texto_layout)
-            dinero_label.setFixedSize(100, 50)
 
             # Agregar el contenedor al layout del jugador:
             jugador_layout.addWidget(perfil_contenedor)
@@ -650,6 +667,7 @@ class Tablero(QMainWindow):
                     pixmap = QPixmap(carta.path_a_imagen)#.scaled(23, 40, Qt.AspectRatioMode.KeepAspectRatio)
                     #carta.mostrar_carta()
                     carta_label.setPixmap(pixmap)
+                    carta_label.setToolTip(carta.nombre)
                     grid_layout.addWidget(carta_label, fila, columna)
                 else:
                     
@@ -661,6 +679,7 @@ class Tablero(QMainWindow):
                     placeholder.setMinimumSize(35, 60)  # Puedes ajustar el tamaño mínimo según el diseño
                     placeholder.setMaximumSize(35, 65)
                     placeholder.setStyleSheet("background-color: transparent; border: 1px solid gray;")
+                    placeholder.setToolTip("No hay carta aquí.")
                     grid_layout.addWidget(placeholder, fila, columna)
         else:
             
@@ -677,6 +696,7 @@ class Tablero(QMainWindow):
                     carta_label.setMaximumSize(35, 65)
                     pixmap = QPixmap(carta.path_a_imagen) #.scaled(23, 40, Qt.AspectRatioMode.KeepAspectRatio)
                     carta_label.setPixmap(pixmap)
+                    carta_label.setToolTip(carta.nombre)
                     grid_layout.addWidget(carta_label, fila, columna)
                 else:
                     # Si no hay carta, agrega un QLabel vacío como placeholder:
@@ -686,6 +706,7 @@ class Tablero(QMainWindow):
                     placeholder.setMinimumSize(35, 60)  # Puedes ajustar el tamaño mínimo según el diseño
                     placeholder.setMaximumSize(35, 65)
                     placeholder.setStyleSheet("background-color: transparent; border: 1px solid gray;")
+                    placeholder.setToolTip("No hay carta aquí.")
                     grid_layout.addWidget(placeholder, fila, columna)
     #endregion MOSTRAR_CARTAS_EN_CUADRICULA
 
@@ -753,6 +774,11 @@ class Tablero(QMainWindow):
                 
         return evento
     #endregion EVENTO_CLICK_CARTA
+    
+    #region CARTA_NO_JUGABLE
+    def carta_no_es_jugable(self):
+        QMessageBox.warning(self, "Carta No Jugable", "Esta carta no se puede jugar en este momento.", QMessageBox.StandardButton.Ok)
+    #endregion CARTA_NO_JUGABLE
 
     #region TITILAR_RELOJ
     def titilar_reloj(self):
@@ -774,10 +800,11 @@ class Tablero(QMainWindow):
             self.reloj_icon.setToolTip(f"Tiempo restante de tu turno (te quedan {self.tiempo_restante}s).")
             self.timer_label.setToolTip(f"Tiempo restante de tu turno (te quedan {self.tiempo_restante}s).")
             
-            self.turno_icon.setToolTip(f"Este es el turno actual ({self.__controlador.get_jugador_actual().nombre}), o sea tú.")
-            self.turno_label.setToolTip(f"Este es el turno actual ({self.__controlador.get_jugador_actual().nombre}), o sea tú.")
+            self.turno_icon.setToolTip(f'Este es el turno actual (el de "{self.__controlador.get_jugador_actual().nombre}", o sea tú).')
+            self.turno_label.setToolTip(f'Este es el turno actual (el de "{self.__controlador.get_jugador_actual().nombre}", o sea tú).')
             
             self.actualizar_dinero_jugadores()
+            self.actualizar_conjuntos_jugadores()
             
         # Iniciar el titileo cuando queden 5, o 10, o 15, segundos. <-- (A gusto como quieran, me parece que 15 está bien)
             if self.tiempo_restante <= 15:
@@ -822,9 +849,10 @@ class Tablero(QMainWindow):
             self.muestra_resumen_y_sale()
         else:
             pass
+    #endregion FINALIZAR_PARTIDA
     
+    #region RESUMEN SALIR
     def muestra_resumen_y_sale(self):
-        
         # Cálculo del tiempo:
             tiempo_fin = datetime.now()
             tiempo_total = tiempo_fin - self.tiempo_inicio # <-- Diferencia entre el inicio y el final.
@@ -859,5 +887,4 @@ class Tablero(QMainWindow):
         )
             
             self.__controlador.volver()
-
-    #endregion FINALIZAR_PARTIDA
+    #endregion RESUMEN SALIR
