@@ -1,3 +1,5 @@
+from vistas.vista_estadisticas import Estadisticas
+
 class ControladorEstadisticas:
     def __init__(self, main_menu):
         self.__main_menu = main_menu

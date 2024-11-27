@@ -1,26 +1,29 @@
 from vistas.vista_iniciar_sesion import IniciarSesion
 from controladores.controlador_crear_cuenta import Controlador_crear_cuenta
+from controladores.controlador_estadisticas import ControladorEstadisticas
 from modelo.base_de_datos.jugador_dao.hash_contrasenia import compara_contrasenia
 from modelo.jugador import Jugador
 from modelo.base_de_datos.jugador_dao.jugador_dao_impl import JugadorDAOImpl
 from modelo.base_de_datos.conexion.monopoly_db import Database
 
-
 class Controlador_iniciar_sesion:
-    def __init__(self, jugador: Jugador, jugadores: list[Jugador], main_menu, crear_partida = None):
+    def __init__(self, jugador: Jugador = None, jugadores: list[Jugador] = None, main_menu = None, crear_partida = None):
         self.__jugador = jugador
         self.__jugadores = jugadores
         self.__main_menu = main_menu
         self.__crear_partida = crear_partida
-        self.__vista = IniciarSesion(self)  
-        self.__vista.show()
+        self.__vista = None
     
     def get_vista(self):
         return self.__vista
+    
+    def inicializar_vista(self): 
+        self.__vista = IniciarSesion(self) 
+        self.__vista.show()
 
     def volver(self):
         self.__vista.hide()
-        self.__main_menu.get_vista.show()
+        self.__main_menu.get_vista().show()
 
     def abrir_crear_partida(self):
         self.__vista.hide()
@@ -31,26 +34,30 @@ class Controlador_iniciar_sesion:
         var = Controlador_crear_cuenta(self.__main_menu)
         
     def iniciar_sesion(self):
-        usuario = self.__vista.username_input.text()
-        contrasenia = self.__vista.password_input.text()
-        
-        if not usuario or not contrasenia:
-            self.__vista.show_error_dialog('Tiene que llenar los dos campos para iniciar sesión.')
-        else:
-            conn = JugadorDAOImpl(Database().conexion())
-            if self.check_ya_registrado(usuario):
-                self.__vista.show_ya_ingresado_dialog()
+        if self.__vista:
+            usuario = self.__vista.username_input.text()
+            contrasenia = self.__vista.password_input.text()
+            
+            if not usuario or not contrasenia:
+                self.__vista.show_error_dialog('Tiene que llenar los dos campos para iniciar sesión.')
             else:
-                jugador_en_base = conn.obtener_jugador(usuario)
-                if jugador_en_base is not None:
-                    if compara_contrasenia(contrasenia, jugador_en_base.get_contrasenia(), jugador_en_base.get_salt()):
-                        self.__jugador.datos_bdd = jugador_en_base
-                        self.__vista.show_info_dialog("Inicio de sesión exitoso.")
-                    else:
-                        self.__vista.show_error_dialog("Contraseña incorrecta.")
+                conn = JugadorDAOImpl(Database().conexion())
+                if self.check_ya_registrado(usuario):
+                    self.__vista.show_ya_ingresado_dialog()
                 else:
-                    self.__vista.show_error_dialog("Usuario no encontrado.")
-            conn.terminar_conexión()
+                    jugador_en_base = conn.obtener_jugador(usuario)
+                    if jugador_en_base is not None:
+                        if compara_contrasenia(contrasenia, jugador_en_base.get_contrasenia(), jugador_en_base.get_salt()):
+                            self.__jugador.datos_bdd = jugador_en_base
+                            self.__vista.show_info_dialog("Inicio de sesión exitoso.")
+                            self.__vista.hide()
+                            controlador_estadisticas = ControladorEstadisticas(self.__main_menu, jugador_en_base)
+                            controlador_estadisticas.mostrar_vista()
+                        else:
+                            self.__vista.show_error_dialog("Contraseña incorrecta.")
+                    else:
+                        self.__vista.show_error_dialog("Usuario no encontrado.")
+                conn.terminar_conexión()
     
     def check_ya_registrado(self, usuario) -> bool:
         for jugador in self.__jugadores:
