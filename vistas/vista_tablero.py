@@ -482,7 +482,7 @@ class Tablero(QMainWindow):
     def actualizar_conjuntos_jugadores(self):
         jugadores = self.__controlador.get_jugadores()
         for i, jugador in enumerate(jugadores):
-            self.labels_conjuntos_completos[i].setText(f"CCs: {jugador.get_cantidad_sets_completos_jugador()}")
+            self.labels_conjuntos_completos[i].setText(f"SCs: {jugador.get_cantidad_sets_completos_jugador()}")
     #endregion UPDATE_LABEL_CONJUNTOS
     
     #region PESTAÑA_CARTAS
@@ -535,6 +535,7 @@ class Tablero(QMainWindow):
                 print(f"Error! No se pudo cargar este avatar: {jugador.avatar}")
             avatar_label = QLabel(self)
             avatar_label.setPixmap(avatar)
+            avatar_label.setToolTip(f'Este es el avatar del jugador "{jugador.nombre}".')
 
             # Configuración para escalar el avatar adentro del espacio disponible:
             avatar_label.setScaledContents(True)   # <-- (Muy opcional) Permite que la imagen se escale dentro del QLabel.
@@ -553,6 +554,7 @@ class Tablero(QMainWindow):
 
             # Nombre:
             nombre_label = QLabel(f"{jugador.nombre}")
+            nombre_label.setFixedSize(100, 33)
             nombre_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
             nombre_label.setStyleSheet("""
                 font-size: 14px; 
@@ -563,12 +565,14 @@ class Tablero(QMainWindow):
                 border-radius: 5px;
             """)
             texto_layout.addWidget(nombre_label)
+            nombre_label.setToolTip(f'"{jugador.nombre}" es uno de los jugadores de esta partida.')
 
             # Dinero:
             dinero_label = QLabel(f"Actualizando...")
+            dinero_label.setFixedSize(100, 33)
             dinero_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
             dinero_label.setStyleSheet("""
-                font-size: 14px;
+                font-size: 13px;
                 font-weight: bold;
                 color: white;
                 background-color: rgba(46, 21, 8, 0.7);
@@ -577,11 +581,13 @@ class Tablero(QMainWindow):
             """)
             texto_layout.addWidget(dinero_label)
             self.labels_dinero.append(dinero_label)
+            dinero_label.setToolTip(f'Este es el dinero del jugador "{jugador.nombre}".')
             
             # Conjuntos completos:
-            grupos_label = QLabel(f"Actualizando...")
-            grupos_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
-            grupos_label.setStyleSheet("""
+            scs_label = QLabel(f"Actualizando...")
+            scs_label.setFixedSize(100, 33)
+            scs_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
+            scs_label.setStyleSheet("""
                 font-size: 14px;
                 font-weight: bold;
                 color: white;
@@ -589,13 +595,12 @@ class Tablero(QMainWindow):
                 padding: 5px;
                 border-radius: 5px;
             """)
-            texto_layout.addWidget(grupos_label)
-            self.labels_conjuntos_completos.append(grupos_label)
-            grupos_label.setToolTip(f'Estos son los Conjuntos Completos del jugador "{jugador.nombre}".')
+            texto_layout.addWidget(scs_label)
+            self.labels_conjuntos_completos.append(scs_label)
+            scs_label.setToolTip(f'Estos son los Sets Completos del jugador "{jugador.nombre}".')
             
             # Agregar el layout del texto al perfil:
             perfil_layout.addLayout(texto_layout)
-            dinero_label.setFixedSize(100, 50)
 
             # Agregar el contenedor al layout del jugador:
             jugador_layout.addWidget(perfil_contenedor)
@@ -791,8 +796,8 @@ class Tablero(QMainWindow):
             self.reloj_icon.setToolTip(f"Tiempo restante de tu turno (te quedan {self.tiempo_restante}s).")
             self.timer_label.setToolTip(f"Tiempo restante de tu turno (te quedan {self.tiempo_restante}s).")
             
-            self.turno_icon.setToolTip(f"Este es el turno actual ({self.__controlador.get_jugador_actual().nombre}), o sea tú.")
-            self.turno_label.setToolTip(f"Este es el turno actual ({self.__controlador.get_jugador_actual().nombre}), o sea tú.")
+            self.turno_icon.setToolTip(f'Este es el turno actual (el de "{self.__controlador.get_jugador_actual().nombre}", o sea tú).')
+            self.turno_label.setToolTip(f'Este es el turno actual (el de "{self.__controlador.get_jugador_actual().nombre}", o sea tú).')
             
             self.actualizar_dinero_jugadores()
             self.actualizar_conjuntos_jugadores()
