@@ -659,14 +659,13 @@ class Tablero(QMainWindow):
                     self.titileo_timer.start(500)     # <-- Esto cambia la imagen cada 500 ms.
         else:
             self.titileo_timer.stop() # <-- Detiene el titileo cuando el tiempo termine.
-            self.finalizar_turno()
+            self.__controlador.terminar_turno()
 
     def finalizar_turno(self):
         """
         Finaliza el turno y pasa al siguiente jugador.
         Acá va la lógica que se maneja cuando finaliza el tiempo.
         """
-        self.jugadores[self.turno_actual].todas_propiedades
         pro2 = self.__controlador.get_jugador_actual().get_propiedades
         self.turno_actual = (self.turno_actual + 1) % len(self.__controlador.get_jugadores())
         self.turno_label.setText(f"Turno de: {self.__controlador.get_jugador_actual().nombre}")

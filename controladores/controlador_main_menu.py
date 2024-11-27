@@ -29,7 +29,7 @@ class ControladorMainMenu:
     def mostrar_crear_partida(self):
         self.sonido_click()
         self.__vista.hide()
-        ControladorCrearPartida(ControladorMainMenu)    
+        ControladorCrearPartida(self)    
 
     # Botón opciones:
     def mostrar_opciones(self):
@@ -41,7 +41,7 @@ class ControladorMainMenu:
     def mostrar_como_juego(self):
         self.sonido_click()
         self.__vista.hide()
-        ControladorComoJuego(ControladorMainMenu)
+        ControladorComoJuego(self)
     
     # Botón estadísticas:
     def mostrar_estadisticas_inicio_sesion(self):

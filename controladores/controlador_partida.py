@@ -228,7 +228,7 @@ class ControladorPartida:
             self.dar_dos_cartas()
         elif tamanio_mano == 6:
             self.tomar_carta_mazo(self.__jugador_actual)
-        self.__vista.mostrar_mano_jugador()
+        self.__vista.update_interfaz()
     
     def volver(self):
         self.__vista.close()

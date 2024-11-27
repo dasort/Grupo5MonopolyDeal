@@ -17,10 +17,10 @@ class Controlador_iniciar_sesion:
     
     def get_vista(self):
         return self.__vista
-        
+
     def volver(self):
         self.__vista.hide()
-        var = self.__main_menu()
+        self.__main_menu.get_vista.show()
 
     def abrir_crear_partida(self):
         self.__vista.hide()

@@ -4,7 +4,7 @@ from modelo.cartas.accion.carta_accion import CartaAccion
 class PasaPorLaSalida(CartaAccion):
     
     def informacion_para_accion(self) -> str | None:
-        return 'mazo'
+        return 'PasaPorLaSalida'
 
     def accion(self, info) -> None:
         if self.tipo == 'dinero':
@@ -18,11 +18,11 @@ class PasaPorLaSalida(CartaAccion):
                     cartas = mazo.dar_cartas(2)
                 for carta in cartas:
                     carta.duenio = self.duenio
-                self.duenio.agregar_a_mano(cartas)
+                self.duenio.tomar_carta(cartas)
+                self.duenio.sacar_de_mano(self)
                 self.duenio = None
             else:
                 raise ValueError('Error ejecutando la acción de PassaPorLaSalida.')
-        super().accion()
 
     def es_jugable(self, jugadores: list) -> bool:
         mano = self.duenio.get_mano()

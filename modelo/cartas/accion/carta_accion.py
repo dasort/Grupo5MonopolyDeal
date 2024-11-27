@@ -9,7 +9,12 @@ class CartaAccion(CartaDinero, Carta):
         self.tipo = 'dinero'
         
     def accion(self) -> None:
-        super().accion()
+        if self.tipo == 'dinero':
+            super(CartaDinero, self).accion()
+        elif self.tipo == 'accion':
+            Carta.accion(self)
+        else:
+            raise TypeError('Error de tipo en CartaAccion.')
 
     @abstractmethod
     def es_jugable(self, lista_jugadores: list) -> bool:

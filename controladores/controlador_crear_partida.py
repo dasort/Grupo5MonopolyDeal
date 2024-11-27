@@ -12,7 +12,7 @@ class ControladorCrearPartida:
 
     def volver(self):
         self.__vista.hide()
-        var = self.__main_menu()
+        self.__main_menu.get_vista().show()
 
     def abre_iniciar_sesion(self, jugador, jugadores):
         self.__vista.hide()
