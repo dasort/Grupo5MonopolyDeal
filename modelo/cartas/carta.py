@@ -10,7 +10,7 @@ class Carta(ABC):
         self._valor = valor
         self._path_a_imagen = path_a_imagen
         self._path_a_queHace = path_a_queHace
-        self._duenio: Jugador = None
+        self._duenio = None
 
     @property
     def id(self) -> int:
@@ -80,9 +80,14 @@ class Carta(ABC):
         En caso de que la carta no tenga una acción asociada (ej. cartas de propiedad comunes o cartas de dinero) devuelve None.'''
         return None
 
+    @abstractmethod
     def accion(self) -> None:
         '''Ejecuta la acción que le corresponde a la carta.'''
         self.duenio.sacar_de_mano(self)
+    
+    @abstractmethod
+    def es_jugable(self, lista_jugadores):
+        pass
     
     def mostrar_carta(self) -> None:
         '''Representación de la carta como cadena.'''

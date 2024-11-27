@@ -7,16 +7,13 @@ class NegocioFurtivo(CartaAccion):
         return 'NegocioFurtivo'
     
     def accion(self, info) -> None:
-        if self.tipo == 'dinero':
+        if info[0]:
+            propiedad = info[0]
             super().accion()
-        else:
-            if info[0]:
-                propiedad = info[0]
-                super().accion()
-                propiedad.duenio.get_objeto_propiedad().quitar_propiedad(propiedad)
-                propiedad.duenio = self.duenio
-                self.duenio.agregar_a_propiedades(propiedad)
-                self.duenio = None
+            propiedad.duenio.sacar_de_propiedades(propiedad)
+            propiedad.duenio = self.duenio
+            self.duenio.agregar_a_propiedades(propiedad)
+            self.duenio = None
     
     def es_jugable(self, lista_jugadores: list) -> bool:
         for jugador in lista_jugadores:

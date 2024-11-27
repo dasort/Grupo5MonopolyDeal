@@ -64,21 +64,24 @@ class ControladorPartida:
 
     def jugar_carta(self, carta: Carta) -> None:
         # Verificar si la carta puede ser jugada
-        pedido = carta.informacion_para_accion()
-        if pedido is not None:
-            datos_para_accion = self.procesa_pedido(pedido, carta)
-            carta.accion(datos_para_accion)
+        if carta.es_jugable():
+            pedido = carta.informacion_para_accion()
+            if pedido is not None:
+                datos_para_accion = self.procesa_pedido(pedido, carta)
+                carta.accion(datos_para_accion)
+            else:
+                carta.accion()
+            if carta.tipo == 'accion':
+                self.__cartas_descarte.aniade_carta(carta)
+            self.__cartas_jugadas_en_turno += 1
+            self.__vista.update_interfaz()
+            if self.chequea_ganador():
+                self.registrar_partida()
+                self.terminar_partida()
+            if self.__cartas_jugadas_en_turno == 3:
+                self.terminar_turno()
         else:
-            carta.accion()
-        if carta.tipo == 'accion':
-            self.__cartas_descarte.aniade_carta(carta)
-        self.__cartas_jugadas_en_turno += 1
-        self.__vista.update_interfaz()
-        if self.chequea_ganador():
-            self.registrar_partida()
-            self.terminar_partida()
-        if self.__cartas_jugadas_en_turno == 3:
-            self.terminar_turno()
+            self.__vista.carta_no_es_jugable()
     
     def procesa_pedido(self, pedido, carta: Carta) -> list:
         if pedido == 'EsMiCumpleaños':
@@ -104,14 +107,13 @@ class ControladorPartida:
         cartas_para_pago = []
         jugadores_validos = self.jugadores_validos_para_cobro(2)
         for jugador in jugadores_validos:
-            if jugador is not carta.duenio:
-                cartas_para_pago.extend(self.elegir_dinero(jugador, 2))
+            cartas_para_pago.extend(self.elegir_dinero(jugador, 2))
         return cartas_para_pago
     
     def pedido_cobrador_de_deuda(self, carta: Carta) -> list[Carta]:
         cartas_para_pago = []
         jugadores_validos = self.jugadores_validos_para_cobro(5)
-        jugador_seleccionado = self.elegir_jugador(carta.duenio, jugadores_validos)
+        jugador_seleccionado = self.elegir_jugador(jugadores_validos)
         cartas_para_pago = self.elegir_dinero(jugador_seleccionado, 5)
         return cartas_para_pago
     
@@ -130,7 +132,7 @@ class ControladorPartida:
     def pedido_renta(self, carta: Carta) -> list[Carta]:
         cartas_para_pago = []
         color = self.elegir_color(carta.color)
-        cantidad_a_cobrar = carta.duenio.get_valor_alquiler(color)
+        cantidad_a_cobrar = carta.duenio.get_valor_alquiler_color(color)
         jugadores_validos = self.jugadores_validos_para_cobro(cantidad_a_cobrar)
         for jugador in jugadores_validos:
             if jugador is not carta.duenio:
@@ -140,31 +142,26 @@ class ControladorPartida:
     def pedido_renta_multicolor(self, carta: Carta) -> list[Carta]:
         cartas_para_pago = []
         color = self.elegir_color(carta.color)
-        cantidad_a_cobrar = carta.duenio.get_objeto_propiedad().get_valor_alquiler(color)
+        cantidad_a_cobrar = carta.duenio.get_valor_alquiler_color(color)
         jugadores_validos = self.jugadores_validos_para_cobro(cantidad_a_cobrar)
         jugador_elegido = self.elegir_jugador(carta.duenio, jugadores_validos)
         cartas_para_pago.extend(self.elegir_dinero(jugador_elegido, cantidad_a_cobrar))
         return cartas_para_pago
     
     def jugadores_validos_para_cobro(self, valor_minimo: int):
-        return [jugador for jugador in self.jugadores_sin_actual() if jugador.calcular_valor_banco_propiedades() > valor_minimo]
+        return [jugador for jugador in self.jugadores_sin_actual() if jugador.calcular_valor_banco() > valor_minimo]
 
-    def elegir_jugador(self, jugador_excluido: Jugador, jugadores_validos: list[Jugador]) -> Jugador:
-        jugadores = []
-        for jugador in jugadores_validos:
-            if jugador is not jugador_excluido:
-                jugadores.append(jugador)
-        dialogo = self.__vista.dialog_pedir_jugador(jugadores)
-        dialogo.exec()
-        return dialogo.jugador_seleccionado
+    def elegir_jugador(self, jugadores_validos: list[Jugador]) -> Jugador:
+        jugador = self.__vista.elejir_jugador(jugadores_validos)
+        return jugador # tiene que salir un solo jugador de la vista
 
     def elegir_dinero(self, jugador_seleccionado: Jugador, dinero_necesario: int) -> list[Carta]:
-        dialogo = self.__vista.dialog_pedir_dinero(jugador_seleccionado.get_banco(), dinero_necesario)
+        dialogo = self.__vista.elejir_dinero(jugador_seleccionado.get_banco(), dinero_necesario)
         dialogo.exec()
         return dialogo.cartas_seleccionadas
 
     def elegir_propiedad(self, jugador: Jugador):
-        propiedades = jugador.get_objeto_propiedad().get_cartas_propiedades()
+        propiedades = jugador.get_todas_las_propiedades()
         dialogo = self.__vista.dialog_pedir_propiedad(propiedades)
         dialogo.exec()
         return dialogo.propiedad_seleccionada

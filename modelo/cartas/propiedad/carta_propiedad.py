@@ -18,3 +18,6 @@ class CartaPropiedad(Carta):
     def accion(self) -> None:
         self.duenio.agregar_a_propiedades(self)
         super().accion()
+
+    def es_jugable(self, lista_jugadores):
+        return True

@@ -20,4 +20,8 @@ class RobaNegocios(CartaAccion):
             self.duenio = None
 
     def es_jugable(self, lista_jugadores: list) -> bool:
+        for jugador in lista_jugadores:
+            if jugador != self.duenio:
+                if jugador.get_cantidad_sets_completos_jugador > 0:
+                    return True
         return False

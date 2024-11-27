@@ -132,8 +132,8 @@ class Jugador:
     def tiene_propiedades_color(self, color):
         return self.get_objeto_propiedad().hay_propiedad_color(color)
 
-    def get_valor_alquiler(self):
-        return self.get_objeto_propiedad().get_valor_alquiler()
+    def get_valor_alquiler_color(self, color):
+        return self.get_objeto_propiedad().get_valor_alquiler(color)
     
     def get_cantidad_sets_completos_jugador(self):
         return self.get_objeto_propiedad().cantidad_de_sets_completos()
