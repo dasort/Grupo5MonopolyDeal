@@ -491,22 +491,20 @@ class Tablero(QMainWindow):
         dialogo = QDialog()
         dialogo.setWindowTitle("Elegir Jugador")
         dialogo.setFixedSize(400, 300) 
+        dialogo.jugador_seleccionado = None
+        dialogo.avatar_seleccionado = None
         # Layout principal
         layout_V = QVBoxLayout(dialogo)
-
         # Mensaje
         mensaje = QLabel("Seleccione un jugador:")
         layout_V.addWidget(mensaje)
-
         # Contenedor para los jugadores
         contendor_jugadores = QWidget()
         layout_H = QHBoxLayout()
         contendor_jugadores.setLayout(layout_H)
-
         # Iterar sobre jugadores
         for jugador in jugadores:
             layout_jugador = QVBoxLayout()
-
             ## Imagen del jugador
             avatar = QLabel()
             pixmap = QPixmap(jugador.avatar)
@@ -514,24 +512,35 @@ class Tablero(QMainWindow):
             avatar.setFixedSize(100, 100)
             avatar.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
             avatar.setScaledContents(True)
-            avatar.mouseReleaseEvent = lambda event, jugador=jugador, avatar=avatar: self.seleccionar_jugador(event, jugador, avatar)
-            #avatar.setStyleSheet("""border: 2px solid black;border-radius: 10px;""")
+            def seleccionar_jugador(event, jugador=jugador, avatar=avatar):
+                # Quitar el borde del avatar previamente seleccionado
+                if dialogo.avatar_seleccionado is not None:
+                    dialogo.avatar_seleccionado.setStyleSheet("""border: 2px solid black; border-radius: 10px;""")
+                # Cambiar el borde del avatar actual
+                avatar.setStyleSheet("""border: 2px solid red; border-radius: 10px;""")
+                # Actualizar referencias
+                dialogo.avatar_seleccionado = avatar
+                dialogo.jugador_seleccionado = jugador
+            avatar.mouseReleaseEvent = seleccionar_jugador
             layout_jugador.addWidget(avatar)
-
             ## Nombre del jugador
             nombre = QLabel(jugador.nombre)
             nombre.setAlignment(Qt.AlignmentFlag.AlignCenter)
             layout_jugador.addWidget(nombre)
-            nombre.setStyleSheet("""border: 2px solid black;border-radius: 10px;""")
             # Añadir al layout horizontal
             layout_H.addLayout(layout_jugador)
 
         # Añadir contenedor al layout vertical
         layout_V.addWidget(contendor_jugadores)
-
-        # Botón de confirmación
+        def confirmar_seleccion():
+            if dialogo.jugador_seleccionado is not None:
+                dialogo.accept()
+            else:
+                print("Ningún jugador seleccionado.")
         boton_confirmar = QPushButton("Confirmar")
-        boton_confirmar.clicked.connect(dialogo.accept)
+        # Botón de confirmación
+        
+        boton_confirmar.clicked.connect(confirmar_seleccion)
         layout_V.addWidget(boton_confirmar)
         return dialogo
     
@@ -585,35 +594,33 @@ class Tablero(QMainWindow):
     
     #region PEDIDO COLOR
     def pedido_elegir_color(self,colores,carta):
-        # Limpia layouts
-        self.limpiar_layout(self.cartas_layouts)
-        self.limpiar_layout(self.botones_layout)
-
-        # Crea un QDialog para usarlo como ventana emergente
-        dialogo = QDialog()
-        dialogo.setWindowTitle("Elegir Color")
-        layout = QVBoxLayout(dialogo)
-        carta_img = QLabel() 
-        pixmap = QPixmap(carta.path_a_imagen)
-        carta_img.setFixedSize(150, 200)
-        carta_img.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        carta_img.setScaledContents(True)
-        carta_img.setPixmap(pixmap)
-        layout.addWidget(carta_img)
-        print("Colores de la Carta:")
-        # Agrega un botón de cerrar
-        for color  in colores:
-            print(f" Carta color: {color}")
-            boton_color = QPushButton(f"{color}")
-            boton_color.clicked.connect(partial(self.seleccionar_color, color))
-            #boton_color.clicked.connect(lambda: self.seleccionar_color(color))
-            layout.addWidget(boton_color)
-        cerrar_boton = QPushButton("Cerrar")
-        cerrar_boton.clicked.connect(dialogo.accept)  # Cierra el diálogo cuando se presiona
-        layout.addWidget(cerrar_boton)
-
-        dialogo.setLayout(layout)
-        return dialogo
+            # Limpia layouts
+            self.limpiar_layout(self.cartas_layouts)
+            self.limpiar_layout(self.botones_layout)
+            # Crea un QDialog para usarlo como ventana emergente
+            dialogo = QDialog()
+            dialogo.color_seleccionado = None
+            dialogo.setWindowTitle("Elegir Color")
+            layout = QVBoxLayout(dialogo)
+            carta_img = QLabel() 
+            pixmap = QPixmap(carta.path_a_imagen)
+            carta_img.setFixedSize(150, 200)
+            carta_img.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+            carta_img.setScaledContents(True)
+            carta_img.setPixmap(pixmap)
+            layout.addWidget(carta_img)
+            for color  in colores:
+                boton_color = QPushButton(f"{color}")
+                def seleccionar_color():
+                    dialogo.color_seleccionado = color
+                    dialogo.accept()
+                boton_color.clicked.connect(seleccionar_color)
+                layout.addWidget(boton_color)
+            cerrar_boton = QPushButton("Cerrar")
+            cerrar_boton.clicked.connect(dialogo.reject)  # Cierra el diálogo cuando se presiona
+            layout.addWidget(cerrar_boton)
+            dialogo.setLayout(layout)
+            return dialogo
     #endregion PEDIDO COLOR
     
     #region SELECC JUGADOR
