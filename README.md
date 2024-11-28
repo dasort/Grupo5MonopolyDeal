@@ -78,6 +78,8 @@ python main.py
 # Pasos:
 # 1. Buscá "Configuración de pantalla" en el buscador de Windows.
 # 2. Escala y diseño --> Escala --> 100%
+# 3. Ahora recién después de esto iniciá el programa, para que se aplique
+#     la configuración correctamente y no hayan problemas visuales.
 ```
 
 ### ¡Felicidades! Ya podes disfrutar del juego🎉
