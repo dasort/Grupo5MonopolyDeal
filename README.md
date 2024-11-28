@@ -64,22 +64,22 @@ source env/bin/activate # ( En Windows: env\Scripts\activate )
 pip install -r requirements.txt
 ```
 
-### 4. Ejecutar la aplicación:
-```bash
-python main.py
-```
-
-### 5. (Extra muy recomendable):
+### 4. Configurar la escala de tu pantalla:
 ```bash
 # Asegurate de que la escala de pantalla de tu computadora esté en 100%,
-#  para que en la interfaz figuren todos los elementos sin problemas, y la
-#  pantalla no se redimensione cada vez que se actualiza algo.
+#  para que en la pantalla entren todos los elementos de la interfaz sin problemas, 
+#  y la ventana del juego no se redimensione cada vez que se actualiza algo.
 
 # Pasos:
 # 1. Buscá "Configuración de pantalla" en el buscador de Windows.
 # 2. Escala y diseño --> Escala --> 100%
 # 3. Ahora recién después de esto iniciá el programa, para que se aplique
 #     la configuración correctamente y no hayan problemas visuales.
+```
+
+### 5. Ejecutar la aplicación:
+```bash
+python main.py
 ```
 
 ### ¡Felicidades! Ya podes disfrutar del juego🎉
