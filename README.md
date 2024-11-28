@@ -13,7 +13,7 @@ Elegimos recrear el juego de cartas "Monopoly Deal" aplicando Patrones de diseñ
 - [@CarlosLopes](https://github.com/carlitoslopes)
 - [@DahianaWilliams](https://github.com/dahiwms)
 - [@NadinGonzalez](https://github.com/nadinMG)
-- [@HugoOsvaldoBarrera](https://github.com/colo1413)
+- [@AlejandroAmpuero](https://github.com/colo1413)
 
 ## Sobre el proyecto
 - Esta es una versión adaptada del **Monopoly Deal**, usando nuestra propia temática basada en la ciudad de **Comodoro Rivadavia**.
