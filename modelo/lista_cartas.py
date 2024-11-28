@@ -4,8 +4,8 @@
 
 from os.path import dirname, join
 
-__cartas_path = join(dirname(dirname(__file__)), 'imagenes\\cartas')
-__ui_path = join(dirname(dirname(__file__)), 'imagenes\\ui')
+__cartas_path = join(dirname(dirname(__file__)), 'multimedia\\cartas')
+__ui_path = join(dirname(dirname(__file__)), 'multimedia\\ui')
 
 LISTA_PROPIEDADES= [
     {"id": 1, "nombre": "Propiedad Marron", "tipo": "propiedad", "valor": 1, "color": "marron", "path_a_imagen": f'{__cartas_path}\\propiedadMarron.png', "path_a_queHace": f'{__ui_path}\\queHacePropiedades.png'},

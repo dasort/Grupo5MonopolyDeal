@@ -12,7 +12,7 @@ class Opciones(QDialog):
         
         self.setWindowTitle("Opciones")
         self.setGeometry(570, 240, 400, 426)
-        self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
+        self.setWindowIcon(QIcon("multimedia/ui/icono.png"))
 
         # Layouts:
         self.main_layout = QVBoxLayout()
@@ -164,29 +164,29 @@ class Opciones(QDialog):
     def cambiar_pixmap_volumen(self):
         volumen = self.__controlador.obtener_volumen()
         if volumen >= 50:
-            pixmap = QPixmap("imagenes/ui/volumen_alto.png").scaled(25, 25)
+            pixmap = QPixmap("multimedia/ui/volumen_alto.png").scaled(25, 25)
         elif volumen > 1:
-            pixmap = QPixmap("imagenes/ui/volumen_bajo.png").scaled(25, 25)
+            pixmap = QPixmap("multimedia/ui/volumen_bajo.png").scaled(25, 25)
         else:
-            pixmap = QPixmap("imagenes/ui/volumen_apagado.png").scaled(25, 25)
+            pixmap = QPixmap("multimedia/ui/volumen_apagado.png").scaled(25, 25)
         self.icono_label.setPixmap(pixmap)
     
     def obtener_pixmap_inicial_volumen(self):
         volumen = self.__controlador.obtener_volumen()
         if volumen >= 50:
-            pixmap = QPixmap("imagenes/ui/volumen_alto.png").scaled(25, 25)
+            pixmap = QPixmap("multimedia/ui/volumen_alto.png").scaled(25, 25)
         elif volumen > 1:
-            pixmap = QPixmap("imagenes/ui/volumen_bajo.png").scaled(25, 25)
+            pixmap = QPixmap("multimedia/ui/volumen_bajo.png").scaled(25, 25)
         else:
-            pixmap = QPixmap("imagenes/ui/volumen_apagado.png").scaled(25, 25)
+            pixmap = QPixmap("multimedia/ui/volumen_apagado.png").scaled(25, 25)
         return pixmap
     
     def alternar_icono(self, estado):
         if estado == "apagado":
-            pixmap = QPixmap("imagenes/ui/volumen_apagado.png").scaled(25, 25)
+            pixmap = QPixmap("multimedia/ui/volumen_apagado.png").scaled(25, 25)
             self.slider_volumen.setValue(0)
         else:
-            pixmap = QPixmap("imagenes/ui/volumen_alto.png").scaled(25, 25)
+            pixmap = QPixmap("multimedia/ui/volumen_alto.png").scaled(25, 25)
             self.slider_volumen.setValue(100)
         self.icono_label.setPixmap(pixmap)
     

@@ -16,7 +16,7 @@ class ControladorMainMenu:
         
         # Configuración del sonido:
         self.sound_effect = QSoundEffect()
-        self.sound_effect.setSource(QUrl.fromLocalFile("imagenes/sonido/click.wav"))
+        self.sound_effect.setSource(QUrl.fromLocalFile("multimedia/sonido/click.wav"))
         self.sound_effect.setVolume(self.__volumen)
         
         self.__vista.show()

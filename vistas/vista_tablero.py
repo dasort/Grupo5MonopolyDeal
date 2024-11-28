@@ -13,7 +13,7 @@ class Tablero(QMainWindow):
         
         self.setWindowTitle("Tablero de Juego")
         self.setGeometry(20, 30, 1500, 750)
-        self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
+        self.setWindowIcon(QIcon("multimedia/ui/icono.png"))
         path_script = Path(__file__).resolve()
         self.path_proyecto = path_script.parent.parent
         
@@ -112,7 +112,7 @@ class Tablero(QMainWindow):
         turno_layout = QHBoxLayout()
 
         self.turno_icon = QLabel(self)
-        turno_pixmap = QPixmap("imagenes/ui/turn.png").scaled(50, 50, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        turno_pixmap = QPixmap("multimedia/ui/turn.png").scaled(50, 50, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
         self.turno_icon.setPixmap(turno_pixmap)
         self.turno_icon.setFixedSize(50, 50) # <-- Hace que QLabel sea del mismo tamaño para que coincida con el del QPixmap.
         turno_layout.addWidget(self.turno_icon)
@@ -126,8 +126,8 @@ class Tablero(QMainWindow):
         tiempo_layout = QHBoxLayout()
 
         self.reloj_icon = QLabel(self)
-        self.reloj_pixmap = QPixmap("imagenes/ui/fixedClock.png").scaled(50, 50, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
-        self.reloj_rojo_pixmap = QPixmap("imagenes/ui/fixedClockRojo.png").scaled(50, 50, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        self.reloj_pixmap = QPixmap("multimedia/ui/fixedClock.png").scaled(50, 50, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        self.reloj_rojo_pixmap = QPixmap("multimedia/ui/fixedClockRojo.png").scaled(50, 50, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
         self.reloj_icon.setPixmap(self.reloj_pixmap)
         self.reloj_icon.setFixedSize(50, 50) # <-- Hace que QLabel sea del mismo tamaño para que coincida con el del QPixmap.
         tiempo_layout.addWidget(self.reloj_icon)
@@ -205,7 +205,7 @@ class Tablero(QMainWindow):
         # Descripción de carta
         self.descripcion_carta_label = QLabel(self)
         
-        self.path_queHaceVacio = self.path_proyecto / "imagenes/ui/queHaceVacio.png"
+        self.path_queHaceVacio = self.path_proyecto / "multimedia/ui/queHaceVacio.png"
         self.path_queHaceVacio = self.path_queHaceVacio.as_posix()
 
         pixmap_fondo = QPixmap(self.path_queHaceVacio).scaled(400, 300, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
@@ -782,7 +782,7 @@ class Tablero(QMainWindow):
         jugador_actual = self.__controlador.get_jugador_actual()
         cartas = jugador_actual.get_mano()
         
-        imagen_vacia = self.path_proyecto / "imagenes/cartas/cartaVacia.png"
+        imagen_vacia = self.path_proyecto / "multimedia/cartas/cartaVacia.png"
         imagen_vacia = imagen_vacia.as_posix()
 
         # Lógica para mostrar hasta 7 cartas:
@@ -959,7 +959,7 @@ class Tablero(QMainWindow):
         if factor_escala == 1.0:
             self.main_widget.setStyleSheet("""
                 QWidget#MainWidget {
-                    background-image: url("imagenes/ui/fondo_tablero_full.jpg");
+                    background-image: url("multimedia/ui/fondo_tablero_full.jpg");
                     background-repeat: no-repeat;
                     background-position: center;
                 }
@@ -972,7 +972,7 @@ class Tablero(QMainWindow):
             # Escala de 125% u otra:
             self.main_widget.setStyleSheet("""
                 QWidget#MainWidget {
-                    background-image: url("imagenes/ui/fondo_tablero_1650x820.jpg");
+                    background-image: url("multimedia/ui/fondo_tablero_1650x820.jpg");
                     background-repeat: no-repeat;
                     background-position: center;
                 }

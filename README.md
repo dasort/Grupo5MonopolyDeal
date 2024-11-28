@@ -23,7 +23,7 @@ Elegimos recrear el juego de cartas "Monopoly Deal" aplicando Patrones de diseñ
 Este proyecto fue desarrollado como parte de la materia **Programación Orientada a Objetos (POO)** en la **Universidad Nacional de la Patagonia San Juan Bosco (UNPSJB)**, sede Comodoro Rivadavia.
 
 ## Monopoly Deal Preview Gameplay
-![](./imagenes/readme/GIF.gif)
+![](./multimedia/readme/GIF.gif)
 
 ## 📊 Características Técnicas
 

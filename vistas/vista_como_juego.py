@@ -8,9 +8,9 @@ class ComoJuego(QDialog):
         super().__init__(parent)
         self.__controlador = controlador
         self.setWindowTitle("¿Cómo Juego?")
-        self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
+        self.setWindowIcon(QIcon("multimedia/ui/icono.png"))
         self.setGeometry(340, 130, 900, 600)
-        self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
+        self.setWindowIcon(QIcon("multimedia/ui/icono.png"))
         
         # Main layout:
         self.main_layout = QVBoxLayout()
@@ -84,7 +84,7 @@ class ComoJuego(QDialog):
         # ---
         
         # Botón Volver:
-        self.boton_volver = self.crear_boton_volver("Volver", "imagenes/ui/casa.png")
+        self.boton_volver = self.crear_boton_volver("Volver", "multimedia/ui/casa.png")
         self.boton_volver.clicked.connect(self.__controlador.volver)
         tooltip_volver = ("Volvé al Menú Principal.")
         self.boton_volver.setToolTip(tooltip_volver)
@@ -93,21 +93,21 @@ class ComoJuego(QDialog):
         # ---
         
         # Botón "Reglas Generales":
-        self.boton_reglas_generales = self.crear_boton("Reglas Generales", "imagenes/ui/libro.png")
+        self.boton_reglas_generales = self.crear_boton("Reglas Generales", "multimedia/ui/libro.png")
         self.boton_reglas_generales.clicked.connect(self.mostrar_reglas_generales)
         tooltip_reglas = ("Ver las Reglas Generales.")
         self.boton_reglas_generales.setToolTip(tooltip_reglas)
         self.layout_arriba_abajo.addWidget(self.boton_reglas_generales)
         
         # Botón "Ver las Cartas":
-        self.boton_ver_cartas = self.crear_boton("Ver las Cartas", "imagenes/ui/pila_cartas.png")
+        self.boton_ver_cartas = self.crear_boton("Ver las Cartas", "multimedia/ui/pila_cartas.png")
         self.boton_ver_cartas.clicked.connect(self.mostrar_ver_cartas)
         tooltip_cartas = ("Ver las Cartas.")
         self.boton_ver_cartas.setToolTip(tooltip_cartas)
         self.layout_arriba_abajo.addWidget(self.boton_ver_cartas)
         
         # Botón "A cerca de la Interfaz":
-        self.boton_a_cerca_interfaz = self.crear_boton("A cerca de la Interfaz", "imagenes/ui/tablero.png")
+        self.boton_a_cerca_interfaz = self.crear_boton("A cerca de la Interfaz", "multimedia/ui/tablero.png")
         self.boton_a_cerca_interfaz.clicked.connect(self.mostrar_a_cerca_interfaz)
         tooltip_interfaz = ("Ver cómo funciona la Interfaz.")
         self.boton_a_cerca_interfaz.setToolTip(tooltip_interfaz)
@@ -349,44 +349,44 @@ class ComoJuego(QDialog):
         grid_layout.setSpacing(15)
 
         cartas = [
-            {"ruta": "imagenes/cartas/dinero1.png", "descripcion": "Carta de Dinero: Sirve para pagar deudas, vale 1 millón.", "tooltip": "1 Millón"},
-            {"ruta": "imagenes/cartas/dinero2.png", "descripcion": "Carta de Dinero: Sirve para pagar deudas, vale 2 millones.", "tooltip": "2 Millones"},
-            {"ruta": "imagenes/cartas/dinero3.png", "descripcion": "Carta de Dinero: Sirve para pagar deudas, vale 3 millones.", "tooltip": "3 Millones"},
-            {"ruta": "imagenes/cartas/dinero4.png", "descripcion": "Carta de Dinero: Sirve para pagar deudas, vale 4 millones.", "tooltip": "4 Millones"},
-            {"ruta": "imagenes/cartas/dinero5.png", "descripcion": "Carta de Dinero: Sirve para pagar deudas, vale 5 millones.", "tooltip": "5 Millones"},
-            {"ruta": "imagenes/cartas/dinero10.png", "descripcion": "Carta de Dinero: Sirve para pagar deudas, vale 10 millones.", "tooltip": "10 Millones"},
-            {"ruta": "imagenes/cartas/propiedadAmarillo.png", "descripcion": "Carta de Propiedad: Coleccioná 3 para crear un set completo.", "tooltip": "Propiedad Amarilla"},
-            {"ruta": "imagenes/cartas/propiedadAzul.png", "descripcion": "Carta de Propiedad: Coleccioná 2 para crear un set completo.", "tooltip": "Propiedad Azul"},
-            {"ruta": "imagenes/cartas/propiedadCeleste.png", "descripcion": "Carta de Propiedad: Coleccioná 3 para crear un set completo.", "tooltip": "Propiedad Celeste"},
-            {"ruta": "imagenes/cartas/propiedadFerrocarril.png", "descripcion": "Carta de Propiedad: Coleccioná 4 para crear un set completo.", "tooltip": "Propiedad Ferrocarril"},
-            {"ruta": "imagenes/cartas/propiedadMarron.png", "descripcion": "Carta de Propiedad: Coleccioná 2 para crear un set completo.", "tooltip": "Propiedad Marrón"},
-            {"ruta": "imagenes/cartas/propiedadNaranja.png", "descripcion": "Carta de Propiedad: Coleccioná 3 para crear un set completo.", "tooltip": "Propiedad Naranja"},
-            {"ruta": "imagenes/cartas/propiedadRojo.png", "descripcion": "Carta de Propiedad: Coleccioná 3 para crear un set completo.", "tooltip": "Propiedad Roja"},
-            {"ruta": "imagenes/cartas/propiedadRosa.png", "descripcion": "Carta de Propiedad: Coleccioná 3 para crear un set completo.", "tooltip": "Propiedad Rosa"},
-            {"ruta": "imagenes/cartas/propiedadServicio1.png", "descripcion": "Carta de Propiedad: Coleccioná 2 para crear un set completo.", "tooltip": "Propiedad Servicio (Estilo 1)"},
-            {"ruta": "imagenes/cartas/propiedadServicio2.png", "descripcion": "Carta de Propiedad: Coleccioná 2 para crear un set completo.", "tooltip": "Propiedad Servicio (Estilo 2)"},
-            {"ruta": "imagenes/cartas/propiedadVerde.png", "descripcion": "Carta de Propiedad: Coleccioná 3 para crear un set completo.", "tooltip": "Propiedad Verde"},
-            {"ruta": "imagenes/cartas/comodinAmarilloRojo.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Amarillo y Rojo), elegí el que necesites.", "tooltip": "Comodín Amarillo-Rojo"},
-            {"ruta": "imagenes/cartas/comodinAzulVerde.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Azul y Verde), elegí el que necesites.", "tooltip": "Comodín Azul-Verde"},
-            {"ruta": "imagenes/cartas/comodinCelesteFerrocarril.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Celeste y Ferrocarril), elegí el que necesites.", "tooltip": "Comodín Celeste-Ferrocarril"},
-            {"ruta": "imagenes/cartas/comodinCelesteMarron.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Celeste y Marrón), elegí el que necesites.", "tooltip": "Comodín Celeste-Marrón"},
-            {"ruta": "imagenes/cartas/comodinNaranjaRosa.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Naranja y Rosa), elegí el que necesites.", "tooltip": "Comodín Naranja-Rosa"},
-            {"ruta": "imagenes/cartas/comodinServicioFerrocarril.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Servicio y Ferrocarril), elegí el que necesites.", "tooltip": "Comodín Servicio-Ferrocarril"},
-            {"ruta": "imagenes/cartas/comodinVerdeFerrocarril.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Verde y Ferrocarril), elegí el que necesites.", "tooltip": "Comodín Verde-Ferrocarril"},
-            {"ruta": "imagenes/cartas/comodinMulticolor.png", "descripcion": "Carta Comodín: Vale para cualquier tipo!, elegí el que necesites.", "tooltip": "Comodín Multicolor"},
-            {"ruta": "imagenes/cartas/alquilerFerrocarrilServicio.png", "descripcion": "Carta Alquiler: Todos te pagan por ambos colores!", "tooltip": "Alquiler Ferrocarril-Servicio"},
-            {"ruta": "imagenes/cartas/alquilerMarronCeleste.png", "descripcion": "Carta Alquiler: Todos te pagan por ambos colores!", "tooltip": "Alquiler Marrón-Celeste"},
-            {"ruta": "imagenes/cartas/alquilerRojoAmarillo.png", "descripcion": "Carta Alquiler: Todos te pagan por ambos colores!", "tooltip": "Alquiler Rojo-Amarillo"},
-            {"ruta": "imagenes/cartas/alquilerRosaNaranja.png", "descripcion": "Carta Alquiler: Todos te pagan por ambos colores!", "tooltip": "Alquiler Rosa-Naranja"},
-            {"ruta": "imagenes/cartas/alquilerVerdeAzul.png", "descripcion": "Carta Alquiler: Todos te pagan por ambos colores!", "tooltip": "Alquiler Verde-Azul"},
-            {"ruta": "imagenes/cartas/alquilerMulticolor.png", "descripcion": "Carta Alquiler: Elige a un jugador que te pague por un tipo de propiedad específica que quieras!", "tooltip": "Alquiler Multicolor"},
-            {"ruta": "imagenes/cartas/alquilerDoble.png", "descripcion": "Carta de Acción: Jugá esta carta y otra de alquiler para que el alquiler de esa carta sea el doble de costosa.", "tooltip": "¡Alquiler Doble!"},
-            {"ruta": "imagenes/cartas/cobradorDeDeudas.png", "descripcion": "Carta de Acción: El jugador que elijas te va a tener que pagar 5 millones.", "tooltip": "Cobrador de Deudas"},
-            {"ruta": "imagenes/cartas/esMiCumpleanos.png", "descripcion": "Carta de Acción: Todos los jugadores te tienen que pagar como 'regalo' 2 millones... ¡Feliz cumpleaños!", "tooltip": "Es mi Cumpleaños"},
-            {"ruta": "imagenes/cartas/negocioFurtivo.png", "descripcion": "Carta de Acción: Sacale la propiedad que quieras a otro jugador (No puede ser de un set completo).", "tooltip": "Negocio Furtivo"},
-            {"ruta": "imagenes/cartas/pasaPorLaSalida.png", "descripcion": "Carta de Acción: Podés agarrar 2 cartas más.", "tooltip": "Pasa por la Salida"},
-            {"ruta": "imagenes/cartas/robaNegocios.png", "descripcion": "Carta de Acción: Sacale un set completo a otro jugador!", "tooltip": "Roba Negocios"},
-            {"ruta": "imagenes/cartas/tratoForzoso.png", "descripcion": "Carta de Acción: Intercambiá una propiedad tuya con la de otro jugador (No puede ser de un set completo).", "tooltip": "Trato Forzoso"}
+            {"ruta": "multimedia/cartas/dinero1.png", "descripcion": "Carta de Dinero: Sirve para pagar deudas, vale 1 millón.", "tooltip": "1 Millón"},
+            {"ruta": "multimedia/cartas/dinero2.png", "descripcion": "Carta de Dinero: Sirve para pagar deudas, vale 2 millones.", "tooltip": "2 Millones"},
+            {"ruta": "multimedia/cartas/dinero3.png", "descripcion": "Carta de Dinero: Sirve para pagar deudas, vale 3 millones.", "tooltip": "3 Millones"},
+            {"ruta": "multimedia/cartas/dinero4.png", "descripcion": "Carta de Dinero: Sirve para pagar deudas, vale 4 millones.", "tooltip": "4 Millones"},
+            {"ruta": "multimedia/cartas/dinero5.png", "descripcion": "Carta de Dinero: Sirve para pagar deudas, vale 5 millones.", "tooltip": "5 Millones"},
+            {"ruta": "multimedia/cartas/dinero10.png", "descripcion": "Carta de Dinero: Sirve para pagar deudas, vale 10 millones.", "tooltip": "10 Millones"},
+            {"ruta": "multimedia/cartas/propiedadAmarillo.png", "descripcion": "Carta de Propiedad: Coleccioná 3 para crear un set completo.", "tooltip": "Propiedad Amarilla"},
+            {"ruta": "multimedia/cartas/propiedadAzul.png", "descripcion": "Carta de Propiedad: Coleccioná 2 para crear un set completo.", "tooltip": "Propiedad Azul"},
+            {"ruta": "multimedia/cartas/propiedadCeleste.png", "descripcion": "Carta de Propiedad: Coleccioná 3 para crear un set completo.", "tooltip": "Propiedad Celeste"},
+            {"ruta": "multimedia/cartas/propiedadFerrocarril.png", "descripcion": "Carta de Propiedad: Coleccioná 4 para crear un set completo.", "tooltip": "Propiedad Ferrocarril"},
+            {"ruta": "multimedia/cartas/propiedadMarron.png", "descripcion": "Carta de Propiedad: Coleccioná 2 para crear un set completo.", "tooltip": "Propiedad Marrón"},
+            {"ruta": "multimedia/cartas/propiedadNaranja.png", "descripcion": "Carta de Propiedad: Coleccioná 3 para crear un set completo.", "tooltip": "Propiedad Naranja"},
+            {"ruta": "multimedia/cartas/propiedadRojo.png", "descripcion": "Carta de Propiedad: Coleccioná 3 para crear un set completo.", "tooltip": "Propiedad Roja"},
+            {"ruta": "multimedia/cartas/propiedadRosa.png", "descripcion": "Carta de Propiedad: Coleccioná 3 para crear un set completo.", "tooltip": "Propiedad Rosa"},
+            {"ruta": "multimedia/cartas/propiedadServicio1.png", "descripcion": "Carta de Propiedad: Coleccioná 2 para crear un set completo.", "tooltip": "Propiedad Servicio (Estilo 1)"},
+            {"ruta": "multimedia/cartas/propiedadServicio2.png", "descripcion": "Carta de Propiedad: Coleccioná 2 para crear un set completo.", "tooltip": "Propiedad Servicio (Estilo 2)"},
+            {"ruta": "multimedia/cartas/propiedadVerde.png", "descripcion": "Carta de Propiedad: Coleccioná 3 para crear un set completo.", "tooltip": "Propiedad Verde"},
+            {"ruta": "multimedia/cartas/comodinAmarilloRojo.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Amarillo y Rojo), elegí el que necesites.", "tooltip": "Comodín Amarillo-Rojo"},
+            {"ruta": "multimedia/cartas/comodinAzulVerde.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Azul y Verde), elegí el que necesites.", "tooltip": "Comodín Azul-Verde"},
+            {"ruta": "multimedia/cartas/comodinCelesteFerrocarril.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Celeste y Ferrocarril), elegí el que necesites.", "tooltip": "Comodín Celeste-Ferrocarril"},
+            {"ruta": "multimedia/cartas/comodinCelesteMarron.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Celeste y Marrón), elegí el que necesites.", "tooltip": "Comodín Celeste-Marrón"},
+            {"ruta": "multimedia/cartas/comodinNaranjaRosa.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Naranja y Rosa), elegí el que necesites.", "tooltip": "Comodín Naranja-Rosa"},
+            {"ruta": "multimedia/cartas/comodinServicioFerrocarril.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Servicio y Ferrocarril), elegí el que necesites.", "tooltip": "Comodín Servicio-Ferrocarril"},
+            {"ruta": "multimedia/cartas/comodinVerdeFerrocarril.png", "descripcion": "Carta Comodín: Vale para los dos tipos (Verde y Ferrocarril), elegí el que necesites.", "tooltip": "Comodín Verde-Ferrocarril"},
+            {"ruta": "multimedia/cartas/comodinMulticolor.png", "descripcion": "Carta Comodín: Vale para cualquier tipo!, elegí el que necesites.", "tooltip": "Comodín Multicolor"},
+            {"ruta": "multimedia/cartas/alquilerFerrocarrilServicio.png", "descripcion": "Carta Alquiler: Todos te pagan por ambos colores!", "tooltip": "Alquiler Ferrocarril-Servicio"},
+            {"ruta": "multimedia/cartas/alquilerMarronCeleste.png", "descripcion": "Carta Alquiler: Todos te pagan por ambos colores!", "tooltip": "Alquiler Marrón-Celeste"},
+            {"ruta": "multimedia/cartas/alquilerRojoAmarillo.png", "descripcion": "Carta Alquiler: Todos te pagan por ambos colores!", "tooltip": "Alquiler Rojo-Amarillo"},
+            {"ruta": "multimedia/cartas/alquilerRosaNaranja.png", "descripcion": "Carta Alquiler: Todos te pagan por ambos colores!", "tooltip": "Alquiler Rosa-Naranja"},
+            {"ruta": "multimedia/cartas/alquilerVerdeAzul.png", "descripcion": "Carta Alquiler: Todos te pagan por ambos colores!", "tooltip": "Alquiler Verde-Azul"},
+            {"ruta": "multimedia/cartas/alquilerMulticolor.png", "descripcion": "Carta Alquiler: Elige a un jugador que te pague por un tipo de propiedad específica que quieras!", "tooltip": "Alquiler Multicolor"},
+            {"ruta": "multimedia/cartas/alquilerDoble.png", "descripcion": "Carta de Acción: Jugá esta carta y otra de alquiler para que el alquiler de esa carta sea el doble de costosa.", "tooltip": "¡Alquiler Doble!"},
+            {"ruta": "multimedia/cartas/cobradorDeDeudas.png", "descripcion": "Carta de Acción: El jugador que elijas te va a tener que pagar 5 millones.", "tooltip": "Cobrador de Deudas"},
+            {"ruta": "multimedia/cartas/esMiCumpleanos.png", "descripcion": "Carta de Acción: Todos los jugadores te tienen que pagar como 'regalo' 2 millones... ¡Feliz cumpleaños!", "tooltip": "Es mi Cumpleaños"},
+            {"ruta": "multimedia/cartas/negocioFurtivo.png", "descripcion": "Carta de Acción: Sacale la propiedad que quieras a otro jugador (No puede ser de un set completo).", "tooltip": "Negocio Furtivo"},
+            {"ruta": "multimedia/cartas/pasaPorLaSalida.png", "descripcion": "Carta de Acción: Podés agarrar 2 cartas más.", "tooltip": "Pasa por la Salida"},
+            {"ruta": "multimedia/cartas/robaNegocios.png", "descripcion": "Carta de Acción: Sacale un set completo a otro jugador!", "tooltip": "Roba Negocios"},
+            {"ruta": "multimedia/cartas/tratoForzoso.png", "descripcion": "Carta de Acción: Intercambiá una propiedad tuya con la de otro jugador (No puede ser de un set completo).", "tooltip": "Trato Forzoso"}
         ]
 
         columnas = 5
@@ -441,7 +441,7 @@ class ComoJuego(QDialog):
     def mostrar_a_cerca_interfaz(self):
         self.limpiar_layout(self.layout_abajo)
 
-        pixmap = QPixmap("imagenes/ui/interfaz.png").scaled(880, 300, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+        pixmap = QPixmap("multimedia/ui/interfaz.png").scaled(880, 300, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
         label_imagen = QLabel()
         label_imagen.setPixmap(pixmap)
         label_imagen.setAlignment(Qt.AlignmentFlag.AlignCenter)

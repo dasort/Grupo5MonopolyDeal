@@ -9,7 +9,7 @@ class MainMenu(QMainWindow):
         self.__controlador = controlador
         self.setWindowTitle("Monopoly Deal")
         self.setGeometry(480, 200, 600, 450)
-        self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
+        self.setWindowIcon(QIcon("multimedia/ui/icono.png"))
         self.centrar_ventana()
         
         # Widget principal y layout:
@@ -37,7 +37,7 @@ class MainMenu(QMainWindow):
         # (2):
         # Imagen encabezado:
         self.imagen_label = QLabel(self)
-        pixmap = QPixmap("imagenes/ui/headerLogo.png").scaled(
+        pixmap = QPixmap("multimedia/ui/headerLogo.png").scaled(
             500, 130, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation
         )
         self.imagen_label.setPixmap(pixmap)
@@ -55,7 +55,7 @@ class MainMenu(QMainWindow):
 
         # (4.1):
         # Botón "Crear una Partida":
-        self.boton_crear_partida = self.crear_boton("Crear una Partida", "imagenes/ui/menu_boton_1.png")
+        self.boton_crear_partida = self.crear_boton("Crear una Partida", "multimedia/ui/menu_boton_1.png")
         self.boton_crear_partida.clicked.connect(self.__controlador.mostrar_crear_partida)
         botones_layout.addWidget(self.boton_crear_partida)
 
@@ -63,7 +63,7 @@ class MainMenu(QMainWindow):
 
         # (4.2):
         # Botón "Opciones":
-        self.boton_opciones = self.crear_boton("Opciones", "imagenes/ui/menu_boton_2.png")
+        self.boton_opciones = self.crear_boton("Opciones", "multimedia/ui/menu_boton_2.png")
         self.boton_opciones.clicked.connect(self.__controlador.mostrar_opciones)
         botones_layout.addWidget(self.boton_opciones)
 
@@ -71,7 +71,7 @@ class MainMenu(QMainWindow):
 
         # (4.3):
         # Botón "Mostrar Como Juego":
-        self.boton_mostrar_como_juego = self.crear_boton("¿Cómo Juego?", "imagenes/ui/emoji.png")
+        self.boton_mostrar_como_juego = self.crear_boton("¿Cómo Juego?", "multimedia/ui/emoji.png")
         self.boton_mostrar_como_juego.clicked.connect(self.__controlador.mostrar_como_juego)
         botones_layout.addWidget(self.boton_mostrar_como_juego)
 
@@ -83,7 +83,7 @@ class MainMenu(QMainWindow):
         layout_footer = QHBoxLayout()
         
         # Botón estadísticas en el footer:
-        self.estadisticas_boton = self.crear_boton_estadisticas("Ver mis Estadísticas", "imagenes/ui/grafico.png")
+        self.estadisticas_boton = self.crear_boton_estadisticas("Ver mis Estadísticas", "multimedia/ui/grafico.png")
         self.estadisticas_boton.clicked.connect(self.__controlador.mostrar_estadisticas_inicio_sesion)
         tooltip_estadisticas = ("Iniciá sesión para ver tus Estadísticas.")
         self.estadisticas_boton.setToolTip(tooltip_estadisticas)

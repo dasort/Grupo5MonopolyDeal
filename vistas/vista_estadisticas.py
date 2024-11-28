@@ -10,7 +10,7 @@ class Estadisticas(QDialog):
 
         self.setWindowTitle("Estadísticas")
         self.setGeometry(570, 240, 400, 300)
-        self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
+        self.setWindowIcon(QIcon("multimedia/ui/icono.png"))
         self.main_layout = QVBoxLayout(self)
         self.setLayout(self.main_layout)
 
@@ -34,7 +34,7 @@ class Estadisticas(QDialog):
 
         # (1/2) Ícono del Nombre de Pila:
         self.nombre_icono_label = QLabel(self)
-        pixmap = QPixmap("imagenes/ui/silueta.png").scaled(25, 25)
+        pixmap = QPixmap("multimedia/ui/silueta.png").scaled(25, 25)
         self.nombre_icono_label.setPixmap(pixmap)
         self.nombre_icono_label.setFixedSize(25, 25)
 
@@ -54,7 +54,7 @@ class Estadisticas(QDialog):
 
         # (1/2) Ícono del Apellido:
         self.apellido_icono_label = QLabel(self)
-        pixmap = QPixmap("imagenes/ui/silueta.png").scaled(25, 25)
+        pixmap = QPixmap("multimedia/ui/silueta.png").scaled(25, 25)
         self.apellido_icono_label.setPixmap(pixmap)
         self.apellido_icono_label.setFixedSize(25, 25)
 
@@ -74,7 +74,7 @@ class Estadisticas(QDialog):
 
         # (1/2) Ícono del Nickname:
         self.nickname_icono_label = QLabel(self)
-        pixmap = QPixmap("imagenes/ui/silueta_pregunta.png").scaled(25, 25)
+        pixmap = QPixmap("multimedia/ui/silueta_pregunta.png").scaled(25, 25)
         self.nickname_icono_label.setPixmap(pixmap)
         self.nickname_icono_label.setFixedSize(25, 25)
 
@@ -102,7 +102,7 @@ class Estadisticas(QDialog):
 
         # (1/2) Ícono de Partidas Jugadas:
         self.partidas_jugadas_icono_label = QLabel(self)
-        pixmap = QPixmap("imagenes/ui/pelota.png").scaled(25, 25)
+        pixmap = QPixmap("multimedia/ui/pelota.png").scaled(25, 25)
         self.partidas_jugadas_icono_label.setPixmap(pixmap)
         self.partidas_jugadas_icono_label.setFixedSize(25, 25)
 
@@ -124,7 +124,7 @@ class Estadisticas(QDialog):
 
         # (1/2) Ícono de Partidas Ganadas:
         self.partidas_ganadas_icono_label = QLabel(self)
-        pixmap = QPixmap("imagenes/ui/trofeo.png").scaled(25, 25)
+        pixmap = QPixmap("multimedia/ui/trofeo.png").scaled(25, 25)
         self.partidas_ganadas_icono_label.setPixmap(pixmap)
         self.partidas_ganadas_icono_label.setFixedSize(25, 25)
 

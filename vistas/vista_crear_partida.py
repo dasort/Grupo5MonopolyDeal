@@ -16,7 +16,7 @@ class CrearPartida(QMainWindow):
         # Ventana inicio:
         self.setWindowTitle("Crear Partida")
         self.setGeometry(370, 185, 875, 517)
-        self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
+        self.setWindowIcon(QIcon("multimedia/ui/icono.png"))
         self.adjustSize()
         self.setMinimumSize(875, 500)
         self.main_layout = QHBoxLayout()
@@ -212,7 +212,7 @@ class CrearPartida(QMainWindow):
         self.main_layout.addLayout(self.layout_derecha)
 
     def cargar_iconos(self):
-        avatar_vacio = "imagenes/ui/perfilRecortadoVacio.png"
+        avatar_vacio = "multimedia/ui/perfilRecortadoVacio.png"
         
         while self.layout_derecha_arriba.count():
             widget = self.layout_derecha_arriba.takeAt(0).widget()
@@ -281,7 +281,7 @@ class CrearPartida(QMainWindow):
         avatar_label = QLabel("Elija su avatar:")
         avatar_combo = QComboBox()
         for i in range(1, 9):
-            avatar_combo.addItem(f"Avatar {i}", f"imagenes/ui/perfilRecortado{i}.png")
+            avatar_combo.addItem(f"Avatar {i}", f"multimedia/ui/perfilRecortado{i}.png")
         avatar_combo.setStyleSheet("""
             background-color: #78391D;
             padding-left: 5px;

@@ -13,7 +13,7 @@ class IniciarSesion(QDialog):
 
         self.setWindowTitle("Iniciar Sesión")
         self.setGeometry(480, 200, 600, 550)
-        self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
+        self.setWindowIcon(QIcon("multimedia/ui/icono.png"))
         self.centrar_ventana()
         
         self.main_layout = QVBoxLayout(self)
@@ -25,7 +25,7 @@ class IniciarSesion(QDialog):
         
         # Imagen encabezado:
         self.imagen_label = QLabel(self)
-        pixmap = QPixmap("imagenes/ui/headerLogo.png").scaled(
+        pixmap = QPixmap("multimedia/ui/headerLogo.png").scaled(
             400, 100, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation
         )
         self.imagen_label.setPixmap(pixmap)
@@ -99,7 +99,7 @@ class IniciarSesion(QDialog):
 
         # Ícono:
         self.icono_label = QLabel(self)
-        pixmap = QPixmap("imagenes/ui/ojo_cerrado.png").scaled(25, 25)
+        pixmap = QPixmap("multimedia/ui/ojo_cerrado.png").scaled(25, 25)
         self.icono_label.setPixmap(pixmap)
         self.icono_label.setFixedSize(25, 15)
         self.layout_interno_ojo.addWidget(self.icono_label)
@@ -212,12 +212,12 @@ class IniciarSesion(QDialog):
         
         def terminar_cambio_ojo():
             if estado_anterior == QLineEdit.EchoMode.Password:
-                pixmap = QPixmap("imagenes/ui/ojo.png").scaled(25, 25)
+                pixmap = QPixmap("multimedia/ui/ojo.png").scaled(25, 25)
             else:
-                pixmap = QPixmap("imagenes/ui/ojo_cerrado.png").scaled(25, 25)
+                pixmap = QPixmap("multimedia/ui/ojo_cerrado.png").scaled(25, 25)
             self.icono_label.setPixmap(pixmap)
             
-        pixmap_ojo_medio = QPixmap("imagenes/ui/ojo_medio.png").scaled(25, 25)
+        pixmap_ojo_medio = QPixmap("multimedia/ui/ojo_medio.png").scaled(25, 25)
         self.icono_label.setPixmap(pixmap_ojo_medio)
 
         QTimer.singleShot(150, terminar_cambio_ojo) # <-- 150 ms de transición.
