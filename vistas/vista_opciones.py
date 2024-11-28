@@ -195,15 +195,13 @@ class Opciones(QDialog):
         mensaje.setWindowTitle("Créditos")
         mensaje.setText("Nosotros desarrollamos este juego:  ")
         mensaje.setInformativeText(
-            "\n\nBonifacio, Lucas\n"
-            "Cárdenas, Franco\n"
-            "Lopes, Carlos\n"
-            "Gonzales, Nadin\n"
-            "Williams, Dahiana\n"
-            "Vidal, Maida Diego\n"
-            "Ampuero, Alejandro\n\n"
-            "Contreras, Joel (No participó)\n"
-            "Cabana, Ricardo (Abandonó)\n")
+            "\n\nBonifacio, Lucas\n" # <-- Vista
+            "Cárdenas, Franco\n"     # <-- Controlador
+            "Lopes, Carlos\n"        # <-- Modelo
+            "Gonzales, Nadin\n"      # <-- Modelo
+            "Williams, Dahiana\n"    # <-- Controlador
+            "Vidal, Maida Diego\n"   # <-- Controlador
+            "Ampuero, Alejandro\n")  # <-- Modelo
             
         mensaje.setIcon(QMessageBox.Icon.Information)
         mensaje.setStandardButtons(QMessageBox.StandardButton.Ignore)

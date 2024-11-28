@@ -59,7 +59,7 @@ python -m venv env
 source env/bin/activate # ( En Windows: env\Scripts\activate )
 ```
 
-### 3. Instalar las dependencias::
+### 3. Instalar las dependencias:
 ```bash
 pip install -r requirements.txt
 ```
@@ -67,6 +67,16 @@ pip install -r requirements.txt
 ### 4. Ejecutar la aplicación:
 ```bash
 python main.py
+```
+
+### 5. (Extra muy recomendable):
+```bash
+# Asegurate de que la escala de pantalla de tu computadora esté en 100%, para asegurarte
+#  de que en la interfaz figuren todos los elementos sin problemas.
+
+# Pasos:
+# 1. Buscá "Configuración de pantalla" en el buscador de Windows.
+# 2. Escala y diseño --> Escala --> 100%
 ```
 
 ### ¡Felicidades! Ya podes disfrutar del juego🎉

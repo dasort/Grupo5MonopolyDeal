@@ -150,6 +150,7 @@ class IniciarSesion(QDialog):
         #self.boton_modificar.clicked.connect(self.__controlador.modificar_datos)
         
         # ---
+        
         if not self.__controlador.get_buscar_historial():
             self.boton_partida = QPushButton("Volver a Crear Partida", self)
             self.boton_partida.setStyleSheet("""
@@ -177,13 +178,6 @@ class IniciarSesion(QDialog):
         """)
         self.boton_volver.clicked.connect(self.__controlador.volver)
         
-        #linea1 = QFrame(self)
-        #linea2 = QFrame(self)
-        #linea1.setFrameShape(QFrame.Shape.HLine)
-        #linea2.setFrameShape(QFrame.Shape.HLine)
-        #linea1.setFrameShadow(QFrame.Shadow.Sunken)
-        #linea2.setFrameShadow(QFrame.Shadow.Sunken)
-        
         # ---
 
         self.main_layout.addSpacerItem(QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed))
@@ -196,15 +190,15 @@ class IniciarSesion(QDialog):
         #self.main_layout.addWidget(linea1)
         self.main_layout.addWidget(self.password_label)
         self.main_layout.addLayout(self.layout_contrasenia)
-        self.main_layout.addWidget(self.password_input)# <-- En caso de sacar el layout_contrasenia.
+        self.main_layout.addWidget(self.password_input) # <-- En caso de sacar el layout_contrasenia.
         self.main_layout.addSpacing(25)
         #self.main_layout.addWidget(linea2)
         #self.main_layout.addSpacing(20)
         self.main_layout.addWidget(self.login_button)
         self.main_layout.addWidget(self.register_button)
-        # self.main_layout.addWidget(self.boton_modificar) # Agregado
+        # self.main_layout.addWidget(self.boton_modificar)
         if not self.__controlador.get_buscar_historial():
-            self.main_layout.addWidget(self.boton_partida)   # Agregado
+            self.main_layout.addWidget(self.boton_partida)
         self.main_layout.addWidget(self.boton_volver)
         
     def alternar_modo_echo(self):

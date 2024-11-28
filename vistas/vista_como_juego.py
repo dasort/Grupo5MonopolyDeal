@@ -472,8 +472,9 @@ class ComoJuego(QDialog):
         linea11 = QLabel("A. Cada jugador tiene su ícono correspondiente que eligió al crear la partida.")
         linea12 = QLabel("B. Acá se muestra el nickname de cada jugador, si inició sesión se mostraría ese.")
         linea13 = QLabel("C. Acá se muestra el dinero de cada jugador, se calcula según las cartas del banco.")
-        linea14 = QLabel("D. Acá se muestran las cartas de propiedad de dicho jugador.")
-        linea15 = QLabel("E. Acá se muestran las cartas del banco de dicho jugador.")
+        linea14 = QLabel("D. Acá se muestran los sets/conjuntos completos de propiedades de dicho jugador.")
+        linea15 = QLabel("E. Acá se muestran las cartas de propiedad de dicho jugador.")
+        linea16 = QLabel("F. Acá se muestran las cartas del banco de dicho jugador.")
 
         # ---
 
@@ -495,6 +496,7 @@ class ComoJuego(QDialog):
         self.layout_abajo.addWidget(linea13)
         self.layout_abajo.addWidget(linea14)
         self.layout_abajo.addWidget(linea15)
+        self.layout_abajo.addWidget(linea16)
     
     def limpiar_layout(self, layout):
         while layout.count():

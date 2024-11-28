@@ -66,7 +66,7 @@ class ControladorPartida:
     def jugar_carta(self, carta: Carta) -> None:
         # Verificar si la carta puede ser jugada
         if carta.es_jugable(self.__jugadores):
-            # try:
+            try:
                 pedido = carta.informacion_para_accion()
                 if pedido is not None:
                     datos_para_accion = self.procesa_pedido(pedido, carta)
@@ -82,8 +82,8 @@ class ControladorPartida:
                     self.terminar_partida()
                 if self.__cartas_jugadas_en_turno == 3:
                     self.terminar_turno()
-            # except Exception as e:
-            #     print(f'{carta.mostrar_carta()} {e}')
+            except Exception as e:
+                print(f'{carta.mostrar_carta()} {e}')
         else:
             self.__vista.carta_no_es_jugable()
     
