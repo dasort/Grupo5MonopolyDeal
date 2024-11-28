@@ -71,8 +71,9 @@ python main.py
 
 ### 5. (Extra muy recomendable):
 ```bash
-# Asegurate de que la escala de pantalla de tu computadora esté en 100%, para asegurarte
-#  de que en la interfaz figuren todos los elementos sin problemas.
+# Asegurate de que la escala de pantalla de tu computadora esté en 100%,
+#  para que en la interfaz figuren todos los elementos sin problemas, y la
+#  pantalla no se redimensione cada vez que se actualiza algo.
 
 # Pasos:
 # 1. Buscá "Configuración de pantalla" en el buscador de Windows.
