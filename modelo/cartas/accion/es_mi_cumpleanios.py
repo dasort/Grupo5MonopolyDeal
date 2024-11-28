@@ -7,14 +7,13 @@ class EsMiCumpleanios(CartaAccion):
         return 'EsMiCumpleaños'
     
     def accion(self, info) -> None:
-        if info[0]:
-            cartas = info[0]
-            super().accion()
-            for carta in cartas:
-                carta.duenio.sacar_de_propiedades(carta)
-                carta.duenio = self.duenio
-                self.duenio.agregar_a_banco(carta)
-            self.duenio = None
+        cartas = info
+        super().accion()
+        for carta in cartas:
+            carta.duenio.sacar_de_banco(carta)
+            carta.duenio = self.duenio
+            self.duenio.agregar_a_banco(carta)
+        self.duenio = None
 
     def es_jugable(self, lista_jugadores: list) -> bool:
         for jugador in lista_jugadores:

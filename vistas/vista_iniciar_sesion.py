@@ -12,7 +12,7 @@ class IniciarSesion(QDialog):
         self.__controlador = controlador
 
         self.setWindowTitle("Iniciar Sesión")
-        self.setGeometry(480, 200, 600, 450)
+        self.setGeometry(480, 200, 600, 550)
         self.setWindowIcon(QIcon("imagenes/ui/icono.png"))
         self.centrar_ventana()
         
@@ -135,6 +135,33 @@ class IniciarSesion(QDialog):
         """)
         self.register_button.clicked.connect(self.__controlador.abrir_crear_cuenta)
         
+        # ---
+        
+        # self.boton_modificar = QPushButton("Modificar Datos", self)
+        # self.boton_modificar.setStyleSheet("""
+        #     QPushButton {
+        #         padding: 6px;
+        #         font-size: 20px;
+        #     }
+        #     QPushButton:hover {
+        #         background-color: #4D4D4D;
+        #     }
+        # """)
+        #self.boton_modificar.clicked.connect(self.__controlador.modificar_datos)
+        
+        # ---
+        if not self.__controlador.get_buscar_historial():
+            self.boton_partida = QPushButton("Volver a Crear Partida", self)
+            self.boton_partida.setStyleSheet("""
+                QPushButton {
+                    padding: 6px;
+                    font-size: 20px;
+                }
+                QPushButton:hover {
+                    background-color: #4D4D4D;
+                }
+            """)
+            self.boton_partida.clicked.connect(self.__controlador.volver_partida)
         
         # ---
 
@@ -175,6 +202,9 @@ class IniciarSesion(QDialog):
         #self.main_layout.addSpacing(20)
         self.main_layout.addWidget(self.login_button)
         self.main_layout.addWidget(self.register_button)
+        # self.main_layout.addWidget(self.boton_modificar) # Agregado
+        if not self.__controlador.get_buscar_historial():
+            self.main_layout.addWidget(self.boton_partida)   # Agregado
         self.main_layout.addWidget(self.boton_volver)
         
     def alternar_modo_echo(self):

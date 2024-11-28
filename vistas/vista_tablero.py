@@ -222,10 +222,13 @@ class Tablero(QMainWindow):
         
         ventana.setStyleSheet("""
             QWidget {
-                border: 3px solid red; /* Borde rojo */
-                border-radius: 5px; /* Esquinas redondeadas */
-                padding: 10px; /* Espaciado interno */
-                background-color: transparent; /* Color de fondo */
+                background-color: rgba(194, 78, 27, 0.2);
+                color: white;
+                border: 3px solid rgba(43, 22, 11, 1);
+                border-radius: 10px;
+                padding: 8px;
+                font-size: 18px;
+                font-weight: bold;x
             }
         """)
         # Layout principal
@@ -861,8 +864,8 @@ class Tablero(QMainWindow):
                 fila = index // columnas
                 columna = index % columnas
                 if index < cant_cartas :
-                    print(f"Index: {index}")
-                    print(f"Cartas: {cant_cartas}")
+                    # print(f"Index: {index}")
+                    # print(f"Cartas: {cant_cartas}")
                     
                     # Si hay una carta en esta posición, muestra la carta:
                     
@@ -1082,7 +1085,7 @@ class Tablero(QMainWindow):
                     f"Jugador: {jugador.nombre}\n"
                     f"Dinero final: ${dinero_final}\n"
                     f"Propiedades adquiridas: {propiedades}\n"
-                    f"Cartas de acción usadas: {acciones_usadas}\n\n"
+                    f"Cartas obtenidas: {acciones_usadas}\n\n"
                 )
             
             resumen += "¡Muchas gracias por jugar!"

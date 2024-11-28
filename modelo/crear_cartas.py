@@ -34,8 +34,10 @@ def crear_cartas() -> list[Carta]:
         elif carta in LISTA_PROPIEDADES_COMODIN:
             creada = crear_carta_propiedad_renta(carta, CartaPropiedadComodin)
         elif carta in LISTA_RENTA_DOBLE:
+            pass
             creada = crear_carta_propiedad_renta(carta, CartaRenta)
         elif carta in LISTA_RENTA_MULTICOLOR:
+            pass
             creada = crear_carta_propiedad_renta(carta, CartaRentaMulticolor)
         else:
             raise Exception('Algo salió mal')
@@ -66,17 +68,22 @@ def crear_cartas() -> list[Carta]:
     for carta in LISTA_ACCIONES:
         if carta['nombre'] == "Es Mi Cumpleaños":
             creada = crear_carta_accion(carta, EsMiCumpleanios)
+            pass
         elif carta['nombre'] == "Negocio Furtivo":
             creada = crear_carta_accion(carta, NegocioFurtivo)
+            pass
         elif carta['nombre'] == "Pasa Por La Salida":
             creada = crear_carta_accion(carta, PasaPorLaSalida)
+            pass
         elif carta['nombre'] == "Roba Negocios":
             pass
             # creada = crear_carta_accion(carta, RobaNegocios)
         elif carta['nombre'] == "Trato Forzoso":
             creada = crear_carta_accion(carta, TratoForzoso)
+            pass
         elif carta['nombre'] == "Cobrador De Deudas":
             creada = crear_carta_accion(carta, CobradorDeDeuda)
+            pass
         elif carta['nombre'] == "Alquiler Doble":
             pass
         else:

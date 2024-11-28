@@ -23,8 +23,8 @@ class ElegirDialog(QDialog):
     def aceptar(self):
         
         self._seleccion = self._lista.currentItem()
-        self._seleccion = self._seleccion.text()
         if self._seleccion:
+            self._seleccion = self._seleccion.text()
             self.accept()
     
     def get_valor(self):
@@ -41,7 +41,6 @@ class ElegirColorDialog(ElegirDialog):
         self.setWindowTitle('Elegir Color')
 
         self._lbl.setText('Seleccione un color para la carta:')
-
         self._lista.addItems(colores)
 
 class ElegirPropiedadDialog(ElegirDialog):
@@ -49,7 +48,7 @@ class ElegirPropiedadDialog(ElegirDialog):
         super().__init__(parent)
         
         self.__propiedades = propiedades
-        
+        print(propiedades)
         self.setWindowTitle('Elegir Propiedad')
 
         self._lbl.setText('Seleccione una propiedad:')
@@ -60,10 +59,11 @@ class ElegirPropiedadDialog(ElegirDialog):
         
     def aceptar(self):
         self._seleccion = self._lista.currentItem()
-        self._seleccion = self._seleccion.text()
         if self._seleccion:
+            self._seleccion = self._seleccion.text()
             nombre, id = self._seleccion.split(' - ')
             id = int(id)
+            print(f'ID: {id}')
             for propiedad in self.__propiedades:
                 if id == propiedad.id:
                     self._seleccion = propiedad
@@ -86,8 +86,8 @@ class ElegirJugadorDialog(ElegirDialog):
         
     def aceptar(self):
         self._seleccion = self._lista.currentItem()
-        self._seleccion = self._seleccion.text()
         if self._seleccion:
+            self._seleccion = self._seleccion.text()
             for jugador in self.__jugadores:
                 if jugador.nombre == self._seleccion:
                     self._seleccion = jugador
@@ -115,10 +115,11 @@ class ElegirDineroDialog(ElegirDialog):
     def aceptar(self):
         cartas = self._lista.selectedItems()
         self._seleccion = []
-        for carta in cartas:
-            self._seleccion.append(carta.data(Qt.ItemDataRole.UserRole))
-        if self._seleccion:
+        if cartas:
+            for carta in cartas:
+                self._seleccion.append(carta.data(Qt.ItemDataRole.UserRole))
             suma = 0
+            print(self._seleccion)
             for carta in self._seleccion:
                 suma = suma + carta.valor
             if suma >= self.__minimo:

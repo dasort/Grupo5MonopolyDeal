@@ -66,7 +66,7 @@ class ControladorPartida:
     def jugar_carta(self, carta: Carta) -> None:
         # Verificar si la carta puede ser jugada
         if carta.es_jugable(self.__jugadores):
-            try:
+            # try:
                 pedido = carta.informacion_para_accion()
                 if pedido is not None:
                     datos_para_accion = self.procesa_pedido(pedido, carta)
@@ -82,8 +82,8 @@ class ControladorPartida:
                     self.terminar_partida()
                 if self.__cartas_jugadas_en_turno == 3:
                     self.terminar_turno()
-            except Exception as e:
-                print(f'{carta} {e}')
+            # except Exception as e:
+            #     print(f'{carta.mostrar_carta()} {e}')
         else:
             self.__vista.carta_no_es_jugable()
     
@@ -114,6 +114,20 @@ class ControladorPartida:
             cartas_para_pago.extend(self.elegir_dinero(jugador, 2))
         return cartas_para_pago
     
+    def pedido_roba_negocios(self, carta: Carta):
+        jugadores_validos = self.roba_negocios_jugadores_validos()
+        jugador_seleccionado = self.elegir_jugador(jugadores_validos)
+        set_elegido = self.elegir_set(jugador_seleccionado)
+        return set_elegido
+
+    def roba_negocios_jugadores_validos(self):
+        jugadores_validos = []
+        for jugador in self.jugadores_sin_actual():
+            sets_jugador = jugador.get_sets_completos_jugador()
+            if len(sets_jugador) > 0:
+                jugadores_validos.append(jugador)
+        return jugadores_validos
+
     def pedido_cobrador_de_deuda(self, carta: Carta) -> list[Carta]:
         cartas_para_pago = []
         jugadores_validos = self.jugadores_validos_para_cobro(5)
@@ -123,7 +137,7 @@ class ControladorPartida:
     
     def pedido_negocio_furtivo(self, carta: Carta) -> list[Carta]:
         propiedad_seleccionada = []
-        jugador_seleccionado = self.elegir_jugador(self.__jugadores)
+        jugador_seleccionado = self.elegir_jugador(self.jugadores_sin_actual())
         propiedad_seleccionada = self.elegir_propiedad(jugador_seleccionado) # hay que verificar que no esté en un set
         return [propiedad_seleccionada]
 
@@ -145,7 +159,7 @@ class ControladorPartida:
     def pedido_renta(self, carta: Carta) -> list[Carta]:
         cartas_para_pago = []
         colores = self.colores_disponibles(carta)
-        color = self.elegir_color(colores)
+        color = self.elegir_color(carta, colores)
         cantidad_a_cobrar = carta.duenio.get_valor_alquiler_color(color)
         jugadores_validos = self.jugadores_validos_para_cobro(cantidad_a_cobrar)
         for jugador in jugadores_validos:
@@ -155,14 +169,14 @@ class ControladorPartida:
     def colores_disponibles(self, carta: Carta):
         colores_propiedades = []
         for color in carta.color:
-            if self.carta.duenio.tiene_propiedades_color(color):
+            if carta.duenio.tiene_propiedades_color(color):
                 colores_propiedades.append(color)
         return colores_propiedades
 
     def pedido_renta_multicolor(self, carta: Carta) -> list[Carta]:
         cartas_para_pago = []
         colores = self.colores_disponibles(carta)
-        color = self.elegir_color(colores)
+        color = self.elegir_color(carta, colores)
         cantidad_a_cobrar = carta.duenio.get_valor_alquiler_color(color)
         jugadores_validos = self.jugadores_validos_para_cobro(cantidad_a_cobrar)
         jugador_elegido = self.elegir_jugador(jugadores_validos)
@@ -177,7 +191,7 @@ class ControladorPartida:
         return jugador # tiene que salir un solo jugador de la vista
 
     def elegir_dinero(self, jugador_seleccionado: Jugador, dinero_necesario: int) -> list[Carta]:
-        cartas = self.__vista.elegir_dinero(jugador_seleccionado, dinero_necesario)
+        cartas = self.__vista.elegir_dinero(jugador_seleccionado.get_banco(), dinero_necesario)
         return cartas
 
     def elegir_propiedad(self, jugador: Jugador):
@@ -186,11 +200,12 @@ class ControladorPartida:
         return propiedad_elegida
     
     def elegir_color(self, carta: Carta, colores) -> str:
-        # color = self.__vista.pedido_elegir_color(colores, carta)
-        print(colores)
         color = self.__vista.elegir_color(colores)
         return color
 
+    #def elegir_set(self, jugador_seleccionado):
+    #    sets_completos = jugador_seleccionado.get_sets_completos()
+    #    set = self.__vista.
 ############################################################################################################################
 ######################################## Termina código para jugar las cartas ##############################################
 ############################################################################################################################

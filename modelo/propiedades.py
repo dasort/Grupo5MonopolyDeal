@@ -25,7 +25,6 @@ class Propiedades(Carta):
         if elemento.color in self.__propiedades:
             # Inicializa si la lista está vacía
             if not self.__propiedades[elemento.color]["lista"]:
-                print("Inicializando primera sublista")
                 diccionario["sublista"].append(elemento)
                 diccionario["numero"] += 1
                 self.__propiedades[elemento.color]["lista"].append(diccionario)
@@ -61,7 +60,6 @@ class Propiedades(Carta):
 
             # Si todas las sublistas están completas, crea una nueva
             if todas_completas:
-                print("Creando nueva sublista porque todas están completas")
                 diccionario["sublista"].append(elemento)
                 diccionario["numero"] += 1
                 self.__propiedades[elemento.color].append(diccionario)
@@ -71,8 +69,12 @@ class Propiedades(Carta):
     def quitar_propiedad(self, carta: Carta):
         if carta.color in self.__propiedades:
             lista = self.__propiedades[carta.color]['lista']
-            lista["sublista"].remove(carta)
-            lista["numero"] -= 1
+            for dicc in lista:
+                if carta in dicc['sublista']:
+                    dicc['sublista'].remove(carta)
+                    dicc["numero"] -= 1
+                    return
+            # lista["sublista"].remove(carta)
             self.__propiedades[carta.color] = self.ordenar_listas(self.__propiedades[carta.color]["lista"])
             self.__propiedades[carta.color]["grupos"] = self.contar_grupos(self.__propiedades[carta.color]["lista"])
         else:
@@ -114,12 +116,10 @@ class Propiedades(Carta):
         for propiedades in self.__propiedades.values():
             # Sumamos el valor de "grupos" en cada color
             total_grupos += propiedades["grupos"]
-        print(f" Grupos totales contados: {total_grupos}")
         # Devolvemos el total de los grupos
         self.__cantidad_grupos =  total_grupos
         
     def mostrar_propiedades(self):
-        print("===== PROPIEDADES =====")
         # Recorremos el diccionario de colores
         for color, datos in self.__propiedades.items():
             print(f"Color: {color.capitalize()}, GRUPOS: {datos["grupos"]}")
@@ -127,15 +127,13 @@ class Propiedades(Carta):
             # Recorremos la lista de cada color
             for elemento in datos["lista"]:
                 if isinstance(elemento, dict):  # Si el elemento es una lista
-                    print(f"  Es una sublista: {elemento["numero"]}")
                     
                     for i in elemento["sublista"]:
-                        print(f"  Lista - {i.id}, {i.color} ")
+                        pass
                     # Llamamos a la función recursiva para recorrer la sublista
                 else:
                     pass
                     #print(f"  - {elemento.id}, {elemento.color}")  # Si es un objeto, mostramos su id
-        print(f"Cantidad de grupos: {self.__cantidad_grupos}")
         print("-" * 30)  # Separador para cada color
         
     @property

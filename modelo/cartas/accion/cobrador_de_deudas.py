@@ -7,11 +7,11 @@ class CobradorDeDeuda(CartaAccion):
         return 'CobradordDeDeuda'
     
     def accion(self, info) -> None:
-        if info[0]:
-            cartas = info[0]
+        if info:
+            cartas = info
             super().accion()
             for carta in cartas:
-                carta.duenio.sacar_de_propiedades(carta)
+                carta.duenio.sacar_de_banco(carta)
                 carta.duenio = self.duenio
                 self.duenio.agregar_a_banco(carta)
             self.duenio = None

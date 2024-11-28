@@ -22,9 +22,10 @@ class CartaRenta(CartaAccion):
         return 'Renta'
     
     def accion(self, info) -> None:
-        cartas = info[0]
+        cartas = info
         super().accion()
         for carta in cartas:
+            carta.duenio.sacar_de_banco(carta)
             carta.duenio = self.duenio
             self.duenio.agregar_a_banco(carta)
         self.duenio = None
