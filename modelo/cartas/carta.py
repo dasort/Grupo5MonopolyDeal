@@ -90,7 +90,7 @@ class Carta(ABC):
         pass
     
     def mostrar_carta(self) -> None:
-        '''Representación de la carta como cadena.'''
+        '''Representación de los atributos de la carta.'''
         print("Carta")
         print(f"ID: {self.id}") 
         print(f"Nombre: {self.nombre}")
